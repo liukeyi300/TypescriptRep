@@ -1,6 +1,0 @@
-D:\githubdir\TypescriptRep\TSNew\TSNew\bin\TSNew.dll.config
-D:\githubdir\TypescriptRep\TSNew\TSNew\bin\TSNew.dll
-D:\githubdir\TypescriptRep\TSNew\TSNew\bin\TSNew.pdb
-D:\githubdir\TypescriptRep\TSNew\TSNew\obj\Debug\TSNew.csprojResolveAssemblyReference.cache
-D:\githubdir\TypescriptRep\TSNew\TSNew\obj\Debug\TSNew.dll
-D:\githubdir\TypescriptRep\TSNew\TSNew\obj\Debug\TSNew.pdb
