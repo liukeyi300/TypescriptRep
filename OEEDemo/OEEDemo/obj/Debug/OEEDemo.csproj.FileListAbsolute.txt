@@ -1,0 +1,6 @@
+D:\githubdir\TypescriptRep\OEEDemo\OEEDemo\bin\OEEDemo.dll.config
+D:\githubdir\TypescriptRep\OEEDemo\OEEDemo\bin\OEEDemo.dll
+D:\githubdir\TypescriptRep\OEEDemo\OEEDemo\bin\OEEDemo.pdb
+D:\githubdir\TypescriptRep\OEEDemo\OEEDemo\obj\Debug\OEEDemo.csprojResolveAssemblyReference.cache
+D:\githubdir\TypescriptRep\OEEDemo\OEEDemo\obj\Debug\OEEDemo.dll
+D:\githubdir\TypescriptRep\OEEDemo\OEEDemo\obj\Debug\OEEDemo.pdb
