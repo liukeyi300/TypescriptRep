@@ -182,18 +182,35 @@ var OEEDemos;
         });
         var dataSource = new kendo.data.HierarchicalDataSource({
             data: [{
-                    categoryName: "SciFi", items: [
-                        { movieName: "Inception", rating: 8.8 },
-                        { movieName: "The Matrix", rating: 8.7 }
-                    ]
-                },
-                { categoryName: "Drama", hasAssignedMovies: true }],
+                    categoryName: "SciFi",
+                    items: [{
+                            movieName: "Inception",
+                            rating: 8.8,
+                            image: "images/icons/test16_16/search.png"
+                        }, {
+                            movieName: "The Matrix",
+                            rating: 8.7,
+                            image: "images/icons/test16_16/search.png"
+                        }],
+                    image: "images/icons/test16_16/mail.png"
+                }, {
+                    categoryName: "Drama",
+                    hasAssignedMovies: true,
+                    image: "images/icons/test16_16/mail.png"
+                }],
             schema: {
                 model: CustomNode
             }
         });
-        var nav = new OEEDemos.Navigations($("#view"), dataSource);
-        nav.initTree();
+        //var nav = new Navigations();
+        //nav.initTree({
+        //    dataTextField: ['categoryName', 'movieName'],
+        //    checkboxes: {
+        //        checkChildren: true,
+        //        templete: '<input type="checkbox" name:"checkFields=[#= items.moviewName #]" />'
+        //    },
+        //    dataImageUrl:'image'
+        //});
     });
 })(OEEDemos || (OEEDemos = {}));
 //# sourceMappingURL=test.js.map

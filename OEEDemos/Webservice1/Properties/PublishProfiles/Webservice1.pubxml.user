@@ -49,13 +49,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/29/2015 09:56:57</publishTime>
     </File>
     <File Include="bin/Webservice1.dll">
-      <publishTime>08/29/2015 10:54:22</publishTime>
+      <publishTime>08/31/2015 17:22:00</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>08/29/2015 09:56:58</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/29/2015 14:21:39</publishTime>
+      <publishTime>08/31/2015 17:22:00</publishTime>
     </File>
     <File Include="WebService1.asmx">
       <publishTime>08/29/2015 09:57:32</publishTime>

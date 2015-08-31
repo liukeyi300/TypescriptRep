@@ -63,7 +63,9 @@
     <Content Include="libs\JQuery\jquery.js" />
     <Content Include="libs\KendoUI\kendo.all.min.js" />
     <Content Include="test.html" />
-    <Content Include="web.config" />
+    <Content Include="web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\KendoUI\images\kendoui.ttf" />
@@ -87,6 +89,7 @@
     <TypeScriptCompile Include="js\navigation\navigations.ts" />
     <TypeScriptCompile Include="js\reference.ts" />
     <TypeScriptCompile Include="js\test\test.ts" />
+    <TypeScriptCompile Include="js\utils\utils.ts" />
     <TypeScriptCompile Include="libs\JQuery\jquery.d.ts" />
     <TypeScriptCompile Include="libs\KendoUI\kendo.all.d.ts" />
   </ItemGroup>

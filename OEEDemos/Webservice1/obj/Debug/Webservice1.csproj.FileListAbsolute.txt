@@ -15,6 +15,5 @@ D:\githubdir\TypescriptRep\OEEDemos\Webservice1\bin\Webservice1.dll
 D:\githubdir\TypescriptRep\OEEDemos\Webservice1\bin\Webservice1.pdb
 D:\githubdir\TypescriptRep\OEEDemos\Webservice1\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 D:\githubdir\TypescriptRep\OEEDemos\Webservice1\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\githubdir\TypescriptRep\OEEDemos\Webservice1\obj\Debug\Webservice1.csprojResolveAssemblyReference.cache
 D:\githubdir\TypescriptRep\OEEDemos\Webservice1\obj\Debug\Webservice1.dll
 D:\githubdir\TypescriptRep\OEEDemos\Webservice1\obj\Debug\Webservice1.pdb

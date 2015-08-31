@@ -6,22 +6,24 @@ module OEEDemos{
         view: JQuery;
         dataSource;
 
-        constructor(treeDiv: JQuery, data = null) {
-            this.view = treeDiv;
+        viewModel = kendo.observable({
+            data:[]
+        });
 
-            if (data != null) {
-                this.dataSource = data;
-            }
+        constructor(treeDiv: JQuery, data: any) {
+            this.view = treeDiv;
+            this.dataSource = data;
         }
 
-        initTree(): void {
-            if (this.dataSource != null) {
-                this.view.kendoTreeView({
-                    dataSource: this.dataSource
-                });
-            } else {
-                alert("NULL");
+        initTree(extraOptions = null): void {
+            var opt = {
+                dataSource: this.dataSource
+            };
+            if (extraOptions != null) {
+                $.extend(true, opt, extraOptions);
             }
+
+            this.view.kendoTreeView(opt);
         }
     }
 

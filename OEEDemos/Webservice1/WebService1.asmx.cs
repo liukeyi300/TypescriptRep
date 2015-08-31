@@ -23,31 +23,23 @@ namespace Webservice1
         [ScriptMethod(UseHttpGet =true)]
         public string HelloWorld()
         {
-            User use1 = new User
-            {
-                ID = 1,
-                Name = "GXW",
-                PWD = "123456"
-            };
-
-            User use2 = new User
-            {
-                ID = 2,
-                Name = "GXW2",
-                PWD = "23456"
-            };
-
-            User use3 = new User
-            {
-                ID = 3,
-                Name = "3GXW2",
-                PWD = "3456"
-            };
-            List<User> list = new List<User>();
-            list.Add(use1);
-            list.Add(use2);
-            list.Add(use3);
-            return ToJSON(list);
+            List<User> list = new List<User>() {
+                new User { id=1, parent=0, text="item1" },
+                new User { id=2, parent=0, text="item2"},
+                new User { id=3, parent=0, text="item3"},
+                new User { id=4, parent=0, text="item4" },
+                new User { id=5, parent=1, text="item1.1" },
+                new User { id=6, parent=1, text="item1.2" },
+                new User { id=7, parent=1, text="item1.3"},
+                new User { id=8, parent=2, text="item2.1" },
+                new User { id=9, parent=2, text="item2.2" },
+                new User { id=10, parent=3, text="item3.1" },
+                new User { id=11, parent=3, text="item3.2"},
+                new User { id=12, parent=4, text="item4.1"},
+                new User { id=13, parent=5, text="item1.1.1" },
+                new User { id=14, parent=6, text="item1.2.1" }
+            };    
+            return ToJSON(list);        
         }
 
         //对数据序列化，返回JSON格式 
@@ -60,8 +52,10 @@ namespace Webservice1
 
     public class User
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string PWD { get; set; }
+        public int id { get; set; }
+        public int parent { get; set; }
+        public string text { get; set; }
+                                                                          
+
     }
 }

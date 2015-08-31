@@ -3,21 +3,21 @@ var OEEDemos;
 (function (OEEDemos) {
     var Navigations = (function () {
         function Navigations(treeDiv, data) {
-            if (data === void 0) { data = null; }
+            this.viewModel = kendo.observable({
+                data: []
+            });
             this.view = treeDiv;
-            if (data != null) {
-                this.dataSource = data;
-            }
+            this.dataSource = data;
         }
-        Navigations.prototype.initTree = function () {
-            if (this.dataSource != null) {
-                this.view.kendoTreeView({
-                    dataSource: this.dataSource
-                });
+        Navigations.prototype.initTree = function (extraOptions) {
+            if (extraOptions === void 0) { extraOptions = null; }
+            var opt = {
+                dataSource: this.dataSource
+            };
+            if (extraOptions != null) {
+                $.extend(true, opt, extraOptions);
             }
-            else {
-                alert("NULL");
-            }
+            this.view.kendoTreeView(opt);
         };
         return Navigations;
     })();
