@@ -1,0 +1,10 @@
+﻿.oeeChartsContainer {
+    height:100%;
+    width:100%;
+}
+
+#oeeChart {
+    float:left;
+    width:100%;
+    height:100%;
+}

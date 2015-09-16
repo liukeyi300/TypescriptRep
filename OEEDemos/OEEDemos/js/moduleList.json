@@ -1,0 +1,30 @@
+﻿{
+  "OEE": {
+    "text": "OEEDisplay",
+    "id": 1,
+    "parent": 0,
+    "baseUrl": "",
+    "moduleName": "OEEDisplay"
+  },
+  "OEECharts": {
+    "text": "OEECharts",
+    "id": 2,
+    "parent": 1,
+    "baseUrl": "js/modules/OEECharts/",
+    "moduleName": "OEECharts"
+  },
+  "DowntimeCharts": {
+    "text": "DowntimeCharts",
+    "id": 3,
+    "parent": 1,
+    "baseUrl": "js/modules/DowntimeCharts/",
+    "moduleName": "DowntimeCharts"
+  },
+  "Configure": {
+    "text": "Configure",
+    "id": 4,
+    "parent": 0,
+    "baseUrl": "",
+    "moduleName": "Configure"
+  }
+}

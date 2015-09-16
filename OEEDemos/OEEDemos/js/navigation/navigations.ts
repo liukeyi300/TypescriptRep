@@ -4,26 +4,30 @@ module OEEDemos{
 
     export class Navigations {
         view: JQuery;
-        dataSource;
 
         viewModel = kendo.observable({
-            data:[]
+            treeDataSource: [{
+                text: "Please Login!"
+            }]
         });
 
-        constructor(treeDiv: JQuery, data: any) {
+        constructor(treeDiv: JQuery, options?: kendo.ui.TreeViewOptions) {
             this.view = treeDiv;
-            this.dataSource = data;
+            this.initView(options);
         }
 
-        initTree(extraOptions = null): void {
-            var opt = {
-                dataSource: this.dataSource
-            };
-            if (extraOptions != null) {
-                $.extend(true, opt, extraOptions);
-            }
+        private initView(options: kendo.ui.TreeViewOptions): void {
+            this.view.attr("data-bind", "source: treeDataSource");
+            this.view.kendoTreeView(options);
+            kendo.bind(this.view, this.viewModel);
+        }
 
-            this.view.kendoTreeView(opt);
+        public getData() {
+            return this.viewModel.get("treeDataSource");
+        }
+
+        public setData(data) {
+            this.viewModel.set("treeDataSource", data);
         }
     }
 

@@ -9,6 +9,15 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <_PublishTargetUrl>D:\githubdir\TypescriptRep\OEEDemos\Webservice1</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
+    <File Include="App_Data/MyDatabase.sdf">
+      <publishTime>09/02/2015 16:34:39</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>09/02/2015 15:51:26</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>09/02/2015 15:51:26</publishTime>
+    </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>08/29/2015 09:56:57</publishTime>
     </File>
@@ -49,13 +58,178 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/29/2015 09:56:57</publishTime>
     </File>
     <File Include="bin/Webservice1.dll">
-      <publishTime>08/31/2015 17:22:00</publishTime>
+      <publishTime>09/08/2015 09:17:37</publishTime>
+    </File>
+    <File Include="CommandLine.dll">
+      <publishTime>09/02/2015 17:15:35</publishTime>
+    </File>
+    <File Include="JayData_readme.txt">
+      <publishTime>09/02/2015 17:15:35</publishTime>
+    </File>
+    <File Include="JaySvcUtil.exe">
+      <publishTime>09/02/2015 17:15:35</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>08/29/2015 09:56:58</publishTime>
+      <publishTime>09/02/2015 17:15:35</publishTime>
+    </File>
+    <File Include="Scripts/datajs-1.0.3.js">
+      <publishTime>09/04/2015 11:11:36</publishTime>
+    </File>
+    <File Include="Scripts/datajs-1.0.3.min.js">
+      <publishTime>09/02/2015 17:15:20</publishTime>
+    </File>
+    <File Include="Scripts/jaydata.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydata.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/angular.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/angular.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/deferred.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/deferred.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/errorhandler.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/errorhandler.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/formBinder.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/formBinder.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/handlebars.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/inMemory.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/inMemory.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/jaydata.mscrm.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/jaydata.mscrm.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/jaydata.mscrm.server.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/jaydata.mscrm.server.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/kendo.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/kendo.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/knockout.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/knockout.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/NoBatch.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/qDeferred.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/qDeferred.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/sencha.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/sencha.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/template.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/template.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/validate.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydatamodules/validate.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/FacebookProvider.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/FacebookProvider.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/IndexedDbProvider.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/IndexedDbProvider.min.js">
+      <publishTime>09/02/2015 17:15:27</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/InMemoryProvider.js">
+      <publishTime>09/02/2015 17:15:26</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/InMemoryProvider.min.js">
+      <publishTime>09/02/2015 17:15:26</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/MongoDbProvider.js">
+      <publishTime>09/02/2015 17:15:26</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/MongoDbProvider.min.js">
+      <publishTime>09/02/2015 17:15:26</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/oDataProvider.js">
+      <publishTime>09/04/2015 11:10:09</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/oDataProvider.min.js">
+      <publishTime>09/02/2015 17:15:26</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/SqLiteProvider.js">
+      <publishTime>09/02/2015 17:15:26</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/SqLiteProvider.min.js">
+      <publishTime>09/02/2015 17:15:26</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/StormProvider.js">
+      <publishTime>09/02/2015 17:15:26</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/StormProvider.min.js">
+      <publishTime>09/02/2015 17:15:26</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/WebApiProvider.js">
+      <publishTime>09/02/2015 17:15:26</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/WebApiProvider.min.js">
+      <publishTime>09/02/2015 17:15:26</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/YQLProvider.js">
+      <publishTime>09/02/2015 17:15:26</publishTime>
+    </File>
+    <File Include="Scripts/jaydataproviders/YQLProvider.min.js">
+      <publishTime>09/02/2015 17:15:26</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.8.0.js">
+      <publishTime>09/02/2015 17:15:22</publishTime>
+    </File>
+    <File Include="Scripts/jquery-1.8.0.min.js">
+      <publishTime>09/02/2015 17:15:22</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/31/2015 17:22:00</publishTime>
+      <publishTime>09/08/2015 09:17:37</publishTime>
     </File>
     <File Include="WebService1.asmx">
       <publishTime>08/29/2015 09:57:32</publishTime>

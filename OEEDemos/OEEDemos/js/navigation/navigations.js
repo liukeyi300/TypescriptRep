@@ -2,22 +2,25 @@
 var OEEDemos;
 (function (OEEDemos) {
     var Navigations = (function () {
-        function Navigations(treeDiv, data) {
+        function Navigations(treeDiv, options) {
             this.viewModel = kendo.observable({
-                data: []
+                treeDataSource: [{
+                        text: "Please Login!"
+                    }]
             });
             this.view = treeDiv;
-            this.dataSource = data;
+            this.initView(options);
         }
-        Navigations.prototype.initTree = function (extraOptions) {
-            if (extraOptions === void 0) { extraOptions = null; }
-            var opt = {
-                dataSource: this.dataSource
-            };
-            if (extraOptions != null) {
-                $.extend(true, opt, extraOptions);
-            }
-            this.view.kendoTreeView(opt);
+        Navigations.prototype.initView = function (options) {
+            this.view.attr("data-bind", "source: treeDataSource");
+            this.view.kendoTreeView(options);
+            kendo.bind(this.view, this.viewModel);
+        };
+        Navigations.prototype.getData = function () {
+            return this.viewModel.get("treeDataSource");
+        };
+        Navigations.prototype.setData = function (data) {
+            this.viewModel.set("treeDataSource", data);
         };
         return Navigations;
     })();

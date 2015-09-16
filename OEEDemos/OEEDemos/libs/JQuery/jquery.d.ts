@@ -289,6 +289,8 @@ interface JQueryStatic {
     type(obj: any): string;
 
     unique(arr: any[]): any[];
+
+    modal(options: string): void;
 }
 
 /*
@@ -697,6 +699,9 @@ interface JQuery {
     siblings(selector?: string): JQuery;
 
     slice(start: number, end?: number): JQuery;
+
+    //add by liob for bootstrap
+    modal(options: string): void;
 }
 
 declare var jQuery: JQueryStatic;

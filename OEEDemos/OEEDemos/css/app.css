@@ -10,11 +10,12 @@ html,body {
     overflow:hidden;
 }
 
-div {
-    display:block;
+.navbar {
+    margin-bottom:5px;
+    border-radius:0;
 }
 
-header {
+/*header {
     position:relative;
     height:120px;
     line-height:120px;
@@ -22,7 +23,7 @@ header {
     background-size:100% 100%;
     display:block;
     overflow:hidden;
-}
+}*/
 
 footer {
     text-align:right;
@@ -39,9 +40,21 @@ footer {
     overflow:hidden;
 }
 
+footer p {
+    margin:15px 0;
+}
+
+.left {
+    float:left;
+}
+
+.right {
+    float:right;
+}
+
 #page-content {
     position:absolute;
-    top:120px;
+    top:55px;
     bottom:44px;
     width:100%;
     margin:0;
@@ -49,9 +62,6 @@ footer {
 }
 
 #navigation {
-    position:absolute;
-    left:0;
-    top:0;
     width:15%;
     height:100%;
     overflow:auto;
@@ -59,5 +69,83 @@ footer {
 }
 
 #nav-tree {
-    padding:30px 40px 20px 20px;
+    padding:20px 40px 20px 20px;
+    user-select:none;
+    -moz-user-select:none;
+    -ms-user-select: none;
+    -webkit-user-select:none;
 }
+
+#content {
+   /* position:absolute;
+    right:0;
+    top:0;*/
+    width:80%;
+    height:100%;
+    overflow:auto;
+}
+
+.navbar-brand {
+    padding:10px;
+}
+
+#loginBtn {
+   margin:10px;
+}
+
+#logoutBtn {
+    margin:10px;
+}
+
+.login-form-item {
+    padding:0 0 10px;
+    height:50px;
+}
+
+.login-label {
+    width:39px;
+    height:38px;
+    float:left;
+    display:block;
+}
+
+.login-label .login-icon1 {
+    height:38px;
+    width:39px;
+    display:block;
+    background-color:#aaabab;
+    background-image:url("../images/icons/20_20/server.png");
+    background-repeat:no-repeat;
+    background-position:10px 11px;
+}
+
+.login-input {
+    vertical-align:middle;
+    float:left;
+    height:38px;
+    line-height:38px;
+    padding:9px;
+    width:80%;
+}
+
+.login-label .login-icon {
+    height:38px;
+    width:39px;
+    display:block;
+    background-color:#aaabab;
+    background-image:url("../images/icons/icons.png");
+    background-repeat:no-repeat;
+}
+
+.login-icon-user {
+    background-position:-2px 5px;
+}
+
+.login-icon-pwd {
+    background-position:-42px 5px;
+}
+
+.modal-dialog {
+    margin:100px auto;
+}
+

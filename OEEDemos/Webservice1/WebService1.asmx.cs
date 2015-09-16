@@ -24,20 +24,20 @@ namespace Webservice1
         public string HelloWorld()
         {
             List<User> list = new List<User>() {
-                new User { id=1, parent=0, text="item1" },
-                new User { id=2, parent=0, text="item2"},
-                new User { id=3, parent=0, text="item3"},
-                new User { id=4, parent=0, text="item4" },
-                new User { id=5, parent=1, text="item1.1" },
-                new User { id=6, parent=1, text="item1.2" },
-                new User { id=7, parent=1, text="item1.3"},
-                new User { id=8, parent=2, text="item2.1" },
+                new User { id=1, parent=0, text="item1", name="abc" },
+                new User { id=2, parent=0, text="item2", name="abc" },
+                new User { id=5, parent=1, text="item1.1", name="abc" },
+                new User { id=14, parent=6, text="item1.2.1", name="abc" },
                 new User { id=9, parent=2, text="item2.2" },
-                new User { id=10, parent=3, text="item3.1" },
-                new User { id=11, parent=3, text="item3.2"},
-                new User { id=12, parent=4, text="item4.1"},
+                new User { id=3, parent=0, text="item3" },
                 new User { id=13, parent=5, text="item1.1.1" },
-                new User { id=14, parent=6, text="item1.2.1" }
+                new User { id=4, parent=0, text="item4" },         
+                new User { id=6, parent=1, text="item1.2" },
+                new User { id=7, parent=1, text="item1.3" },
+                new User { id=8, parent=2, text="item2.1" },        
+                new User { id=10, parent=3, text="item3.1" },
+                new User { id=11, parent=3, text="item3.2" },
+                new User { id=12, parent=4, text="item4.1" }
             };    
             return ToJSON(list);        
         }
@@ -54,8 +54,7 @@ namespace Webservice1
     {
         public int id { get; set; }
         public int parent { get; set; }
-        public string text { get; set; }
-                                                                          
-
+        public string text { get; set; }                       
+       public string name { get; set; }
     }
 }

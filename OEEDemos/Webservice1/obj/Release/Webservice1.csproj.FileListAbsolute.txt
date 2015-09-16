@@ -18,3 +18,7 @@ D:\githubdir\TypescriptRep\OEEDemos\Webservice1\bin\Microsoft.CodeDom.Providers.
 D:\githubdir\TypescriptRep\OEEDemos\Webservice1\obj\Release\Webservice1.csprojResolveAssemblyReference.cache
 D:\githubdir\TypescriptRep\OEEDemos\Webservice1\obj\Release\Webservice1.dll
 D:\githubdir\TypescriptRep\OEEDemos\Webservice1\obj\Release\Webservice1.pdb
+D:\githubdir\TypescriptRep\OEEDemos\Webservice1\bin\EntityFramework.dll
+D:\githubdir\TypescriptRep\OEEDemos\Webservice1\bin\EntityFramework.SqlServer.dll
+D:\githubdir\TypescriptRep\OEEDemos\Webservice1\bin\EntityFramework.xml
+D:\githubdir\TypescriptRep\OEEDemos\Webservice1\bin\EntityFramework.SqlServer.xml

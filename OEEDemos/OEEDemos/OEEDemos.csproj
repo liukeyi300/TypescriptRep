@@ -48,10 +48,18 @@
     <Content Include="css\KendoUI\kendo.default.min.css" />
     <Content Include="css\KendoUI\kendo.mobile.all.min.css" />
     <Content Include="css\KendoUI\kendo.rtl.min.css" />
-    <Content Include="images\background\header_bg.png" />
-    <Content Include="images\icons\test16_16\mail.png" />
-    <Content Include="images\icons\test16_16\search.png" />
+    <Content Include="images\background\aic_logo_g.png" />
+    <Content Include="images\icons\16_16\mail.png" />
+    <Content Include="images\icons\16_16\search.png" />
+    <Content Include="images\icons\20_20\server.png" />
+    <Content Include="images\icons\icons.png" />
     <Content Include="index.html" />
+    <Content Include="js\modules\DowntimeCharts\DowntimeCharts.css" />
+    <Content Include="js\modules\DowntimeCharts\DowntimeCharts.html" />
+    <Content Include="js\modules\OEECharts\OEECharts.css" />
+    <Content Include="js\modules\OEECharts\OEECharts.html" />
+    <Content Include="libs\ApplicationServices\ApplicationServices.js" />
+    <Content Include="libs\ApplicationServices\ApplicationServices.min.js" />
     <Content Include="libs\bootstrap-3.3.5-dist\css\bootstrap-theme.css" />
     <Content Include="libs\bootstrap-3.3.5-dist\css\bootstrap-theme.min.css" />
     <Content Include="libs\bootstrap-3.3.5-dist\css\bootstrap.css" />
@@ -60,9 +68,16 @@
     <Content Include="libs\bootstrap-3.3.5-dist\js\bootstrap.js" />
     <Content Include="libs\bootstrap-3.3.5-dist\js\bootstrap.min.js" />
     <Content Include="libs\bootstrap-3.3.5-dist\js\npm.js" />
+    <Content Include="libs\ECharts\echarts-all.js" />
+    <Content Include="libs\JayData\datajs-1.0.3.js" />
+    <Content Include="libs\JayData\datajs-1.0.3.min.js" />
+    <Content Include="libs\JayData\jaydata.js" />
+    <Content Include="libs\JayData\jaydata.min.js" />
+    <Content Include="libs\JayData\oDataProvider.js" />
+    <Content Include="libs\JayData\oDataProvider.min.js" />
     <Content Include="libs\JQuery\jquery.js" />
     <Content Include="libs\KendoUI\kendo.all.min.js" />
-    <Content Include="test.html" />
+    <Content Include="libs\PPAEntity\PPAEntities.js" />
     <Content Include="web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -77,6 +92,8 @@
     <Content Include="libs\bootstrap-3.3.5-dist\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="libs\bootstrap-3.3.5-dist\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="packages.config" />
+    <Content Include="js\moduleList.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -86,12 +103,18 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="js\app.ts" />
+    <TypeScriptCompile Include="js\moduleBase.ts" />
+    <TypeScriptCompile Include="js\moduleLoad.ts" />
+    <TypeScriptCompile Include="js\modules\DowntimeCharts\DowntimeCharts.ts" />
+    <TypeScriptCompile Include="js\modules\OEECharts\OEECharts.ts" />
     <TypeScriptCompile Include="js\navigation\navigations.ts" />
     <TypeScriptCompile Include="js\reference.ts" />
-    <TypeScriptCompile Include="js\test\test.ts" />
     <TypeScriptCompile Include="js\utils\utils.ts" />
+    <TypeScriptCompile Include="libs\ApplicationServices\ApplicationServices.d.ts" />
+    <TypeScriptCompile Include="libs\JayData\jaydata.d.ts" />
     <TypeScriptCompile Include="libs\JQuery\jquery.d.ts" />
     <TypeScriptCompile Include="libs\KendoUI\kendo.all.d.ts" />
+    <TypeScriptCompile Include="libs\PPAEntity\PPAEntities.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
