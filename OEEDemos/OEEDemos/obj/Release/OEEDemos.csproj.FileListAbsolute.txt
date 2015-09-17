@@ -1,0 +1,5 @@
+D:\githubdir\TypescriptRep\OEEDemos\OEEDemos\bin\OEEDemos.dll.config
+D:\githubdir\TypescriptRep\OEEDemos\OEEDemos\bin\OEEDemos.dll
+D:\githubdir\TypescriptRep\OEEDemos\OEEDemos\bin\OEEDemos.pdb
+D:\githubdir\TypescriptRep\OEEDemos\OEEDemos\obj\Release\OEEDemos.dll
+D:\githubdir\TypescriptRep\OEEDemos\OEEDemos\obj\Release\OEEDemos.pdb

@@ -81,6 +81,7 @@ module OEEDemos {
                 var day = date.getDate();
                 var month = date.getMonth();
                 var year = date.getFullYear();
+                kendo.ui.progress($("#oeeChart"), true);
                 this.ppaServiceContext.PPA_OEE_SUMMARY
                     .filter(function (items) {
                         return (items.PER_START_TIME.year() <= this.year1 && items.PER_START_TIME.month() <= this.month1
@@ -97,6 +98,7 @@ module OEEDemos {
                     })
                     .toArray(function (result) {
                         OEEDemos.ModuleLoad.getModuleInstance(StartUp.currentInstanceName).viewModel.set("series", result);
+                        kendo.ui.progress($("#oeeChart"), false);
                     }).fail(function (e: { message: string }) {
                         alert(e.message);
                     });
