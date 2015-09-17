@@ -109,14 +109,14 @@ module OEEDemos {
 
         init(view: JQuery): void {
             this.view = view;
-            $('#content').append(this.view);
+            $('#viewport').append(this.view);
             this.initChart();
             kendo.bind(this.view, this.viewModel);
             this.refreshData();
         }
         
         update() {
-            $('#content').append(this.view);
+            $('#viewport').append(this.view);
             this.initChart();
             this.refreshData();
         }

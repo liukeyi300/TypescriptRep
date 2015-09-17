@@ -25,7 +25,7 @@ var OEEDemos;
                 if (typeof lastInstance !== "undefined") {
                     lastInstance.destory();
                 }
-                $('#content').empty();
+                $('#viewport').empty();
                 StartUp.currentInstanceName = currentModule;
                 var instance = OEEDemos.ModuleLoad.getModuleInstance(currentModule);
                 if (typeof instance !== "undefined") {
@@ -44,6 +44,8 @@ var OEEDemos;
                     });
                 }
             };
+            $("#startTimeSelect").kendoDateTimePicker();
+            $("#endTimeSelect").kendoDateTimePicker();
         };
         StartUp.prototype.initEventsBinding = function () {
             $('#loginConfirm').on("click", function (e) {

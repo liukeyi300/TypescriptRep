@@ -108,13 +108,13 @@ var OEEDemos;
         };
         OEECharts.prototype.init = function (view) {
             this.view = view;
-            $('#content').append(this.view);
+            $('#viewport').append(this.view);
             this.initChart();
             kendo.bind(this.view, this.viewModel);
             this.refreshData();
         };
         OEECharts.prototype.update = function () {
-            $('#content').append(this.view);
+            $('#viewport').append(this.view);
             this.initChart();
             this.refreshData();
         };

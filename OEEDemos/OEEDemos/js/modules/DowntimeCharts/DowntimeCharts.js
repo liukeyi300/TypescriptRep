@@ -108,13 +108,13 @@ var OEEDemos;
         };
         DowntimeCharts.prototype.init = function (view) {
             this.view = view;
-            $('#content').append(this.view);
+            $('#viewport').append(this.view);
             this.initCharts();
             kendo.bind(this.view, this.viewModel);
             this.testData();
         };
         DowntimeCharts.prototype.update = function () {
-            $('#content').append(this.view);
+            $('#viewport').append(this.view);
             this.initCharts();
             //alert("DowntimeUpdate()");
         };

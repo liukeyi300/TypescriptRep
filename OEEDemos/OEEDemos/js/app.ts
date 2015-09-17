@@ -36,7 +36,7 @@ module OEEDemos {
                     lastInstance.destory();
                 }
 
-                $('#content').empty();
+                $('#viewport').empty();
                 StartUp.currentInstanceName = currentModule;
 
                 var instance = ModuleLoad.getModuleInstance(currentModule);
@@ -55,6 +55,9 @@ module OEEDemos {
                     });
                 }
             };
+
+            $("#startTimeSelect").kendoDateTimePicker();
+            $("#endTimeSelect").kendoDateTimePicker();
         }
 
         private initEventsBinding(): void{
@@ -69,6 +72,7 @@ module OEEDemos {
                 var authCre = new ApplicationServices.AuthenticationServiceClient(StartUp.Instance.currentServer);
                 authCre.logoutAsync();
             });
+            
         }
         
 

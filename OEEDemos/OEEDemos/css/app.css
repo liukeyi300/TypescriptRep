@@ -80,21 +80,56 @@ footer p {
    /* position:absolute;
     right:0;
     top:0;*/
-    width:80%;
+    width:84%;
+    height:100%;
+    overflow:hidden;
+}
+
+#content > .function-nav {
+    height:50px;
+    border-bottom:1px solid #ebecee;
+    width:100%;
+    padding-right:30px;
+}
+
+.form-inline {
+    height:100%;
+    width:100%;
+}
+
+.form-group {
+    height:30px;
+    margin:10px 10px 10px 0;
+}
+
+.form-group label {
+    margin:0 0 0 5px;
+}
+
+.form-group input {
+    height:30px;
+    margin-left:20px;
+}
+
+#equitId {
+    height:30px;
+}
+
+#viewport {
+    width:100%;
     height:100%;
     overflow:auto;
+    padding-bottom:60px;
 }
 
 .navbar-brand {
     padding:10px;
 }
-
-#loginBtn {
-   margin:10px;
-}
-
-#logoutBtn {
+.navBtn {
     margin:10px;
+}
+.navBtn-sm {
+    width:70px;
 }
 
 .login-form-item {
