@@ -29,6 +29,14 @@ var OEEDemos;
             return ModuleLoad.instances[moduleName];
         };
         /**
+          * 清空模块列表
+          */
+        ModuleLoad.clearAllModules = function () {
+            ModuleLoad.instances = [];
+            ModuleLoad.modules = [];
+            ModuleLoad.loadedScripts = [];
+        };
+        /**
          * 确保需要加载的模块已经缓存
          */
         ModuleLoad.ensureModuleExists = function (moduleName) {

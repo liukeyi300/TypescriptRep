@@ -31,6 +31,15 @@ module OEEDemos {
         static getModuleInstance(moduleName: string): ModuleBase {
             return ModuleLoad.instances[moduleName];
         }
+
+        /**
+          * 清空模块列表
+          */
+        static clearAllModules(): void {
+            ModuleLoad.instances = [];
+            ModuleLoad.modules = [];
+            ModuleLoad.loadedScripts = [];
+        }
         
         /**
          * 确保需要加载的模块已经缓存

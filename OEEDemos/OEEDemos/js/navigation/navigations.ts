@@ -7,7 +7,7 @@ module OEEDemos{
 
         viewModel = kendo.observable({
             treeDataSource: [{
-                text: "Please Login!"
+                text: "Waiting..."
             }]
         });
 
@@ -28,6 +28,10 @@ module OEEDemos{
 
         public setData(data) {
             this.viewModel.set("treeDataSource", data);
+        }
+
+        public destory() {
+            this.viewModel.set("treeDataSource", [{text:"Waiting..."}]);
         }
     }
 

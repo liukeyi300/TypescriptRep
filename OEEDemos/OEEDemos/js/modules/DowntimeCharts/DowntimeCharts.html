@@ -1,4 +1,22 @@
 ﻿<div class="downtimeChartsContainer">
     <div id="equipTree" class="left"></div>
-    <div id="dtCharts" class="right" data-bind="source:series"></div>
+    <div class="tabbable tabs-left right">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#columnCharts" data-toggle="tab">
+                    <img src="images/icons/20_20/column.png" alt="柱状图" width="20" height="20" />
+                </a>
+            </li>
+            <li>
+                <a href="#testCharts" data-toggle="tab">
+                    <img src="images/icons/16_16/search.png" alt="" width="20" height="20" />
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active dtCharts" id="columnCharts" data-bind="source:series">
+            </div>
+            <div id="testCharts" class="tab-pane dtCharts"></div>
+        </div>
+    </div>
 </div>

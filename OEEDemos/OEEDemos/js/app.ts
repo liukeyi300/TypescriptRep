@@ -5,6 +5,7 @@ module OEEDemos {
     export class StartUp {
         static currentInstanceName: string;
         static Instance: StartUp = new StartUp();
+        private timeRangeListener: ((startTime: string, endTime: string) => void)[];
         private nav: Navigations;
         private currentServer: string;
         constructor() {
@@ -15,8 +16,17 @@ module OEEDemos {
             this.initEventsBinding();
         }
 
+        public registerTimeRangeListner(listner: (startTime: string, endTime: string) => void): void{
+            StartUp.Instance.timeRangeListener = StartUp.Instance.timeRangeListener || [];
+            StartUp.Instance.timeRangeListener.push(listner);
+        }
+
+        public deleteTimeRangeListner(listner: (startTime: string, endTime: string) => void): void {
+            StartUp.Instance.timeRangeListener.splice(StartUp.Instance.timeRangeListener.indexOf(listner), 1);
+        }
+
         private initWidgets() {
-            this.nav = new Navigations(
+            StartUp.Instance.nav = new Navigations(
                 $("#nav-tree"),
                 {
                     select: function (e) {
@@ -58,21 +68,40 @@ module OEEDemos {
 
             $("#startTimeSelect").kendoDateTimePicker();
             $("#endTimeSelect").kendoDateTimePicker();
+            
         }
 
         private initEventsBinding(): void{
+            var nav = StartUp.Instance.nav;
+
             $('#loginConfirm').on("click", function (e) {
                 var serverAddress = $("#inputServerAddress").val();
                 var userName = $("#inputUserName").val();
                 var pwd = $("#inputPwd").val();
                 StartUp.Instance.login(serverAddress, userName, pwd);
             });
-
+            
             $('#logoutBtn').on("click", function (e) {
                 var authCre = new ApplicationServices.AuthenticationServiceClient(StartUp.Instance.currentServer);
                 authCre.logoutAsync();
+                if (StartUp.currentInstanceName !== "" && typeof ModuleLoad.getModuleInstance(StartUp.currentInstanceName) !== "undefined") {
+                    ModuleLoad.getModuleInstance(StartUp.currentInstanceName).destory();
+                    $("#viewport").empty();
+                    nav.destory();
+                    StartUp.currentInstanceName = "";
+                    ModuleLoad.clearAllModules();
+                }
             });
-            
+
+            $('#comfirmFunctionNav').on('click', function (e) {
+                for (var i = 0, max = StartUp.Instance.timeRangeListener.length, listeners = StartUp.Instance.timeRangeListener; i < max; i++) {
+                    if (listeners[i]) {
+                        var startTime = $("#startTimeSelect").val();
+                        var endTime = $("#endTimeSelect").val();
+                        listeners[i](startTime, endTime);
+                    }
+                }
+            });
         }
         
 
@@ -90,7 +119,21 @@ module OEEDemos {
             this.currentServer = serverAddress;
             authCre.loginAsync(userName, pwd, '', true)
                 .then((value: boolean) => {
-                if (value) {
+                    if (value) {
+                        var serviceContext = new AicTech.PPA.DataModel.PPAEntities({
+                            name: 'oData',
+                            oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
+                        });
+
+                        //var equipTree = new Navigations($("#equTree"), {
+                        //    select: function (e) {
+                        //        onselectNode(e, this);
+                        //    }
+                        //});
+
+                        //var onselectNode = function (e: kendo.ui.TreeViewSelectEvent, sender) {
+                        //    alert(sender.dataItem(e.node).id);
+                        //};
 
                         $.getJSON("js/moduleList.json", null, function (d) {
                             var data = [];
@@ -98,6 +141,17 @@ module OEEDemos {
                                 data.push(d[key]);
                             }
                             StartUp.Instance.nav.setData(AppUtils.getTree(data, 0));
+                            
+                            //serviceContext.PM_EQUIPMENT.map((it) => {
+                            //    return {
+                            //        id: it.EQP_ID,
+                            //        parent: it.PARENT,
+                            //        text: it.NAME
+                            //    }
+                            //}).toArray(function (data) {
+                            //    equipTree.setData(AppUtils.getTree(data, '-'));
+                            //    kendo.ui.progress($("#equipTree"), false);
+                            //});
                             kendo.ui.progress($("#nav-tree"), false);
                             $("#loginModal").modal("hide");
                         });

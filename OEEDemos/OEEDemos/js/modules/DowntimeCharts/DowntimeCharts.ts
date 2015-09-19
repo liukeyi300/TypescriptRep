@@ -14,11 +14,18 @@ module OEEDemos {
             }]
         });
         equipmentTree: Navigations;
+        private currentNode;
 
-        constructor() { }
+        constructor() {
+            StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
+        }
+
+        private timeRangeListner(startTime: string, endTime: string): void {
+            alert("StartTime: " + startTime + ", EndTime: " + endTime);
+        }
 
         private initCharts(): void {
-            $("#dtCharts").kendoChart({
+            $("#columnCharts").kendoChart({
                 title: {
                     text:"DownTime Chart"
                 },
@@ -45,9 +52,10 @@ module OEEDemos {
                     template:"#= dataItem.id # : #= value #mins"
                 }
             });
+            
         }
 
-        private testData(): void {
+        private initEquipTree(): void {
             var equipTree = new Navigations($('#equipTree'), {
                 select: function (e) {
                     onselectNode(e, this);
@@ -82,7 +90,7 @@ module OEEDemos {
                                 return;
                             }
                             if (typeof hash[it.dtCauId] === "undefined") {
-                                hash[it.dtCauId] ={
+                                hash[it.dtCauId] = {
                                     id: it.id,
                                     dtTime: curDtTime,
                                     dtCauId: it.dtCauId
@@ -99,38 +107,56 @@ module OEEDemos {
                         dtInstance.viewModel.set("series", data);
                     });
             };
-
-            kendo.ui.progress($('#equipTree'), true);
-            this.ppaServiceContext.PM_EQUIPMENT.map((it) => {
-                return {
-                    id: it.EQP_ID,
-                    parent: it.PARENT,
-                    text: it.NAME
-                }
-            }).toArray(function (data) {
-                equipTree.setData(AppUtils.getTree(data, '-'));
-                kendo.ui.progress($("#equipTree"), false);
-            });
-
             this.equipmentTree = equipTree;
+
+        }
+
+        private refreshData(): void {
+            var equipTree = this.equipmentTree;
+            kendo.ui.progress($('#equipTree'), true);
+            this.ppaServiceContext.PM_EQUIPMENT
+                .map((it) => {
+                    return {
+                        id: it.EQP_ID,
+                        parent: it.PARENT,
+                        text: it.NAME
+                    }
+                })
+                .toArray(function (data) {
+                    equipTree.setData(AppUtils.getTree(data, '-'));
+                    kendo.ui.progress($("#equipTree"), false);
+                })
+                .fail(function (e) {
+                    kendo.ui.progress($("#equipTree"), true);
+                });
         }
 
         init(view: JQuery): void {
             this.view = view;
             $('#viewport').append(this.view);
             this.initCharts();
-            kendo.bind(this.view, this.viewModel);
-            this.testData();
+            this.initEquipTree();
+            kendo.bind(this.view.find("#columnCharts"), this.viewModel);
+            this.refreshData();
+            //解除viewModel和隐藏tab页的绑定并重新将viewModel绑定到显示的tab页
+            this.view.find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                kendo.unbind(view.find(".tab-content>div"));
+                kendo.bind(view.find(".tab-content>div.active"), ModuleLoad.getModuleInstance("DowntimeCharts").viewModel);
+            });
         }
 
         update(): void {
             $('#viewport').append(this.view);
             this.initCharts();
-            //alert("DowntimeUpdate()");
+            this.initEquipTree();
+            this.refreshData();
         }
 
         destory(): void {
-            //alert("DowntimeDetory()");
+            var chart = $("#columnCharts").data("kendoChart");
+            var tree = $("#equipTree").data("kendoTreeView");
+            chart.destroy();
+            tree.destroy();
         }
     }
 }

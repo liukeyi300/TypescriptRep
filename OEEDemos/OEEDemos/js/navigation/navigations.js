@@ -5,7 +5,7 @@ var OEEDemos;
         function Navigations(treeDiv, options) {
             this.viewModel = kendo.observable({
                 treeDataSource: [{
-                        text: "Please Login!"
+                        text: "Waiting..."
                     }]
             });
             this.view = treeDiv;
@@ -21,6 +21,9 @@ var OEEDemos;
         };
         Navigations.prototype.setData = function (data) {
             this.viewModel.set("treeDataSource", data);
+        };
+        Navigations.prototype.destory = function () {
+            this.viewModel.set("treeDataSource", [{ text: "Waiting..." }]);
         };
         return Navigations;
     })();

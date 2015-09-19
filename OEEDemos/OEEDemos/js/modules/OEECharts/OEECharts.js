@@ -77,15 +77,12 @@ var OEEDemos;
         OEECharts.prototype.refreshData = function () {
             try {
                 var date = new Date(2015, 9, 2);
-                var day = date.getDate();
-                var month = date.getMonth();
-                var year = date.getFullYear();
                 kendo.ui.progress($("#oeeChart"), true);
                 this.ppaServiceContext.PPA_OEE_SUMMARY
                     .filter(function (items) {
                     return (items.PER_START_TIME.year() <= this.year1 && items.PER_START_TIME.month() <= this.month1
                         && items.PER_START_TIME.day() < this.day1);
-                }, { day1: day, month1: month, year1: year })
+                }, { day1: date.getDate(), month1: date.getMonth(), year1: date.getFullYear() })
                     .map(function (it) {
                     return {
                         oeeStartTime: it.PER_START_TIME,
@@ -99,6 +96,7 @@ var OEEDemos;
                     OEEDemos.ModuleLoad.getModuleInstance(OEEDemos.StartUp.currentInstanceName).viewModel.set("series", result);
                     kendo.ui.progress($("#oeeChart"), false);
                 }).fail(function (e) {
+                    kendo.ui.progress($("#oeeChart"), false);
                     alert(e.message);
                 });
             }

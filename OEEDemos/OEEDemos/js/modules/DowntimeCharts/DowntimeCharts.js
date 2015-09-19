@@ -14,9 +14,13 @@ var OEEDemos;
                         dtCauId: ""
                     }]
             });
+            OEEDemos.StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
         }
+        DowntimeCharts.prototype.timeRangeListner = function (startTime, endTime) {
+            alert("StartTime: " + startTime + ", EndTime: " + endTime);
+        };
         DowntimeCharts.prototype.initCharts = function () {
-            $("#dtCharts").kendoChart({
+            $("#columnCharts").kendoChart({
                 title: {
                     text: "DownTime Chart"
                 },
@@ -42,7 +46,7 @@ var OEEDemos;
                 }
             });
         };
-        DowntimeCharts.prototype.testData = function () {
+        DowntimeCharts.prototype.initEquipTree = function () {
             var equipTree = new OEEDemos.Navigations($('#equipTree'), {
                 select: function (e) {
                     onselectNode(e, this);
@@ -93,33 +97,51 @@ var OEEDemos;
                     dtInstance.viewModel.set("series", data);
                 });
             };
+            this.equipmentTree = equipTree;
+        };
+        DowntimeCharts.prototype.refreshData = function () {
+            var equipTree = this.equipmentTree;
             kendo.ui.progress($('#equipTree'), true);
-            this.ppaServiceContext.PM_EQUIPMENT.map(function (it) {
+            this.ppaServiceContext.PM_EQUIPMENT
+                .map(function (it) {
                 return {
                     id: it.EQP_ID,
                     parent: it.PARENT,
                     text: it.NAME
                 };
-            }).toArray(function (data) {
+            })
+                .toArray(function (data) {
                 equipTree.setData(OEEDemos.AppUtils.getTree(data, '-'));
                 kendo.ui.progress($("#equipTree"), false);
+            })
+                .fail(function (e) {
+                kendo.ui.progress($("#equipTree"), true);
             });
-            this.equipmentTree = equipTree;
         };
         DowntimeCharts.prototype.init = function (view) {
             this.view = view;
             $('#viewport').append(this.view);
             this.initCharts();
-            kendo.bind(this.view, this.viewModel);
-            this.testData();
+            this.initEquipTree();
+            kendo.bind(this.view.find("#columnCharts"), this.viewModel);
+            this.refreshData();
+            //解除viewModel和隐藏tab页的绑定并重新将viewModel绑定到显示的tab页
+            this.view.find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                kendo.unbind(view.find(".tab-content>div"));
+                kendo.bind(view.find(".tab-content>div.active"), OEEDemos.ModuleLoad.getModuleInstance("DowntimeCharts").viewModel);
+            });
         };
         DowntimeCharts.prototype.update = function () {
             $('#viewport').append(this.view);
             this.initCharts();
-            //alert("DowntimeUpdate()");
+            this.initEquipTree();
+            this.refreshData();
         };
         DowntimeCharts.prototype.destory = function () {
-            //alert("DowntimeDetory()");
+            var chart = $("#columnCharts").data("kendoChart");
+            var tree = $("#equipTree").data("kendoTreeView");
+            chart.destroy();
+            tree.destroy();
         };
         return DowntimeCharts;
     })();
