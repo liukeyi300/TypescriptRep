@@ -31,7 +31,7 @@
     <script src="js/navigation/navigations.js"></script>
 
     <script src="libs/JayData/datajs-1.0.3.js"></script>
-    <script src="libs/ApplicationServices/ApplicationServices.min.js"></script>
+    <script src="libs/ApplicationServices/ApplicationServices.js"></script>
     <script src="libs/JayData/jaydata.js"></script>
     <script src="libs/JayData/oDataProvider.js"></script>
     <script src="libs/PPAEntity/PPAEntities.js"></script>
@@ -80,8 +80,9 @@
                     </div>-->
                 </form>
             </div>
-            <div id="viewport">
-
+            <div id="equip-viewport">
+                <div id="equip-tree" class="left"></div>
+                <div id="viewport" class="right"></div>
             </div>
         </div>
     </div>
@@ -131,7 +132,7 @@
                         <label class="login-label">
                             <span class="login-icon login-icon-pwd"></span>
                         </label>
-                        <input type="text" class="login-input" id="inputPwd" autocomplete="off" maxlength="100" placeholder="密码" />
+                        <input type="password" class="login-input" id="inputPwd"  autocomplete="off" maxlength="100" placeholder="密码" />
                     </div>
                 </div>
                 <div class="modal-footer">

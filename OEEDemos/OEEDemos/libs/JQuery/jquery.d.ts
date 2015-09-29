@@ -290,6 +290,7 @@ interface JQueryStatic {
 
     unique(arr: any[]): any[];
 
+    //add by liob for bootstrap
     modal(options: string): void;
 }
 

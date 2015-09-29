@@ -28,7 +28,7 @@ module OEEDemos {
         /**
          * 获取模块实例
          */
-        static getModuleInstance(moduleName: string): ModuleBase {
+        static getModuleInstance(moduleName: string) {
             return ModuleLoad.instances[moduleName];
         }
 

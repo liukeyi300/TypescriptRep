@@ -15,7 +15,24 @@ module OEEDemos {
                 oeeCOM:0
             }]
         });
+        private startTime: Date;
+        private endTime: Date;
+        private currentEquipment: string;
+
         constructor() { }
+
+        private timeRangeListner(startTime: Date, endTime: Date): void {
+            var oeeCharts = ModuleLoad.getModuleInstance("OEECharts");
+            oeeCharts.startTime = startTime;
+            oeeCharts.endTime = endTime;
+            oeeCharts.refreshData(); 
+        }
+
+        private equipNodeSelect(e: kendo.ui.TreeViewSelectEvent, sender): void {
+            var oeeCharts = ModuleLoad.getModuleInstance("OEECharts");
+            oeeCharts.currentEquipment = sender.dataItem(e.node).id;
+            oeeCharts.refreshData();
+        }
 
         private initChart() {
             $("#oeeChart").kendoChart({
@@ -26,11 +43,12 @@ module OEEDemos {
                     position: "top"
                 },
                 seriesDefaults: {
-                    type: "line"
+                    type: "column"
                 },
                 series: [{
                     field: "oeeAVA",
-                    name: "OEEAVA"
+                    name: "OEEAVA",
+                    color:"#33CC00"
                 }, {
                     field: "oeePER",
                     name: "OEEPER"
@@ -39,7 +57,9 @@ module OEEDemos {
                     name: "OEEQUE"
                 }, {
                     field: "oeeCOM",
-                    name: "OEECOM"
+                    name: "OEECOM",
+                    type: "line",
+                    color:"#3333CC"
                 }],
                 categoryAxis: [{
                     type: "date",
@@ -62,10 +82,7 @@ module OEEDemos {
                     },
                     majorUnit: 0.1,
                     axisCrossingValue: 0,
-                    max: 1.1,
-                    line: {
-                        visible: false
-                    }
+                    max: 1.1
                 }],
                 tooltip: {
                     visible: true,
@@ -74,32 +91,52 @@ module OEEDemos {
                 }
             });
         }
+        
 
         private refreshData(): void {
             try {
-                var date = new Date(2015, 9, 2);
-                kendo.ui.progress($("#oeeChart"), true);
-                this.ppaServiceContext.PPA_OEE_SUMMARY
-                    .filter(function (items) {
-                        return (items.PER_START_TIME.year() <= this.year1 && items.PER_START_TIME.month() <= this.month1
-                            && items.PER_START_TIME.day() < this.day1);
-                    }, { day1: date.getDate(), month1: date.getMonth(), year1: date.getFullYear() })
-                    .map(function (it) {
-                        return {
-                            oeeStartTime: it.PER_START_TIME,
-                            oeeAVA: it.OEE_AVA,
-                            oeePER: it.OEE_PER,
-                            oeeQUA: it.OEE_QUA,
-                            oeeCOM: it.OEE_COM
-                        };
-                    })
-                    .toArray(function (result) {
-                        OEEDemos.ModuleLoad.getModuleInstance(StartUp.currentInstanceName).viewModel.set("series", result);
-                        kendo.ui.progress($("#oeeChart"), false);
-                    }).fail(function (e: { message: string }) {
-                        kendo.ui.progress($("#oeeChart"), false);
-                        alert(e.message);
-                    });
+                var startDate = this.startTime;
+                var endDate = this.endTime;
+                var currentEquipment = this.currentEquipment || "";
+                if (currentEquipment != "") {
+                    if (typeof startDate === "undefined") {
+                        startDate = new Date();
+                        startDate.setDate(startDate.getDate() - 1);
+                    }
+
+                    if (typeof endDate === "undefined") {
+                        endDate = new Date();
+                    }
+                    kendo.ui.progress($("#oeeChart"), true);
+                    this.ppaServiceContext.PPA_OEE_SUMMARY
+                        .filter(function (items) {
+                            return (items.PER_START_TIME >= this.startDate && items.PER_START_TIME < this.endDate
+                                && items.EQP_ID === this.equid);
+                            }, {
+                                startDate: startDate, endDate: endDate,
+                                equid: currentEquipment
+                            })
+                        .map(function (it) {
+                            return {
+                                oeeStartTime: it.PER_START_TIME,
+                                oeeAVA: it.OEE_AVA,
+                                oeePER: it.OEE_PER,
+                                oeeQUA: it.OEE_QUA,
+                                oeeCOM: it.OEE_COM
+                            };
+                        })
+                        .toArray(function (result) {
+                            OEEDemos.ModuleLoad.getModuleInstance(StartUp.currentInstanceName).viewModel.set("series", result);
+                            kendo.ui.progress($("#oeeChart"), false);
+                        }).fail(function (e: { message: string }) {
+                            kendo.ui.progress($("#oeeChart"), false);
+                            alert(e.message);
+                        });
+
+                } else {
+                    alert("请选择设备！！");
+                    return;
+                }
             } catch (e) {
                 console.log(e.toString());
             }
@@ -111,6 +148,8 @@ module OEEDemos {
             this.initChart();
             kendo.bind(this.view, this.viewModel);
             this.refreshData();
+            StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
+            StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
         }
         
         update() {
@@ -122,6 +161,8 @@ module OEEDemos {
         destory() {
             var chart = $("#oeeChart").data("kendoChart");
             chart.destroy();
+            StartUp.Instance.deleteTimeRangeListner(this.timeRangeListner);
+            StartUp.Instance.deleteEquipNodeSelectListner(this.equipNodeSelect);
         }
     }
 }

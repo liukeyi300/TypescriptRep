@@ -4,7 +4,7 @@
 }
 
 #oeeChart {
-    float:left;
-    width:100%;
+    width:95%;
     height:100%;
+    padding:20px 0 0 20px;
 }
