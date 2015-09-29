@@ -78,7 +78,7 @@
     <Content Include="libs\JayData\oDataProvider.js" />
     <Content Include="libs\JayData\oDataProvider.min.js" />
     <Content Include="libs\JQuery\jquery.js" />
-    <Content Include="libs\KendoUI\kendo.all.min.js" />
+    <Content Include="libs\KendoUI\kendo.all.js" />
     <Content Include="libs\PPAEntity\PPAEntities.js" />
     <Content Include="web.config">
       <SubType>Designer</SubType>

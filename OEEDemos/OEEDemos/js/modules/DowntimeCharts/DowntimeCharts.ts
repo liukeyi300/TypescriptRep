@@ -143,18 +143,17 @@ module OEEDemos {
             $("#timeLineCharts").kendoScheduler({
                 date: new Date("2013/6/6"),
                 views: [
-                    "timeline",
                     {
-                        type: "timeline",
-                        startTime: new Date("2013/6/6 00:00 AM"),
-                        majorTick: 1440
+                        type: "timelineWeek",
+                        columnWidth: 50
                     }
                 ],
                 dataSource: [
                     {
+                        id: 1,
                         start: new Date("2013/6/6 08:00 AM"),
                         end: new Date("2013/6/6 09:00 AM"),
-                        title: "Breakfast"
+                        title: "Interview"
                     }
                 ]
             });

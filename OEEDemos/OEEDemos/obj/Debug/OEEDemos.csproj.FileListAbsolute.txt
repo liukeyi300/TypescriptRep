@@ -3,4 +3,3 @@ D:\githubdir\TypescriptRep\OEEDemos\OEEDemos\bin\OEEDemos.dll
 D:\githubdir\TypescriptRep\OEEDemos\OEEDemos\bin\OEEDemos.pdb
 D:\githubdir\TypescriptRep\OEEDemos\OEEDemos\obj\Debug\OEEDemos.dll
 D:\githubdir\TypescriptRep\OEEDemos\OEEDemos\obj\Debug\OEEDemos.pdb
-D:\githubdir\TypescriptRep\OEEDemos\OEEDemos\obj\Debug\OEEDemos.csprojResolveAssemblyReference.cache
