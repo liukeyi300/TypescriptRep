@@ -22,8 +22,14 @@ var OEEDemos;
         Navigations.prototype.setData = function (data) {
             this.viewModel.set("treeDataSource", data);
         };
+        //public setStyle(options: kendo.ui.TreeViewOptions): void {
+        //    var tree = this.view.data("kendoTreeView");
+        //    tree.setOptions(options);
+        //}
         Navigations.prototype.destory = function () {
             this.viewModel.set("treeDataSource", [{ text: "Waiting..." }]);
+            var tree = this.view.data("kendoTreeView");
+            tree.destroy();
         };
         return Navigations;
     })();

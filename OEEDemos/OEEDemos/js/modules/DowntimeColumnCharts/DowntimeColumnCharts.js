@@ -1,8 +1,8 @@
 /// <reference path="../../reference.ts" />
 var OEEDemos;
 (function (OEEDemos) {
-    var DowntimeCharts = (function () {
-        function DowntimeCharts() {
+    var DowntimeColumnCharts = (function () {
+        function DowntimeColumnCharts() {
             this.ppaServiceContext = new AicTech.PPA.DataModel.PPAEntities({
                 name: 'oData',
                 oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
@@ -13,20 +13,19 @@ var OEEDemos;
                         dtTime: 0,
                         dtCauId: "",
                         currentPercent: 0
-                    }],
-                timeLineChartsSeries: [{}]
+                    }]
             });
         }
-        DowntimeCharts.prototype.timeRangeListner = function (startTime, endTime) {
+        DowntimeColumnCharts.prototype.timeRangeListner = function (startTime, endTime) {
             //alert("StartTime: " + startTime + ", EndTime: " + endTime);
             alert("DTCharts.TimeRangeListner");
         };
-        DowntimeCharts.prototype.equipNodeSelect = function (e, sender) {
+        DowntimeColumnCharts.prototype.equipNodeSelect = function (e, sender) {
             var equId = sender.dataItem(e.node).id;
-            var dtInstance = OEEDemos.ModuleLoad.getModuleInstance("DowntimeCharts");
+            var dtInstance = OEEDemos.ModuleLoad.getModuleInstance("DowntimeColumnCharts");
             dtInstance.currentNode = equId;
             dtInstance.ppaServiceContext.PPA_DT_RECORD
-                .filter(function (it) { return it.EQP_ID === this.eqid; }, { eqid: equId })
+                .filter(function (it) { return it.EQP_ID == this.eqid; }, { eqid: equId })
                 .map(function (it) {
                 return {
                     id: it.EQP_ID,
@@ -76,12 +75,17 @@ var OEEDemos;
                     it.dtTime = it.dtTime.toFixed(2);
                 });
                 dtInstance.viewModel.set("columnChartsSeries", data);
+            })
+                .fail(function (e) {
+                //kendo.ui.progress($("#oeeChart"), false);
+                alert(e.message);
             });
+            ;
         };
-        DowntimeCharts.prototype.initCharts = function () {
+        DowntimeColumnCharts.prototype.initCharts = function () {
             $("#columnCharts").kendoChart({
                 title: {
-                    text: "DownTime Chart"
+                    text: "DownTime Column Chart"
                 },
                 legend: {
                     visible: true,
@@ -127,27 +131,10 @@ var OEEDemos;
                         color: "#007EFF"
                     }]
             });
-            $("#timeLineCharts").kendoScheduler({
-                date: new Date("2013/6/6"),
-                views: [
-                    {
-                        type: "timelineWeek",
-                        columnWidth: 50
-                    }
-                ],
-                dataSource: [
-                    {
-                        id: 1,
-                        start: new Date("2013/6/6 08:00 AM"),
-                        end: new Date("2013/6/6 09:00 AM"),
-                        title: "Interview"
-                    }
-                ]
-            });
         };
-        DowntimeCharts.prototype.refreshData = function () {
+        DowntimeColumnCharts.prototype.refreshData = function () {
         };
-        DowntimeCharts.prototype.init = function (view) {
+        DowntimeColumnCharts.prototype.init = function (view) {
             this.view = view;
             $('#viewport').append(this.view);
             this.initCharts();
@@ -155,25 +142,22 @@ var OEEDemos;
             this.refreshData();
             OEEDemos.StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
             OEEDemos.StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
-            //解除viewModel和隐藏tab页的绑定并重新将viewModel绑定到显示的tab页
-            this.view.find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                kendo.unbind(view.find(".tab-content>div"));
-                kendo.bind(view.find(".tab-content>div.active"), OEEDemos.ModuleLoad.getModuleInstance("DowntimeCharts").viewModel);
-            });
         };
-        DowntimeCharts.prototype.update = function () {
+        DowntimeColumnCharts.prototype.update = function () {
             $('#viewport').append(this.view);
             this.initCharts();
             this.refreshData();
+            OEEDemos.StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
+            OEEDemos.StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
         };
-        DowntimeCharts.prototype.destory = function () {
+        DowntimeColumnCharts.prototype.destory = function () {
             var chart = $("#columnCharts").data("kendoChart");
             chart.destroy();
             OEEDemos.StartUp.Instance.deleteTimeRangeListner(this.timeRangeListner);
             OEEDemos.StartUp.Instance.deleteEquipNodeSelectListner(this.equipNodeSelect);
         };
-        return DowntimeCharts;
+        return DowntimeColumnCharts;
     })();
-    OEEDemos.DowntimeCharts = DowntimeCharts;
+    OEEDemos.DowntimeColumnCharts = DowntimeColumnCharts;
 })(OEEDemos || (OEEDemos = {}));
-//# sourceMappingURL=DowntimeCharts.js.map
+//# sourceMappingURL=DowntimeColumnCharts.js.map

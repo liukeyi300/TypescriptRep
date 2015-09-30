@@ -13,16 +13,23 @@
     "baseUrl": "js/modules/OEECharts/",
     "moduleName": "OEECharts"
   },
-  "DowntimeCharts": {
-    "text": "DowntimeCharts",
+  "DowntimeColumnCharts": {
+    "text": "DowntimeColumnCharts",
     "id": 3,
     "parent": 1,
-    "baseUrl": "js/modules/DowntimeCharts/",
-    "moduleName": "DowntimeCharts"
+    "baseUrl": "js/modules/DowntimeColumnCharts/",
+    "moduleName": "DowntimeColumnCharts"
+  },
+  "DowntimeTimelineCharts": {
+    "text": "DowntimeTimelineCharts",
+    "id": 4,
+    "parent": 1,
+    "baseUrl": "js/modules/DowntimeTimelineCharts/",
+    "moduleName": "DowntimeTimelineCharts"
   },
   "Configure": {
     "text": "Configure",
-    "id": 4,
+    "id": 5,
     "parent": 0,
     "baseUrl": "",
     "moduleName": "Configure"

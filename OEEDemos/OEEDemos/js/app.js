@@ -39,6 +39,9 @@ var OEEDemos;
                             listners[i](e, this);
                         }
                     }
+                },
+                checkboxes: {
+                    checkChildren: true
                 }
             });
             StartUp.Instance.equipTree.setData([{ text: "Equipments Waiting......" }]);
@@ -67,6 +70,17 @@ var OEEDemos;
                             var view = $(viewTemplate);
                             setTimeout(function () {
                                 instance.init(view);
+                                //if (instance.needEquipCheck) {
+                                //    StartUp.Instance.equipTree.setStyle({
+                                //        checkboxes: {
+                                //            checkChildren: true
+                                //        }
+                                //    });
+                                //} else {
+                                //    StartUp.Instance.equipTree.setStyle({
+                                //        checkboxes: false
+                                //    });
+                                //}
                             }, 100);
                         }
                     });

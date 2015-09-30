@@ -125,7 +125,7 @@ var OEEDemos;
                     });
                 }
                 else {
-                    alert("请选择设备！！");
+                    //alert("请选择设备！！");
                     return;
                 }
             }
@@ -146,6 +146,8 @@ var OEEDemos;
             $('#viewport').append(this.view);
             this.initChart();
             this.refreshData();
+            OEEDemos.StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
+            OEEDemos.StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
         };
         OEECharts.prototype.destory = function () {
             var chart = $("#oeeChart").data("kendoChart");

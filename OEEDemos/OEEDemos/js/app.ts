@@ -5,10 +5,10 @@ module OEEDemos {
     export class StartUp {
         static currentInstanceName: string;
         static Instance: StartUp = new StartUp();
+        public nav: Navigations;
+        public equipTree: Navigations;
         private timeRangeListner: ((startTime: Date, endTime: Date) => void)[];
         private equipNodeSelectListner: ((e: kendo.ui.TreeViewSelectEvent, sender) => void)[];
-        private nav: Navigations;
-        private equipTree: Navigations;
         private currentServer: string;
         
         constructor() {
@@ -17,7 +17,6 @@ module OEEDemos {
         public startUp(): void {
             this.initWidgets();
             this.initEventsBinding();
-
             $("#loginModal").modal("show");
         }
 
@@ -61,6 +60,9 @@ module OEEDemos {
                                 listners[i](e, this);
                             }
                         }
+                    },
+                    checkboxes: {
+                        checkChildren: true
                     }
                 }
             );
@@ -85,6 +87,17 @@ module OEEDemos {
                 var instance = ModuleLoad.getModuleInstance(currentModule);
                 if (typeof instance !== "undefined") {
                     instance.update();
+                    //if (instance.needEquipCheck) {
+                    //    StartUp.Instance.equipTree.setStyle({
+                    //        checkboxes: {
+                    //            checkChildren: true
+                    //        }
+                    //    });
+                    //} else {
+                    //    StartUp.Instance.equipTree.setStyle({
+                    //        checkboxes: false
+                    //    });
+                    //}
                 } else {
                     ModuleLoad.createModuleInstance({
                         baseUrl: baseUrl,
@@ -93,6 +106,17 @@ module OEEDemos {
                             var view = $(viewTemplate);
                             setTimeout(function () {
                                 instance.init(view);
+                                //if (instance.needEquipCheck) {
+                                //    StartUp.Instance.equipTree.setStyle({
+                                //        checkboxes: {
+                                //            checkChildren: true
+                                //        }
+                                //    });
+                                //} else {
+                                //    StartUp.Instance.equipTree.setStyle({
+                                //        checkboxes: false
+                                //    });
+                                //}
                             }, 100);
                         }
                     });
@@ -150,10 +174,7 @@ module OEEDemos {
         
 
         //http://192.168.0.3:6666/Services/AuthenticationService.svc/ajax
-        login(
-            serverAddress: string,
-            userName: string,
-            pwd: string): void{
+        private login(serverAddress: string, userName: string, pwd: string): void{
             var authCre = new ApplicationServices.AuthenticationServiceClient(serverAddress);
             kendo.ui.progress($('#nav-tree'), true);
             authCre.logoutAsync();
@@ -161,6 +182,7 @@ module OEEDemos {
                 text:"Loading"
             }]);
             this.currentServer = serverAddress;
+
             authCre.loginAsync(userName, pwd, '', true)
                 .then((value: boolean) => {
                     if (value) {

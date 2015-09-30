@@ -134,7 +134,7 @@ module OEEDemos {
                         });
 
                 } else {
-                    alert("请选择设备！！");
+                    //alert("请选择设备！！");
                     return;
                 }
             } catch (e) {
@@ -156,6 +156,8 @@ module OEEDemos {
             $('#viewport').append(this.view);
             this.initChart();
             this.refreshData();
+            StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
+            StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
         }
 
         destory() {

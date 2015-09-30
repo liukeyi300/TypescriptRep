@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../reference.ts" />
 module OEEDemos {
-    export class DowntimeCharts implements ModuleBase {
+    export class DowntimeColumnCharts implements ModuleBase {
         ppaServiceContext = new AicTech.PPA.DataModel.PPAEntities({
             name: 'oData',
             oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
@@ -12,9 +12,6 @@ module OEEDemos {
                 dtTime: 0,
                 dtCauId: "",
                 currentPercent:0
-            }],
-            timeLineChartsSeries: [{
-
             }]
         });
         equipmentTree: Navigations;
@@ -29,11 +26,11 @@ module OEEDemos {
 
         private equipNodeSelect(e: kendo.ui.TreeViewSelectEvent, sender): void {
             var equId = sender.dataItem(e.node).id;
-            var dtInstance = ModuleLoad.getModuleInstance("DowntimeCharts");
+            var dtInstance = ModuleLoad.getModuleInstance("DowntimeColumnCharts");
 
             dtInstance.currentNode = equId;
             dtInstance.ppaServiceContext.PPA_DT_RECORD
-                .filter(function (it) { return it.EQP_ID === this.eqid }, { eqid: equId })
+                .filter(function (it) { return it.EQP_ID == this.eqid }, { eqid: equId })
                 .map((it) => {
                     return {
                         id: it.EQP_ID,
@@ -86,13 +83,17 @@ module OEEDemos {
                     });
 
                     dtInstance.viewModel.set("columnChartsSeries", data);
-                });
+                })
+                .fail(function (e: { message: string }) {
+                    //kendo.ui.progress($("#oeeChart"), false);
+                    alert(e.message);
+                });;
         }
 
         private initCharts(): void {
             $("#columnCharts").kendoChart({
                 title: {
-                    text:"DownTime Chart"
+                    text:"DownTime Column Chart"
                 },
                 legend: {
                     visible: true,
@@ -139,24 +140,6 @@ module OEEDemos {
                 }]
             });
             
-
-            $("#timeLineCharts").kendoScheduler({
-                date: new Date("2013/6/6"),
-                views: [
-                    {
-                        type: "timelineWeek",
-                        columnWidth: 50
-                    }
-                ],
-                dataSource: [
-                    {
-                        id: 1,
-                        start: new Date("2013/6/6 08:00 AM"),
-                        end: new Date("2013/6/6 09:00 AM"),
-                        title: "Interview"
-                    }
-                ]
-            });
         }
 
         private refreshData(): void {
@@ -172,17 +155,14 @@ module OEEDemos {
             StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
             StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
 
-            //解除viewModel和隐藏tab页的绑定并重新将viewModel绑定到显示的tab页
-            this.view.find('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                kendo.unbind(view.find(".tab-content>div"));
-                kendo.bind(view.find(".tab-content>div.active"), ModuleLoad.getModuleInstance("DowntimeCharts").viewModel);
-            });
         }
 
         update(): void {
             $('#viewport').append(this.view);
             this.initCharts();
             this.refreshData();
+            StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
+            StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
         }
 
         destory(): void {

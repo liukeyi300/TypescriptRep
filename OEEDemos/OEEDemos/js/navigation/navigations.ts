@@ -30,8 +30,16 @@ module OEEDemos{
             this.viewModel.set("treeDataSource", data);
         }
 
+        //public setStyle(options: kendo.ui.TreeViewOptions): void {
+        //    var tree = this.view.data("kendoTreeView");
+        //    tree.setOptions(options);
+         
+        //}
+
         public destory() {
-            this.viewModel.set("treeDataSource", [{text:"Waiting..."}]);
+            this.viewModel.set("treeDataSource", [{ text: "Waiting..." }]);
+            var tree = this.view.data("kendoTreeView");
+            tree.destroy();
         }
     }
 
