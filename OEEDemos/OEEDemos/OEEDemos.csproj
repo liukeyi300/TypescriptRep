@@ -111,7 +111,26 @@
     <Content Include="libs\JayData\oDataProvider.min.js" />
     <Content Include="libs\JQuery\jquery.js" />
     <Content Include="libs\KendoUI\kendo.all.js" />
+    <Content Include="libs\KendoUI\kendo.all.min.js" />
     <Content Include="libs\PPAEntity\PPAEntities.js" />
+    <Content Include="libs\visJS\img\network\acceptDeleteIcon.png" />
+    <Content Include="libs\visJS\img\network\addNodeIcon.png" />
+    <Content Include="libs\visJS\img\network\backIcon.png" />
+    <Content Include="libs\visJS\img\network\connectIcon.png" />
+    <Content Include="libs\visJS\img\network\cross.png" />
+    <Content Include="libs\visJS\img\network\cross2.png" />
+    <Content Include="libs\visJS\img\network\deleteIcon.png" />
+    <Content Include="libs\visJS\img\network\downArrow.png" />
+    <Content Include="libs\visJS\img\network\editIcon.png" />
+    <Content Include="libs\visJS\img\network\leftArrow.png" />
+    <Content Include="libs\visJS\img\network\minus.png" />
+    <Content Include="libs\visJS\img\network\plus.png" />
+    <Content Include="libs\visJS\img\network\rightArrow.png" />
+    <Content Include="libs\visJS\img\network\upArrow.png" />
+    <Content Include="libs\visJS\img\network\zoomExtends.png" />
+    <Content Include="libs\visJS\img\timeline\delete.png" />
+    <Content Include="libs\visJS\vis.min.css" />
+    <Content Include="libs\visJS\vis.min.js" />
     <Content Include="web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -128,6 +147,12 @@
     <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <Content Include="packages.config" />
     <Content Include="js\moduleList.json" />
+    <Content Include="libs\visJS\CONTRIBUTING.md" />
+    <Content Include="libs\visJS\HISTORY.md" />
+    <Content Include="libs\visJS\LICENSE-APACHE-2.0" />
+    <Content Include="libs\visJS\LICENSE-MIT" />
+    <Content Include="libs\visJS\NOTICE" />
+    <Content Include="libs\visJS\README.md" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -150,6 +175,7 @@
     <TypeScriptCompile Include="libs\JQuery\jquery.d.ts" />
     <TypeScriptCompile Include="libs\KendoUI\kendo.all.d.ts" />
     <TypeScriptCompile Include="libs\PPAEntity\PPAEntities.d.ts" />
+    <TypeScriptCompile Include="libs\visJS\vis.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />

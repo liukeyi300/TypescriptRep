@@ -39,6 +39,7 @@ module OEEDemos{
         public destory() {
             this.viewModel.set("treeDataSource", [{ text: "Waiting..." }]);
             var tree = this.view.data("kendoTreeView");
+            kendo.unbind(this.view);
             tree.destroy();
         }
     }

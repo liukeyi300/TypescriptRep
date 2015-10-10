@@ -145,12 +145,14 @@ var OEEDemos;
         OEECharts.prototype.update = function () {
             $('#viewport').append(this.view);
             this.initChart();
+            kendo.bind(this.view, this.viewModel);
             this.refreshData();
             OEEDemos.StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
             OEEDemos.StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
         };
         OEECharts.prototype.destory = function () {
             var chart = $("#oeeChart").data("kendoChart");
+            kendo.unbind(this.view);
             chart.destroy();
             OEEDemos.StartUp.Instance.deleteTimeRangeListner(this.timeRangeListner);
             OEEDemos.StartUp.Instance.deleteEquipNodeSelectListner(this.equipNodeSelect);

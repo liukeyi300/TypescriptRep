@@ -18,7 +18,7 @@ var OEEDemos;
         }
         DowntimeColumnCharts.prototype.timeRangeListner = function (startTime, endTime) {
             //alert("StartTime: " + startTime + ", EndTime: " + endTime);
-            alert("DTCharts.TimeRangeListner");
+            //alert("DTCharts.TimeRangeListner");
         };
         DowntimeColumnCharts.prototype.equipNodeSelect = function (e, sender) {
             var equId = sender.dataItem(e.node).id;
@@ -138,7 +138,7 @@ var OEEDemos;
             this.view = view;
             $('#viewport').append(this.view);
             this.initCharts();
-            kendo.bind(this.view.find("#columnCharts"), this.viewModel);
+            kendo.bind(this.view, this.viewModel);
             this.refreshData();
             OEEDemos.StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
             OEEDemos.StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
@@ -146,12 +146,14 @@ var OEEDemos;
         DowntimeColumnCharts.prototype.update = function () {
             $('#viewport').append(this.view);
             this.initCharts();
+            kendo.bind(this.view, this.viewModel);
             this.refreshData();
             OEEDemos.StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
             OEEDemos.StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
         };
         DowntimeColumnCharts.prototype.destory = function () {
             var chart = $("#columnCharts").data("kendoChart");
+            kendo.unbind(this.view);
             chart.destroy();
             OEEDemos.StartUp.Instance.deleteTimeRangeListner(this.timeRangeListner);
             OEEDemos.StartUp.Instance.deleteEquipNodeSelectListner(this.equipNodeSelect);

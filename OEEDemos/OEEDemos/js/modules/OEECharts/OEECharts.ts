@@ -155,6 +155,7 @@ module OEEDemos {
         update() {
             $('#viewport').append(this.view);
             this.initChart();
+            kendo.bind(this.view, this.viewModel);
             this.refreshData();
             StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
             StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
@@ -162,6 +163,7 @@ module OEEDemos {
 
         destory() {
             var chart = $("#oeeChart").data("kendoChart");
+            kendo.unbind(this.view);
             chart.destroy();
             StartUp.Instance.deleteTimeRangeListner(this.timeRangeListner);
             StartUp.Instance.deleteEquipNodeSelectListner(this.equipNodeSelect);

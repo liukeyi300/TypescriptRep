@@ -21,7 +21,7 @@ module OEEDemos {
 
         private timeRangeListner(startTime: Date, endTime: Date): void {
             //alert("StartTime: " + startTime + ", EndTime: " + endTime);
-            alert("DTCharts.TimeRangeListner");
+            //alert("DTCharts.TimeRangeListner");
         }
 
         private equipNodeSelect(e: kendo.ui.TreeViewSelectEvent, sender): void {
@@ -150,7 +150,7 @@ module OEEDemos {
             this.view = view;
             $('#viewport').append(this.view);
             this.initCharts();
-            kendo.bind(this.view.find("#columnCharts"), this.viewModel);
+            kendo.bind(this.view, this.viewModel);
             this.refreshData();
             StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
             StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
@@ -160,6 +160,7 @@ module OEEDemos {
         update(): void {
             $('#viewport').append(this.view);
             this.initCharts();
+            kendo.bind(this.view, this.viewModel);
             this.refreshData();
             StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
             StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
@@ -167,6 +168,7 @@ module OEEDemos {
 
         destory(): void {
             var chart = $("#columnCharts").data("kendoChart");
+            kendo.unbind(this.view);
             chart.destroy();
             StartUp.Instance.deleteTimeRangeListner(this.timeRangeListner);
             StartUp.Instance.deleteEquipNodeSelectListner(this.equipNodeSelect);

@@ -29,6 +29,7 @@ var OEEDemos;
         Navigations.prototype.destory = function () {
             this.viewModel.set("treeDataSource", [{ text: "Waiting..." }]);
             var tree = this.view.data("kendoTreeView");
+            kendo.unbind(this.view);
             tree.destroy();
         };
         return Navigations;

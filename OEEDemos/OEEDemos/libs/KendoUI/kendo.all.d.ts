@@ -3647,6 +3647,7 @@ declare module kendo.ui {
         editEvent(event: kendo.data.SchedulerEvent): void;
         occurrenceByUid(uid: string): kendo.data.SchedulerEvent;
         occurrencesInRange(start: Date, end: Date): any;
+        refresh(): void;
         removeEvent(event: string): void;
         removeEvent(event: kendo.data.SchedulerEvent): void;
         resourcesBySlot(slot: any): any;
