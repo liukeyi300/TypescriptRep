@@ -5,7 +5,41 @@
 
 #downtimeTimelineCharts {
     width:95%;
-    /*height:100%;*/
-    /*padding:20px 0 0 20px;*/
-    margin:25px 20px;
+    height:80%;
+    overflow:auto;
+    margin:25px 20px 0 20px;
+    border:1px solid #C0C0C0;
+}
+
+.downtimeTimelineChartsContainer  ul {
+    margin:0 20px;
+    width:95%;
+    overflow:hidden;
+    list-style:none;
+    padding:0;
+}
+
+.downtimeTimelineChartsContainer  ul  li {
+       margin-top:10px;
+       padding:5px;
+       float:left;
+}
+
+.vis-item-cause1 {
+    color:white;
+    background-color:rgb(203,0,51);
+    border-color:rgb(203,0,51);
+    cursor: pointer;
+}
+.vis-item-cause2 {
+    color:white;
+    background-color:rgb(51,254,51);
+    border-color:rgb(51,254,51);
+    cursor: pointer;
+}
+.vis-item-cause3 {
+    color:white;
+    background-color:blue;
+    border-color:blue;
+    cursor: pointer;
 }

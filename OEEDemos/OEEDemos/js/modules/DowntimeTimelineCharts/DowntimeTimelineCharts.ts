@@ -5,106 +5,89 @@ module OEEDemos {
             name: 'oData',
             oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
         });
-        needEquipCheck = true;
+        needEquiptree = true;
         view: JQuery;
         viewModel = kendo.observable({});
-        private dataItems;
-
-        private initChart(): void {
-            //$("#downtimeTimelineCharts").kendoScheduler({
-            //    date: new Date("2015/9/1"),
-            //    group: {
-            //        resources: ["testRe","testColor"],
-            //        orientation:"vertical"
-            //    },
-            //    editable: false,
-            //    views: ["timeline"],
-            //    resources: [{
-            //        field: "id",
-            //        name: "testRe",
-            //        dataSource: [{
-            //            text:"Filler12313", value:"Filler1123213"
-            //        }]
-            //    }, {
-            //            field: "title",
-            //            name: "testColor",
-            //            dataSource: [{
-            //                text: "Filler12313", value: "Cause1", color: '#CC00CC'
-            //            }, {
-            //                    text: "Filler12313", value: "Cause2",  color: '#F9F915'
-            //                }]
-            //    }],
-            //    height:"100%"
-            //});
-            var container = $('#downtimeTimelineCharts')[0];
-            var options = {
-                orientation:'top'
-            };
-        }
+        startTime: Date;
+        endTime: Date;
+      
+        private dataItems = new vis.DataSet();
+        private dataGroups = new vis.DataSet();
+        private timeline: vis.Timeline;
 
         private equipNodeSelect(e: kendo.ui.TreeViewSelectEvent, sender): void {
             var equId = sender.dataItem(e.node).id;
             var dtInstance = ModuleLoad.getModuleInstance("DowntimeTimelineCharts");
-
-            dtInstance.currentNode = equId;
-            dtInstance.ppaServiceContext.PPA_DT_RECORD
-                .filter(function (it) { return it.EQP_ID == this.eqid }, { eqid: equId })
-                .map((it) => {
-                    return {
-                        id: it.EQP_ID,
-                        start: it.DT_START_TIME,
-                        end: it.DT_END_TIME,
-                        title: it.DT_CAU_ID
-                    }
-                })
-                .toArray((re) => {
-                    if (re.length === 0) {
-                        alert("There are no DownTime-datas for this equipment!");
-                        return;
-                    }
-                    dtInstance.viewModel.set("series", re);
-                    var resource = [{
-                        field: "id",
-                        name: "testRe",
-                        dataSource: [{
-                            text:re[0].id, value:re[0].id
-                        }]
-                    }];
-                    var groups = {
-                        resources: ["testRe"],
-                        orientation: "vertical"
-                    }
-                    var chart = $('#downtimeTimelineCharts').data('kendoScheduler');
-                    chart.destroy();
-                    kendo.unbind($('#downtimeTimelineCharts'));
-                    $('#downtimeTimelineCharts').empty();
-                    $("#downtimeTimelineCharts").kendoScheduler({
-                        date: new Date("2015/9/1"),
-                        workDayStart: new Date("2013/1/1 00:00:00"),
-                        workDayEnd: new Date("2013/1/1 23:59:59"),
-                        group: groups,
-                        editable: false,
-                        views: ["timeline"],
-                        resources: resource,
-                        height: "100%",
-                        footer: false
-                    });
-                    kendo.bind($('#downtimeTimelineCharts'), dtInstance.viewModel);
-                
-                    $('.k-event-template:not(.k-event-time)').parent('div').each(function () {
-                        var time = $(this).find('.k-event-time').text();
-                        var title = $(this).find('.k-event-template:not(.k-event-time)').text();
-                        $(this).parent('div').removeAttr("title");
-                        $(this).parent('div').attr('title', time + " : " + title);
-                        $(this).parent('div').css("background-color",'#CC00CC');
-                    });
-                })
-                .fail(function (e: { message: string }) {
-                    //kendo.ui.progress($("#oeeChart"), false);
-                    alert(e.message);
-                });
+            dtInstance.refreshData(equId);
         }
 
+        private timeRangeListner(start: Date, end: Date): void {
+            var dtInstance = ModuleLoad.getModuleInstance("DowntimeTimelineCharts");
+            dtInstance.startTime = start;
+            dtInstance.endTime = end;
+            dtInstance.refreshData();
+        }
+
+        private initChart(): void {
+            var container = $('#downtimeTimelineCharts')[0];
+            var options = {
+                orientation: 'top',
+                selectable: false
+            };
+            this.timeline = new vis.Timeline(container, this.dataItems, this.dataGroups, options);
+        }
+
+        private refreshData(eqId?): void {
+            try {
+                var allEqu = [];
+                var dtInstance = ModuleLoad.getModuleInstance("DowntimeTimelineCharts");
+                if (typeof eqId !== "undefined") {
+                    allEqu.push({ id: eqId, content: eqId });
+                    this.dataGroups.update({ id: eqId, content: eqId });
+                } else {
+                    allEqu = this.dataGroups.get();
+                    this.dataItems.clear();
+                }
+                if (allEqu.length > 0) {
+                    var day = new Date();
+                    day.setDate(day.getDate() - 1);
+                    var start = this.startTime || day
+                    var end = this.endTime || new Date();
+                    for (var i = 0, max = allEqu.length; i < max; i++) {
+                        this.ppaServiceContext.PPA_DT_RECORD.filter(function (it) {
+                            return it.EQP_ID == this.eqid && it.DT_START_TIME >= this.startDate && it.DT_END_TIME < this.endDate;
+                        }, { startDate: start, endDate: end, eqid: allEqu[i].id }).map((it) => {
+                            return {
+                                id: it.REC_NO,
+                                start: it.DT_START_TIME,
+                                end: it.DT_END_TIME,
+                                cause: it.DT_CAU_ID,
+                                eqp: it.EQP_ID
+                            }
+                        }).toArray((re) => {
+                            re.forEach(function (it) {
+                                dtInstance.dataItems.update({
+                                    id: it.id,
+                                    start: it.start,
+                                    end: it.end,
+                                    group: it.eqp,
+                                    title: it.eqp + "-" + it.cause + ": \n" + it.start + " - " + it.end,
+                                    className: "vis-item-" + it.cause
+                                });
+                            });
+                            dtInstance.timeline.setOptions({
+                                start: start,
+                                end: end
+                            });
+                        }).fail(function (e: { message: string }) {
+                            alert(e.message);
+                        });
+                    }
+                }
+            } catch (e) {
+                console.log(e.toString());
+            }
+        }
         constructor() { }
 
         init(view: JQuery) {
@@ -113,6 +96,7 @@ module OEEDemos {
             this.initChart();
             kendo.bind(this.view, this.viewModel);
             StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
+            StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
         }
 
         update() {
@@ -120,14 +104,16 @@ module OEEDemos {
             this.initChart();
             kendo.bind(this.view, this.viewModel);
             StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
+            StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
         }
 
         destory() {
-            //var chart = $('#downtimeTimelineCharts').data("kendoScheduler");
+            this.timeline.destroy();
+            this.dataItems.clear();
+            this.dataGroups.clear();
             kendo.unbind(this.view);
-            //chart.destroy();
-            //$('#downtimeTimelineCharts').empty();
             StartUp.Instance.deleteEquipNodeSelectListner(this.equipNodeSelect);
+            StartUp.Instance.deleteTimeRangeListner(this.timeRangeListner);
         }
         
     }

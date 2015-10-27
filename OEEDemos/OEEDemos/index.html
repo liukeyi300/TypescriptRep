@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/KendoUI/kendo.default.min.css" type="text/css" />
     <link rel="stylesheet" href="css/KendoUI/kendo.dataviz.min.css" type="text/css" />
     <link rel="stylesheet" href="css/KendoUI/kendo.dataviz.default.min.css" type="text/css" />
+    <link rel="stylesheet" href="libs/visJS/vis.min.css" type="text/css" />
     <!--<link rel="stylesheet" href="css/KendoUI/kendo.mobile.all.min.css" type="text/css" />-->
    
     <link rel="stylesheet" href="css/app.css" type="text/css" />
@@ -23,6 +24,7 @@
     <script src="libs/JQuery/jquery.js"></script>
     <script src="libs/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
     <script src="libs/KendoUI/kendo.all.min.js"></script>
+    <script src="libs/visJS/vis.min.js"></script>
     <!--<script src="libs/ECharts/echarts-all.js"></script>-->
 
     <script src="js/moduleLoad.js"></script>
@@ -35,25 +37,27 @@
     <script src="libs/JayData/jaydata.js"></script>
     <script src="libs/JayData/oDataProvider.js"></script>
     <script src="libs/PPAEntity/PPAEntities.js"></script>
-    
+
     <script src="js/app.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
-            <div class="navbar-header" style="">
+            <div class="navbar-header">
                 <a href="#" class="navbar-brand">
                     <img alt="AICOEE" src="images/background/aic_logo_g.png" />
                 </a>
             </div>
             <div class="collapse navbar-collapse">
-                <button type="button" class="btn btn-danger btn-sm right navBtn navBtn-sm" id="logoutBtn">
+                <!--<button type="button" class="btn btn-danger btn-sm right navBtn navBtn-sm" id="logoutBtn">
                     登出
                 </button>
                 <button type="button" class="btn btn-primary btn-sm right navBtn navBtn-sm" data-toggle="modal" data-target="#loginModal">
                     登录
-                 </button>
-                <label class="right">Test</label>
+                 </button>-->
+                <button type="button" id="logBtn" class="btn btn-primary btn-sm right navBtn navBtn-sm" 
+                        data-toggle="modal" data-target="#loginModal">登录</button>
+                <span id="spanUserName"></span>
             </div>
         </div>
     </nav>
@@ -87,7 +91,7 @@
         </div>
     </div>
     <footer>
-        <p>Copyright © 2011-2014 Beijing Advanced Information and Control Co. Ltd. All Rights Reserved.</p>
+        <p>Copyright © 2011-2015 Beijing Advanced Information and Control Co. Ltd. All Rights Reserved.</p>
     </footer>
 
     <!--<div id="eqModal" class="modal fade" tabindex="-1" role="alertdialog" aria-labelledby="eqModalLabel">
@@ -120,19 +124,20 @@
                         <label class="login-label">
                             <span class="login-icon1"></span>
                         </label>
-                        <input type="text" class="login-input" value="http://192.168.0.3:6666/Services/AuthenticationService.svc/ajax" id="inputServerAddress" autocomplete="off" maxlength="100" />
+                        <input type="url" class="login-input" value="http://192.168.0.3:6666/Services/AuthenticationService.svc/ajax" 
+                               id="inputServerAddress" autocomplete="off" maxlength="100"  autofocus="autofocus" required="required" />
                     </div>
                     <div class="login-form-item">
                         <label class="login-label">
                             <span class="login-icon login-icon-user"></span>
                         </label>
-                        <input type="text" class="login-input" id="inputUserName" autocomplete="off" maxlength="100" placeholder="用户名" />
+                        <input type="text" class="login-input" id="inputUserName" autocomplete="off" maxlength="100" placeholder="用户名" required="required"  />
                     </div>
                     <div class="login-form-item">
                         <label class="login-label">
                             <span class="login-icon login-icon-pwd"></span>
                         </label>
-                        <input type="password" class="login-input" id="inputPwd"  autocomplete="off" maxlength="100" placeholder="密码" />
+                        <input type="password" class="login-input" id="inputPwd"  autocomplete="off" maxlength="100" placeholder="密码" required="required" />
                     </div>
                 </div>
                 <div class="modal-footer">

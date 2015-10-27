@@ -3,11 +3,11 @@ var OEEDemos;
 (function (OEEDemos) {
     var StartUp = (function () {
         function StartUp() {
+            this.viewModel = kendo.observable({});
         }
         StartUp.prototype.startUp = function () {
             this.initWidgets();
             this.initEventsBinding();
-            $("#loginModal").modal("show");
         };
         StartUp.prototype.registerTimeRangeListner = function (listner) {
             StartUp.Instance.timeRangeListner = StartUp.Instance.timeRangeListner || [];
@@ -22,6 +22,13 @@ var OEEDemos;
         };
         StartUp.prototype.deleteEquipNodeSelectListner = function (listner) {
             StartUp.Instance.equipNodeSelectListner.splice(StartUp.Instance.equipNodeSelectListner.indexOf(listner), 1);
+        };
+        StartUp.prototype.registerEquipNodeCheckListner = function (listner) {
+            StartUp.Instance.equipNodeCheckListner = StartUp.Instance.equipNodeCheckListner || [];
+            StartUp.Instance.equipNodeCheckListner.push(listner);
+        };
+        StartUp.prototype.deleteEquipNodeCheckListner = function (listner) {
+            StartUp.Instance.equipNodeCheckListner.splice(StartUp.Instance.equipNodeCheckListner.indexOf(listner), 1);
         };
         StartUp.prototype.initWidgets = function () {
             StartUp.Instance.nav = new OEEDemos.Navigations($("#nav-tree"), {
@@ -39,12 +46,10 @@ var OEEDemos;
                             listners[i](e, this);
                         }
                     }
-                },
-                checkboxes: {
-                    checkChildren: true
                 }
             });
-            StartUp.Instance.equipTree.setData([{ text: "Equipments Waiting......" }]);
+            StartUp.Instance.equipTree.setData([{ text: "Please Login!" }]);
+            StartUp.Instance.hideEquimentTree();
             var onNodeSelect = function (e, sender) {
                 var dataItem = sender.dataItem(e.node);
                 var currentModule = dataItem.moduleName;
@@ -61,6 +66,12 @@ var OEEDemos;
                 var instance = OEEDemos.ModuleLoad.getModuleInstance(currentModule);
                 if (typeof instance !== "undefined") {
                     instance.update();
+                    if (instance.needEquiptree) {
+                        StartUp.Instance.showEquipmentTree();
+                    }
+                    else {
+                        StartUp.Instance.hideEquimentTree();
+                    }
                 }
                 else {
                     OEEDemos.ModuleLoad.createModuleInstance({
@@ -69,6 +80,12 @@ var OEEDemos;
                         onInstantiated: function (instance, viewTemplate) {
                             var view = $(viewTemplate);
                             setTimeout(function () {
+                                if (instance.needEquiptree) {
+                                    StartUp.Instance.showEquipmentTree();
+                                }
+                                else {
+                                    StartUp.Instance.hideEquimentTree();
+                                }
                                 instance.init(view);
                                 //if (instance.needEquipCheck) {
                                 //    StartUp.Instance.equipTree.setStyle({
@@ -94,6 +111,7 @@ var OEEDemos;
                 format: "yyyy-MM-dd HH:mm",
                 timeFormat: "HH:mm"
             });
+            //kendo.bind($("body"), this.viewModel);
         };
         StartUp.prototype.initEventsBinding = function () {
             var nav = StartUp.Instance.nav;
@@ -101,18 +119,10 @@ var OEEDemos;
                 var serverAddress = $("#inputServerAddress").val();
                 var userName = $("#inputUserName").val();
                 var pwd = $("#inputPwd").val();
-                StartUp.Instance.login(serverAddress, userName, pwd);
-            });
-            $('#logoutBtn').on("click", function (e) {
-                var authCre = new ApplicationServices.AuthenticationServiceClient(StartUp.Instance.currentServer);
-                authCre.logoutAsync();
-                if (StartUp.currentInstanceName !== "" && typeof OEEDemos.ModuleLoad.getModuleInstance(StartUp.currentInstanceName) !== "undefined") {
-                    OEEDemos.ModuleLoad.getModuleInstance(StartUp.currentInstanceName).destory();
-                    $("#viewport").empty();
-                    nav.destory();
-                    StartUp.currentInstanceName = "";
-                    OEEDemos.ModuleLoad.clearAllModules();
+                if (serverAddress === "" || userName === "" || pwd === "") {
+                    return;
                 }
+                StartUp.Instance.login(serverAddress, userName, pwd);
             });
             $('#comfirmFunctionNav').on('click', function (e) {
                 if (typeof StartUp.Instance.timeRangeListner === "undefined") {
@@ -128,19 +138,42 @@ var OEEDemos;
                     }
                 }
             });
+            $(document).keydown(function (e) {
+                if (e.keyCode === 13 && $('#loginModal').hasClass("in")) {
+                    $('#loginConfirm').trigger('click');
+                }
+            });
+            this.showLoginModal();
         };
         //http://192.168.0.3:6666/Services/AuthenticationService.svc/ajax
         StartUp.prototype.login = function (serverAddress, userName, pwd) {
             var authCre = new ApplicationServices.AuthenticationServiceClient(serverAddress);
-            kendo.ui.progress($('#nav-tree'), true);
+            var credClient = new ApplicationServices.CredentialServiceClient("http://192.168.0.3:6666/Services/CredentialService.svc/ajax");
+            var roleClient = new ApplicationServices.RoleServiceClient("http://192.168.0.3:6666/Services/RoleService.svc/ajax");
+            kendo.ui.progress($('html'), true);
             authCre.logoutAsync();
             this.nav.setData([{
-                    text: "Loading"
+                    text: "Please Login!"
                 }]);
             this.currentServer = serverAddress;
             authCre.loginAsync(userName, pwd, '', true)
                 .then(function (value) {
                 if (value) {
+                    //credClient.getAllRolesAsync().then((userInfo: string[]) => {
+                    //    var a = 0;
+                    //    a++;
+                    //}, null);
+                    //credClient.getAllPermissionsAsync().then((userInfo: string[]) => {
+                    //    var a = 0;
+                    //    a++;
+                    //}, null);
+                    //credClient.getPermissionsInRoleAsync("Engineer").then((useinfo: string[]) => {
+                    //    var a = 0;
+                    //    a++;
+                    //}, function () {
+                    //    var a = 0;
+                    //    a++;
+                    //}); 
                     var serviceContext = new AicTech.PPA.DataModel.PPAEntities({
                         name: 'oData',
                         oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
@@ -151,10 +184,14 @@ var OEEDemos;
                             data.push(d[key]);
                         }
                         StartUp.Instance.nav.setData(OEEDemos.AppUtils.getTree(data, 0));
-                        kendo.ui.progress($("#nav-tree"), false);
-                        $("#loginModal").modal("hide");
+                        StartUp.Instance.hideLoginModal();
+                        $('#logBtn').removeClass('btn-primary').addClass('btn-danger').removeAttr("data-toggle").removeAttr("data-target");
+                        $('#logBtn').html("登出");
+                        $('#spanUserName').html(userName);
+                        $('#logBtn').on('click', function (e) {
+                            StartUp.Instance.logOut();
+                        });
                     });
-                    kendo.ui.progress($('#equipTree'), true);
                     serviceContext.PM_EQUIPMENT
                         .map(function (it) {
                         return {
@@ -165,19 +202,48 @@ var OEEDemos;
                     })
                         .toArray(function (data) {
                         StartUp.Instance.equipTree.setData(OEEDemos.AppUtils.getTree(data, '-'));
-                        kendo.ui.progress($("#equipTree"), false);
+                        StartUp.Instance.hideEquimentTree();
+                        kendo.ui.progress($("html"), false);
                     })
                         .fail(function (e) {
-                        kendo.ui.progress($("#equipTree"), false);
+                        alert(e.message);
+                        kendo.ui.progress($("html"), false);
                     });
-                    var cookies = document.cookie;
-                    var a = 0;
-                    a++;
                 }
             }, function () {
                 kendo.ui.progress($('#nav-tree'), false);
                 alert("Login failed!");
             });
+        };
+        StartUp.prototype.logOut = function () {
+            var authCre = new ApplicationServices.AuthenticationServiceClient(StartUp.Instance.currentServer);
+            authCre.logoutAsync();
+            if (StartUp.currentInstanceName !== "" && typeof OEEDemos.ModuleLoad.getModuleInstance(StartUp.currentInstanceName) !== "undefined") {
+                OEEDemos.ModuleLoad.getModuleInstance(StartUp.currentInstanceName).destory();
+                StartUp.currentInstanceName = "";
+                OEEDemos.ModuleLoad.clearAllModules();
+            }
+            $("#viewport").empty();
+            $('#logBtn').html('登录');
+            $('#logBtn').unbind('click');
+            $('#logBtn').removeClass('btn-danger').addClass('btn-primary').attr("data-toggle", "modal").attr("data-target", "#loginModal");
+            $('#spanUserName').html("");
+            StartUp.Instance.nav.setData([{ text: "Please Login!" }]);
+            StartUp.Instance.equipTree.setData([{ text: "Please Login!" }]);
+            StartUp.Instance.hideEquimentTree();
+            this.hideLoginModal();
+        };
+        StartUp.prototype.showLoginModal = function () {
+            $('#loginModal').modal('show');
+        };
+        StartUp.prototype.hideLoginModal = function () {
+            $('#loginModal').modal('hide');
+        };
+        StartUp.prototype.hideEquimentTree = function () {
+            $('#equip-tree').css("display", "none");
+        };
+        StartUp.prototype.showEquipmentTree = function () {
+            $('#equip-tree').css("display", "block");
         };
         StartUp.Instance = new StartUp();
         return StartUp;

@@ -4,21 +4,11 @@ module OEEDemos {
     export class AppUtils {
         constructor() {}
 
-        static getTree(data: any[], rootLevel: number|string/*, sort = false, sortFun = null*/): Object {
-            //if (sort) {
-            //    if (sortFun != null) {
-            //        data.sort(sortFun);
-            //    } else {
-            //        data.sort(function (d1, d2) {
-            //            if (d1.parent == d2.parent) {
-            //                return d1.id - d2.id;
-            //            } else {
-            //                return d1.parent - d2.parent;
-            //            }
-            //        });
-            //    }
-            //} 
-
+        /**
+         * 根据给定的data和根节点生成树形结构的对象
+         * data中数据项需要有独一无二的id和parentId
+         */
+        static getTree(data: any[], rootLevel: number|string): Object {
             var hash = [];
             for (var i = 0; i < data.length; i++) {
                 var item = data[i];
@@ -38,7 +28,7 @@ module OEEDemos {
             return hash[rootLevel];
         }
 
-        static cleanData(data: { items: [any] }) {
+        private static cleanData(data: { items: [any] }) {
             if (data.items.length > 0) {
                 data.items.forEach(function (item) {
                     AppUtils.cleanData(item);

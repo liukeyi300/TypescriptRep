@@ -654,7 +654,6 @@ declare module kendo.data {
         schema?: HierarchicalDataSourceSchema;
     }
 
-
     interface HierarchicalDataSourceSchema extends DataSourceSchemaWithOptionsModel {
         model?: HierarchicalDataSourceSchemaModel;
     }

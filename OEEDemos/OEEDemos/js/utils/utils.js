@@ -4,20 +4,11 @@ var OEEDemos;
     var AppUtils = (function () {
         function AppUtils() {
         }
-        AppUtils.getTree = function (data, rootLevel /*, sort = false, sortFun = null*/) {
-            //if (sort) {
-            //    if (sortFun != null) {
-            //        data.sort(sortFun);
-            //    } else {
-            //        data.sort(function (d1, d2) {
-            //            if (d1.parent == d2.parent) {
-            //                return d1.id - d2.id;
-            //            } else {
-            //                return d1.parent - d2.parent;
-            //            }
-            //        });
-            //    }
-            //} 
+        /**
+         * 根据给定的data和根节点生成树形结构的对象
+         * data中数据项需要有独一无二的id和parentId
+         */
+        AppUtils.getTree = function (data, rootLevel) {
             var hash = [];
             for (var i = 0; i < data.length; i++) {
                 var item = data[i];

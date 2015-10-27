@@ -1,9 +1,9 @@
 ﻿/// <reference path="reference.ts" />
 module OEEDemos {
     export class ModuleLoad {
-        private static instances:ModuleBase[] = [];                      //All instances 
-        private static modules = [];                       //All modules
-        private static loadedScripts = [];               //All scripts
+        private static instances:ModuleBase[] = [];                     //All instances 
+        private static modules = [];                                            //All modules
+        private static loadedScripts = [];                                    //All scripts
         constructor() { }
 
          /**

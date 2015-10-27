@@ -5,6 +5,7 @@ module OEEDemos {
             name: 'oData',
             oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
         });
+        needEquiptree = true;
         view: JQuery;
         viewModel= kendo.observable({
             columnChartsSeries: [{

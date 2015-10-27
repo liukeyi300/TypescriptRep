@@ -7,6 +7,7 @@ var OEEDemos;
                 name: 'oData',
                 oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
             });
+            this.needEquiptree = true;
             this.viewModel = kendo.observable({
                 columnChartsSeries: [{
                         id: "",

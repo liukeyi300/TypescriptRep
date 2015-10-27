@@ -7,7 +7,7 @@ module OEEDemos{
 
         viewModel = kendo.observable({
             treeDataSource: [{
-                text: "Waiting..."
+                text: "Please Login!"
             }]
         });
 
@@ -37,10 +37,12 @@ module OEEDemos{
         //}
 
         public destory() {
-            this.viewModel.set("treeDataSource", [{ text: "Waiting..." }]);
+            this.viewModel.set("treeDataSource", [{ text: "Please Login!" }]);
             var tree = this.view.data("kendoTreeView");
             kendo.unbind(this.view);
-            tree.destroy();
+            if (typeof tree !== "undefined") {
+                tree.destroy();
+            }
         }
     }
 

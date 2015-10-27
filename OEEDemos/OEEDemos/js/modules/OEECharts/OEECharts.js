@@ -7,6 +7,7 @@ var OEEDemos;
                 name: 'oData',
                 oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
             });
+            this.needEquiptree = true;
             this.viewModel = kendo.observable({
                 series: [{
                         oeeStartTime: 0,
@@ -90,7 +91,7 @@ var OEEDemos;
                 var startDate = this.startTime;
                 var endDate = this.endTime;
                 var currentEquipment = this.currentEquipment || "";
-                if (currentEquipment != "") {
+                if (currentEquipment !== "") {
                     if (typeof startDate === "undefined") {
                         startDate = new Date();
                         startDate.setDate(startDate.getDate() - 1);

@@ -27,11 +27,18 @@
     "baseUrl": "js/modules/DowntimeTimelineCharts/",
     "moduleName": "DowntimeTimelineCharts"
   },
-  "Configure": {
-    "text": "Configure",
+  "SystemConfiguration": {
+    "text": "SystemConfiguration",
     "id": 5,
     "parent": 0,
     "baseUrl": "",
-    "moduleName": "Configure"
+    "moduleName": "SystemConfiguration"
+  },
+  "UserConfiguration": {
+    "text": "UserConfiguration",
+    "id": 6,
+    "parent": 5,
+    "baseUrl": "js/modules/UserConfiguration/",
+    "moduleName": "UserConfiguration"
   }
 }
