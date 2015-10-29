@@ -241,9 +241,11 @@ var OEEDemos;
         };
         StartUp.prototype.hideEquimentTree = function () {
             $('#equip-tree').css("display", "none");
+            $('#viewport').css('width', "100%");
         };
         StartUp.prototype.showEquipmentTree = function () {
             $('#equip-tree').css("display", "block");
+            $('#viewport').css('width', "80%");
         };
         StartUp.Instance = new StartUp();
         return StartUp;

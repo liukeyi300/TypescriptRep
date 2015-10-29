@@ -311,10 +311,12 @@ module OEEDemos {
 
         private hideEquimentTree(): void {
             $('#equip-tree').css("display", "none");
+            $('#viewport').css('width', "100%");
         }
 
         private showEquipmentTree(): void {
             $('#equip-tree').css("display", "block");
+            $('#viewport').css('width', "80%");
         }
     }
     

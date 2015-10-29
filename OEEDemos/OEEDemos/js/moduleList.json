@@ -1,41 +1,41 @@
 ﻿{
   "OEE": {
-    "text": "OEEDisplay",
+    "text": "OEE效率统计",
     "id": 1,
     "parent": 0,
     "baseUrl": "",
     "moduleName": "OEEDisplay"
   },
   "OEECharts": {
-    "text": "OEECharts",
+    "text": "OEE数据",
     "id": 2,
     "parent": 1,
     "baseUrl": "js/modules/OEECharts/",
     "moduleName": "OEECharts"
   },
   "DowntimeColumnCharts": {
-    "text": "DowntimeColumnCharts",
+    "text": "设备停机时间统计",
     "id": 3,
     "parent": 1,
     "baseUrl": "js/modules/DowntimeColumnCharts/",
     "moduleName": "DowntimeColumnCharts"
   },
   "DowntimeTimelineCharts": {
-    "text": "DowntimeTimelineCharts",
+    "text": "设备停机时间甘特图",
     "id": 4,
     "parent": 1,
     "baseUrl": "js/modules/DowntimeTimelineCharts/",
     "moduleName": "DowntimeTimelineCharts"
   },
   "SystemConfiguration": {
-    "text": "SystemConfiguration",
+    "text": "系统管理",
     "id": 5,
     "parent": 0,
     "baseUrl": "",
     "moduleName": "SystemConfiguration"
   },
   "UserConfiguration": {
-    "text": "UserConfiguration",
+    "text": "用户管理",
     "id": 6,
     "parent": 5,
     "baseUrl": "js/modules/UserConfiguration/",
