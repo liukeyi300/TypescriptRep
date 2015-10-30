@@ -45,10 +45,18 @@
 
 .userConfigurationContainer ul {
     list-style:none;
+    padding:0;
 }
 
 .userConfigurationContainer ul li {
-    margin:5px 0;
+    margin:10px 0;
+    cursor:pointer;
+    height:30px;
+    line-height:30px;
+}
+
+.userConfigurationContainer ul li:not(.user-name-active):hover {
+    background-color:#bcb4b0 !important;
 }
 
 .cus-col-right {
@@ -73,10 +81,30 @@
     border-left:0;
 }
 
+.user-detail .row {
+    height:100%;
+    overflow:auto;
+}
+
+.user-detail .col-md-8 dl {
+    border-right:1px solid #C0C0C0;
+}
+
+.user-detail dl dt {
+    float:left;
+}
+
+.user-detail dl dd {
+    margin:15px 5px;
+}
+
 #function-area {
     height:50%;
-    padding-top:5px;
-    border:1px solid #C0C0C0;
+    padding:25px 0 0 5px;
+}
+
+#function-area > button {
+    margin-right:10px;
 }
 
 

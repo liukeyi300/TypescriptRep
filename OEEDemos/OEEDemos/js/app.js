@@ -167,6 +167,7 @@ var OEEDemos;
                     //    var a = 0;
                     //    a++;
                     //}, null);
+                    credClient.getAllUsersAsync;
                     //credClient.getPermissionsInRoleAsync("Engineer").then((useinfo: string[]) => {
                     //    var a = 0;
                     //    a++;

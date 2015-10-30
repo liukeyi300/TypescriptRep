@@ -2,18 +2,17 @@
     <h1>用户管理</h1>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3 col-xs-12 user-table div-adjust">
+            <div class="col-md-3 col-xs-4 user-table div-adjust">
                 <center>
                     <h3>用户列表</h3>
                 </center>
                 <hr class="hr-adjust" />
                 <div class="content-adjust">
-                    <ul>
-                        <li><a href="#">abc</a></li>
+                    <ul id="user-list-all">
                     </ul>
                 </div>
             </div>
-            <div class="col-md-8 col-md-offset-1 col-xs-12 cus-col-right">
+            <div class="col-md-8 col-md-offset-1 col-xs-8 cus-col-right">
                 <div class="row" id="user-info">
                     <div class="col-md-4 col-xs-6 role-info div-adjust">
                         <center>
@@ -21,15 +20,51 @@
                         </center>
                         <hr class="hr-adjust" />
                         <div class="content-adjust">
-                            <ul>
-                                <li><a href="#">abc</a></li>
+                            <ul id="role-list-user">
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-8 col-xs-6 user-detail"></div>
+                    <div class="col-md-8 col-xs-6 user-detail">
+                        <div class="row">
+                            <div class="col-md-8 col-xs-12">
+                                <dl>
+                                    <dt>用户名：</dt>
+                                    <dd data-bind="html:userInfo.UserName"></dd>
+                                    <dt>电子邮件：</dt>
+                                    <dd data-bind="html:userInfo.Email"></dd>
+                                    <dt>创建日期：</dt>
+                                    <dd data-bind="html:userInfo.CreationDate"></dd>
+                                    <dt>最近登录日期：</dt>
+                                    <dd data-bind="html:userInfo.LastLoginDate"></dd>
+                                    <dt>最近锁定日期：</dt>
+                                    <dd data-bind="html:userInfo.LastLockoutDate"></dd>
+                                    <dt>最近修改密码日期：</dt>
+                                    <dd data-bind="html:userInfo.LastPasswordChangedDate"></dd>
+                                    <dt>说明：</dt>
+                                    <dd data-bind="html:userInfo.Comment"></dd>
+                                </dl>
+                            </div>
+                            <div class="col-md-4 col-xs-12">
+                                <dl>
+                                    <dt>是否批准：</dt>
+                                    <dd data-bind="html:userInfo.IsApproved"></dd>
+                                    <dt>是否锁定：</dt>
+                                    <dd data-bind="html:userInfo.IsLockedOut"></dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row" id="function-area">
-
+                    <button class="btn btn-lg btn-info">创建用户</button>
+                    <button class="btn btn-lg btn-warning">解锁用户</button>
+                    <button class="btn btn-lg btn-danger">删除用户</button>
+                    <hr/>
+                    <button class="btn btn-lg btn-warning">修改密码</button>
+                    <button class="btn btn-lg btn-warning">重置密码</button>
+                    <hr/>
+                    <button class="btn btn-lg btn-info">添加角色</button>
+                    <button class="btn btn-lg btn-danger">删除角色</button>
                 </div>
             </div>
         </div>
