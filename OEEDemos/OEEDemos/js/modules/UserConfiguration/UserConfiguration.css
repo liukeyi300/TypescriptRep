@@ -1,6 +1,4 @@
 ﻿.userConfigurationContainer {
-    width:100%;
-    height:100%;
     padding:61px 0 0;
 }
 
@@ -8,18 +6,11 @@
      margin-bottom:0;
 }
 
-.div-adjust {
-    box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    -webkit-box-sizing:border-box;
-}
-
 .content-adjust {
-    height:100%;
     overflow:auto;
 }
 
-.div-adjust > center {
+.div-border-box > center {
     margin:-67px 0 0 !important;
 }
 
@@ -28,39 +19,50 @@
 }
 
 .userConfigurationContainer>.container-fluid {
-   height:100%;
    margin:11px 20px 0;
    overflow:auto;
 }
 
-.userConfigurationContainer > .container-fluid > .row {
-    height:100%;
-}
-
 .user-table {
-    height:100%;
     border:1px solid #C0C0C0;
     padding:67px 0 0;
 }
 
-.userConfigurationContainer ul {
+.userConfigurationContainer ul, #role-list-4add {
     list-style:none;
     padding:0;
 }
 
-.userConfigurationContainer ul li {
+.userConfigurationContainer ul li, #role-list-4add li {
     margin:10px 0;
     cursor:pointer;
     height:30px;
     line-height:30px;
 }
-
-.userConfigurationContainer ul li:not(.user-name-active):hover {
+ 
+.userConfigurationContainer ul li:not(.li-selected-active):hover,
+#role-list-4add li:not(.li-selected-active):hover {
     background-color:#bcb4b0 !important;
 }
 
-.cus-col-right {
-    height:100%;
+.userConfigurationContainer ul .li-selected-active,
+#role-list-4add .li-selected-active {
+    background-color:#f35800;
+}
+
+.userConfigurationContainer ul .li-selected-active b,
+#role-list-4add .li-selected-active b {
+    color:#FFFFFF;
+}
+
+.userConfigurationContainer ul .li-selected-non-active,
+#role-list-4add .li-selected-non-active {
+    background-color:#FFFFFF;
+}
+
+.userConfigurationContainer ul .li-selected-non-active b,
+#role-list-4add .li-selected-non-active b {
+    color:#000000; 
 }
 
 #user-info {
@@ -69,33 +71,32 @@
 }
 
 #user-info > .role-info {
-    height:100%;
     overflow:auto;
     border:1px solid #C0C0C0;
     padding:67px 0 0;
 }
 
 #user-info > .user-detail {
-    height:100%;
     border:1px solid #C0C0C0;
     border-left:0;
 }
 
 .user-detail .row {
-    height:100%;
     overflow:auto;
 }
 
 .user-detail .col-md-8 dl {
     border-right:1px solid #C0C0C0;
+    padding-right:15px;
 }
 
-.user-detail dl dt {
+#viewport dl dt {
     float:left;
 }
 
-.user-detail dl dd {
+#viewport dl dd {
     margin:15px 5px;
+    text-align:right;
 }
 
 #function-area {
@@ -107,6 +108,9 @@
     margin-right:10px;
 }
 
+.pwd-not-same {
+    border:1px solid red;
+}
 
 
 

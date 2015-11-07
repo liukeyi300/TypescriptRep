@@ -31,14 +31,6 @@ footer p {
     margin:15px 0;
 }
 
-.left {
-    float:left;
-}
-
-.right {
-    float:right;
-}
-
 #page-content {
     position:absolute;
     top:55px;

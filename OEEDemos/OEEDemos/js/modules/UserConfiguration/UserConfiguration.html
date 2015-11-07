@@ -1,31 +1,29 @@
-﻿<div class="userConfigurationContainer div-adjust">
+﻿<div class="userConfigurationContainer div-border-box full-height full-width">
     <h1>用户管理</h1>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3 col-xs-4 user-table div-adjust">
+    <div class="container-fluid full-height">
+        <div class="row full-height">
+            <div class="col-md-3 col-xs-4 user-table full-height div-border-box">
                 <center>
                     <h3>用户列表</h3>
                 </center>
                 <hr class="hr-adjust" />
-                <div class="content-adjust">
-                    <ul id="user-list-all">
-                    </ul>
+                <div class="content-adjust full-height">
+                    <ul id="user-list-all"></ul>
                 </div>
             </div>
-            <div class="col-md-8 col-md-offset-1 col-xs-8 cus-col-right">
+            <div class="col-md-8 col-md-offset-1 col-xs-8 full-height">
                 <div class="row" id="user-info">
-                    <div class="col-md-4 col-xs-6 role-info div-adjust">
+                    <div class="col-md-4 col-xs-6 role-info full-height div-border-box">
                         <center>
                             <h3>角色列表</h3>
                         </center>
                         <hr class="hr-adjust" />
-                        <div class="content-adjust">
-                            <ul id="role-list-user">
-                            </ul>
+                        <div class="content-adjust full-height">
+                            <ul id="role-list-user"></ul>
                         </div>
                     </div>
-                    <div class="col-md-8 col-xs-6 user-detail">
-                        <div class="row">
+                    <div class="col-md-8 col-xs-6 user-detail full-height">
+                        <div class="row full-height">
                             <div class="col-md-8 col-xs-12">
                                 <dl>
                                     <dt>用户名：</dt>
@@ -47,25 +45,117 @@
                             <div class="col-md-4 col-xs-12">
                                 <dl>
                                     <dt>是否批准：</dt>
-                                    <dd data-bind="html:userInfo.IsApproved"></dd>
+                                    <dd>
+                                        <input type="checkbox" data-bind="checked: userInfo.IsApproved" disabled />
+                                    </dd>
                                     <dt>是否锁定：</dt>
-                                    <dd data-bind="html:userInfo.IsLockedOut"></dd>
+                                    <dd>
+                                        <input type="checkbox" data-bind="checked: userInfo.IsLockedOut" disabled />
+                                    </dd>
                                 </dl>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row" id="function-area">
-                    <button class="btn btn-lg btn-info">创建用户</button>
-                    <button class="btn btn-lg btn-warning">解锁用户</button>
-                    <button class="btn btn-lg btn-danger">删除用户</button>
-                    <hr/>
-                    <button class="btn btn-lg btn-warning">修改密码</button>
-                    <button class="btn btn-lg btn-warning">重置密码</button>
-                    <hr/>
-                    <button class="btn btn-lg btn-info">添加角色</button>
-                    <button class="btn btn-lg btn-danger">删除角色</button>
+                    <button class="btn btn-lg btn-info" data-toggle="modal" data-target="#createUser">创建用户</button>
+                    <button class="btn btn-lg btn-warning" data-bind="click:unlockUser, enabled:userInfo.IsLockedOut " >解锁用户</button>
+                    <button class="btn btn-lg btn-danger" data-bind="click:deleteUser">删除用户</button>
+                    <hr />
+                    <button class="btn btn-lg btn-warning" data-toggle="modal" data-target="#changePwd">修改密码</button>
+                    <button class="btn btn-lg btn-warning" data-bind="click:resetPwd">重置密码</button>
+                    <hr />
+                    <button class="btn btn-lg btn-info" data-toggle="modal" data-target="#addRole">添加角色</button>
+                    <button class="btn btn-lg btn-danger" data-bind="click:deleteRole">删除角色</button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createUser" tabindex="-1" role="alertdialog" aria-labelledby="createUserLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" arial-label="Close"></button>
+                <h3 id="createUserLabel" class="modal-title">创建用户</h3>
+            </div>
+            <div class="modal-body">
+                <dl>
+                    <dt>用户名：</dt>
+                    <dd>
+                        <input type="text" data-bind="value:userName" placeholder="用户名"/>
+                    </dd>
+                    <dt>密码：</dt>
+                    <dd>
+                        <input type="password" id="user-pwd-txt" data-value-update="keyup" data-bind="value:userPwd" placeholder="密码" />
+                    </dd>
+                    <dt>确认密码：</dt>
+                    <dd>
+                        <input type="password" id="user-pwd-confirm" data-value-update="keyup" data-bind="value:userPwdConfirm" placeholder="确认密码"/>
+                    </dd>
+                    <dt>电子邮件：</dt>
+                    <dd>
+                        <input type="email" data-bind="value:userEmail" placeholder="123@abc.com"/>
+                    </dd>
+                    <dt>说明：</dt>
+                    <dd>
+                        <input type="text" data-bind="value:userComment" />
+                    </dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bind="click:createUser">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="changePwd" tabindex="-1" role="alertdialog" aria-labelledby="changePwdLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" arial-label="Close"></button>
+                <h3 id="changePwdLabel" class="modal-title">修改密码</h3>
+            </div>
+            <div class="modal-body">
+                <dl>
+                    <dt>用户原密码：</dt>
+                    <dd>
+                        <input type="password" data-bind="value:pwdFormer" placeholder="用户原密码" />
+                    </dd>
+                    <dt>密码：</dt>
+                    <dd>
+                        <input type="password" id="user-pwd-4change" data-value-update="keyup" data-bind="value:pwd4Change" placeholder="密码" />
+                    </dd>
+                    <dt>确认密码：</dt>
+                    <dd>
+                        <input type="password" id="user-pwd-confirm-4change" data-value-update="keyup" data-bind="value:pwd4ChangeConfirm" placeholder="确认密码" />
+                    </dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bind="click:changePwd">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addRole" tabindex="-1" role="alertdialog" aria-labelledby="addRoleLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" arial-label="Close"></button>
+                <h3 id="addRoleLabel" class="modal-title">添加角色</h3>
+            </div>
+            <div class="modal-body">
+                <ul id="role-list-4add"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bind="click:addRoleForUser">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>

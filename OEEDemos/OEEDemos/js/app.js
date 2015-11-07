@@ -87,17 +87,6 @@ var OEEDemos;
                                     StartUp.Instance.hideEquimentTree();
                                 }
                                 instance.init(view);
-                                //if (instance.needEquipCheck) {
-                                //    StartUp.Instance.equipTree.setStyle({
-                                //        checkboxes: {
-                                //            checkChildren: true
-                                //        }
-                                //    });
-                                //} else {
-                                //    StartUp.Instance.equipTree.setStyle({
-                                //        checkboxes: false
-                                //    });
-                                //}
                             }, 100);
                         }
                     });
@@ -122,7 +111,52 @@ var OEEDemos;
                 if (serverAddress === "" || userName === "" || pwd === "") {
                     return;
                 }
-                StartUp.Instance.login(serverAddress, userName, pwd);
+                kendo.ui.progress($('html'), true);
+                OEEDemos.AccountHelpUtils.login(serverAddress, userName, pwd, function (value) {
+                    if (value) {
+                        var serviceContext = new AicTech.PPA.DataModel.PPAEntities({
+                            name: 'oData',
+                            oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
+                        });
+                        $.getJSON("js/moduleList.json", null, function (d) {
+                            var data = [];
+                            for (var key in d) {
+                                data.push(d[key]);
+                            }
+                            StartUp.Instance.nav.setData(OEEDemos.AppUtils.getTree(data, 0));
+                            StartUp.Instance.hideLoginModal();
+                            $('#logBtn').removeClass('btn-primary').addClass('btn-danger').removeAttr("data-toggle").removeAttr("data-target");
+                            $('#logBtn').html("登出");
+                            $('#spanUserName').html(userName);
+                            $('#logBtn').on('click', function (e) {
+                                StartUp.Instance.logOut();
+                            });
+                        });
+                        serviceContext.PM_EQUIPMENT
+                            .map(function (it) {
+                            return {
+                                id: it.EQP_ID,
+                                parent: it.PARENT,
+                                text: it.NAME
+                            };
+                        })
+                            .toArray(function (data) {
+                            StartUp.Instance.equipTree.setData(OEEDemos.AppUtils.getTree(data, '-'));
+                            StartUp.Instance.hideEquimentTree();
+                            kendo.ui.progress($("html"), false);
+                        })
+                            .fail(function (e) {
+                            alert(e.message);
+                            kendo.ui.progress($("html"), false);
+                        });
+                    }
+                    else {
+                        alert("登录失败！");
+                    }
+                }, function () {
+                    kendo.ui.progress($('#nav-tree'), false);
+                    alert("登录失败！");
+                });
             });
             $('#comfirmFunctionNav').on('click', function (e) {
                 if (typeof StartUp.Instance.timeRangeListner === "undefined") {
@@ -145,80 +179,8 @@ var OEEDemos;
             });
             this.showLoginModal();
         };
-        //http://192.168.0.3:6666/Services/AuthenticationService.svc/ajax
-        StartUp.prototype.login = function (serverAddress, userName, pwd) {
-            var authCre = new ApplicationServices.AuthenticationServiceClient(serverAddress);
-            var credClient = new ApplicationServices.CredentialServiceClient("http://192.168.0.3:6666/Services/CredentialService.svc/ajax");
-            var roleClient = new ApplicationServices.RoleServiceClient("http://192.168.0.3:6666/Services/RoleService.svc/ajax");
-            kendo.ui.progress($('html'), true);
-            authCre.logoutAsync();
-            this.nav.setData([{
-                    text: "Please Login!"
-                }]);
-            this.currentServer = serverAddress;
-            authCre.loginAsync(userName, pwd, '', true)
-                .then(function (value) {
-                if (value) {
-                    //credClient.getAllRolesAsync().then((userInfo: string[]) => {
-                    //    var a = 0;
-                    //    a++;
-                    //}, null);
-                    //credClient.getAllPermissionsAsync().then((userInfo: string[]) => {
-                    //    var a = 0;
-                    //    a++;
-                    //}, null);
-                    credClient.getAllUsersAsync;
-                    //credClient.getPermissionsInRoleAsync("Engineer").then((useinfo: string[]) => {
-                    //    var a = 0;
-                    //    a++;
-                    //}, function () {
-                    //    var a = 0;
-                    //    a++;
-                    //}); 
-                    var serviceContext = new AicTech.PPA.DataModel.PPAEntities({
-                        name: 'oData',
-                        oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
-                    });
-                    $.getJSON("js/moduleList.json", null, function (d) {
-                        var data = [];
-                        for (var key in d) {
-                            data.push(d[key]);
-                        }
-                        StartUp.Instance.nav.setData(OEEDemos.AppUtils.getTree(data, 0));
-                        StartUp.Instance.hideLoginModal();
-                        $('#logBtn').removeClass('btn-primary').addClass('btn-danger').removeAttr("data-toggle").removeAttr("data-target");
-                        $('#logBtn').html("登出");
-                        $('#spanUserName').html(userName);
-                        $('#logBtn').on('click', function (e) {
-                            StartUp.Instance.logOut();
-                        });
-                    });
-                    serviceContext.PM_EQUIPMENT
-                        .map(function (it) {
-                        return {
-                            id: it.EQP_ID,
-                            parent: it.PARENT,
-                            text: it.NAME
-                        };
-                    })
-                        .toArray(function (data) {
-                        StartUp.Instance.equipTree.setData(OEEDemos.AppUtils.getTree(data, '-'));
-                        StartUp.Instance.hideEquimentTree();
-                        kendo.ui.progress($("html"), false);
-                    })
-                        .fail(function (e) {
-                        alert(e.message);
-                        kendo.ui.progress($("html"), false);
-                    });
-                }
-            }, function () {
-                kendo.ui.progress($('#nav-tree'), false);
-                alert("Login failed!");
-            });
-        };
         StartUp.prototype.logOut = function () {
-            var authCre = new ApplicationServices.AuthenticationServiceClient(StartUp.Instance.currentServer);
-            authCre.logoutAsync();
+            OEEDemos.AccountHelpUtils.logOut();
             if (StartUp.currentInstanceName !== "" && typeof OEEDemos.ModuleLoad.getModuleInstance(StartUp.currentInstanceName) !== "undefined") {
                 OEEDemos.ModuleLoad.getModuleInstance(StartUp.currentInstanceName).destory();
                 StartUp.currentInstanceName = "";

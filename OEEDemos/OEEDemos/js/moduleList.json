@@ -40,5 +40,12 @@
     "parent": 5,
     "baseUrl": "js/modules/UserConfiguration/",
     "moduleName": "UserConfiguration"
+  },
+  "RoleConfiguration": {
+    "text": "角色管理",
+    "id": 7,
+    "parent": 5,
+    "baseUrl": "js/modules/RoleConfiguration/",
+    "moduleName": "RoleConfiguration"
   }
 }

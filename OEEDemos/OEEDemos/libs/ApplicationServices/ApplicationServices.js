@@ -455,6 +455,12 @@ var ApplicationServices;
                 "userName": userName,
                 "oldPassword": oldPassword,
                 "newPassword": newPassword
+            }).then(function (value) {
+                if (typeof (value) == "boolean") {
+                    return (value);
+                } else {
+                    return false;
+                }
             });
         };
 

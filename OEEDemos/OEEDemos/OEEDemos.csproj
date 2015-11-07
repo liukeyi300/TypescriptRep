@@ -22,7 +22,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="css\adjustHeight.css" />
+    <Content Include="css\common.css" />
     <Content Include="css\app.css" />
     <Content Include="css\KendoUI\Default\editor.png" />
     <Content Include="css\KendoUI\Default\imagebrowser.png" />
@@ -90,6 +90,8 @@
     <Content Include="images\icons\36_36\red.png" />
     <Content Include="images\icons\icons.png" />
     <Content Include="index.html" />
+    <Content Include="js\modules\RoleConfiguration\RoleConfiguration.css" />
+    <Content Include="js\modules\RoleConfiguration\RoleConfiguration.html" />
     <Content Include="js\modules\UserConfiguration\UserConfiguration.css" />
     <Content Include="js\modules\UserConfiguration\UserConfiguration.html" />
     <Content Include="js\modules\DowntimeColumnCharts\DowntimeColumnCharts.css" />
@@ -115,7 +117,8 @@
     <Content Include="libs\JayData\jaydata.min.js" />
     <Content Include="libs\JayData\oDataProvider.js" />
     <Content Include="libs\JayData\oDataProvider.min.js" />
-    <Content Include="libs\JQuery\jquery.js" />
+    <Content Include="libs\JQuery\jquery-2.1.4.js" />
+    <Content Include="libs\JQuery\jquery-2.1.4.min.js" />
     <Content Include="libs\KendoUI\kendo.all.js" />
     <Content Include="libs\KendoUI\kendo.all.min.js" />
     <Content Include="libs\PPAEntity\PPAEntities.js" />
@@ -151,7 +154,6 @@
     <Content Include="libs\bootstrap-3.3.5-dist\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="libs\bootstrap-3.3.5-dist\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="libs\bootstrap-3.3.5-dist\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <Content Include="packages.config" />
     <Content Include="js\moduleList.json" />
     <Content Include="libs\visJS\CONTRIBUTING.md" />
@@ -160,6 +162,7 @@
     <Content Include="libs\visJS\LICENSE-MIT" />
     <Content Include="libs\visJS\NOTICE" />
     <Content Include="libs\visJS\README.md" />
+    <Content Include="libs\ApplicationServices\ApplicationServices.js.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -171,6 +174,7 @@
     <TypeScriptCompile Include="js\app.ts" />
     <TypeScriptCompile Include="js\moduleBase.ts" />
     <TypeScriptCompile Include="js\moduleLoad.ts" />
+    <TypeScriptCompile Include="js\modules\RoleConfiguration\RoleConfiguration.ts" />
     <TypeScriptCompile Include="js\modules\UserConfiguration\UserConfiguration.ts" />
     <TypeScriptCompile Include="js\modules\DowntimeColumnCharts\DowntimeColumnCharts.ts" />
     <TypeScriptCompile Include="js\modules\DowntimeTimelineCharts\DowntimeTimelineCharts.ts" />
@@ -180,20 +184,13 @@
     <TypeScriptCompile Include="js\utils\utils.ts" />
     <TypeScriptCompile Include="libs\ApplicationServices\ApplicationServices.d.ts" />
     <TypeScriptCompile Include="libs\JayData\jaydata.d.ts" />
-    <TypeScriptCompile Include="libs\JQuery\jquery.d.ts" />
     <TypeScriptCompile Include="libs\KendoUI\kendo.all.d.ts" />
     <TypeScriptCompile Include="libs\PPAEntity\PPAEntities.d.ts" />
     <TypeScriptCompile Include="libs\visJS\vis.d.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <TypeScriptCompile Include="libs\JQuery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
-    <Folder Include="obj\Debug\TempPE\" />
-    <Folder Include="obj\Release\TempPE\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

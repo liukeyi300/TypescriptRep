@@ -3,7 +3,7 @@
 declare module ApplicationServices {
     interface IPromise<T> extends JQueryPromise<T> {
     }
-    interface IDeferred<T> extends JQueryDeferred {
+    interface IDeferred<T> extends JQueryDeferred<T> {
     }
     class AsyncUtils {
         static createDeferred<T>(): IDeferred<T>;
@@ -70,7 +70,7 @@ declare module ApplicationServices {
         public getUserAsync(userName: string): IPromise<UserInfo>;
         public userExistsAsync(userName: string): IPromise<boolean>;
         public resetPasswordAsync(userName: string): IPromise<string>;
-        public changePasswordAsync(userName: string, oldPassword: string, newPassword: string): IPromise<any>;
+        public changePasswordAsync(userName: string, oldPassword: string, newPassword: string): IPromise<boolean>;
         public createRoleAsync(roleName: string): IPromise<any>;
         public deleteRoleAsync(roleName: string, throwOnPopulatedRole: boolean): IPromise<boolean>;
         public getRolesForUserAsync(username: string): IPromise<string[]>;
