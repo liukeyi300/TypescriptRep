@@ -2,30 +2,15 @@
     padding:61px 0 0;
 }
 
-.hr-adjust {
-     margin-bottom:0;
+.user-table {
+    border: 1px solid #C0C0C0;
+    padding: 67px 0 0;
 }
 
-.content-adjust {
-    overflow:auto;
-}
-
-.div-border-box > center {
-    margin:-67px 0 0 !important;
-}
-
-.userConfigurationContainer>h1 {
-    margin:-50px 0 0 !important;
-}
 
 .userConfigurationContainer>.container-fluid {
    margin:11px 20px 0;
    overflow:auto;
-}
-
-.user-table {
-    border:1px solid #C0C0C0;
-    padding:67px 0 0;
 }
 
 .userConfigurationContainer ul, #role-list-4add {
@@ -66,7 +51,7 @@
 }
 
 #user-info {
-    height:50%;
+    height:52%;
     padding-bottom:2px;
 }
 
@@ -100,7 +85,7 @@
 }
 
 #function-area {
-    height:50%;
+    height:48%;
     padding:25px 0 0 5px;
 }
 

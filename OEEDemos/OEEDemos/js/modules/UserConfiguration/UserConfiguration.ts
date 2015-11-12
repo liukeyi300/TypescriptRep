@@ -46,7 +46,7 @@ module OEEDemos {
                     credClient.createUserAsync(userName, userPwd, userEmail || "", userComment || "").then((value: ApplicationServices.UserCreateStatus) => {
                         if (value == ApplicationServices.UserCreateStatus.Success) {
                             alert("添加成功！");
-                            $('createUser').modal('hide');
+                            $('#create-user').modal('hide');
                             ModuleLoad.getModuleInstance('UserConfiguration').refreshAllUserList();
                         }
                     }, null).fail();
@@ -133,7 +133,7 @@ module OEEDemos {
                 AccountHelpUtils.credServiceClient.addUserToRolesAsync(userName, roles).then(function () {
                     ModuleLoad.getModuleInstance('UserConfiguration').refreshRoleList();
                     $('#addRole').modal('hide');
-                }, null);;
+                }, null);
             },
             deleteRole: function () {
                 var userName = this.get("userInfo.UserName");
@@ -178,7 +178,8 @@ module OEEDemos {
                             
                             li.removeClass('li-selected-non-active').addClass('li-selected-active');
                             li.parent().siblings('center').find('li').removeClass('li-selected-active').addClass("li-selected-non-active");
-                            
+
+                            kendo.ui.progress($('html'), true);
                             credClient.getRolesForUserAsync(userName).then((roles: string[]) => {
                                 var ul = $('#role-list-user');
                                 ul.empty();
@@ -202,8 +203,10 @@ module OEEDemos {
                                     });
                                 });
                                 $('#role-list-user li:first').trigger('click');
+                                kendo.ui.progress($('html'), false);
                             }, () => { })
                             .fail(() => { }).done(() => { });
+                            kendo.ui.progress($('html'), true);
                             credClient.getUserAsync(userName).then((user: ApplicationServices.UserInfo) => {
                                 crtInstance.viewModel.set("userInfo", {
                                     UserName: user.UserName,
@@ -216,14 +219,13 @@ module OEEDemos {
                                     IsApproved: user.IsApproved,
                                     Comment: user.Comment || "无",
                                 });
+                                kendo.ui.progress($('html'), false);
                             }, () => { })
                             .fail(() => { }).done(() => { });
                         });
                     });
                     $('#user-list-all li:first').trigger('click');
-                }, () => {
-
-                })
+                }, null)
                 .fail(() => { }).done(() => { kendo.ui.progress($('html'), false); });
         }
 
@@ -232,6 +234,9 @@ module OEEDemos {
             var userName = instant.viewModel.get('userInfo.UserName');
             var ul = $("#role-list-user");
             ul.empty();
+
+            kendo.ui.progress($('html'), true);
+
             AccountHelpUtils.credServiceClient.getRolesForUserAsync(userName).then(function (roles: string[]) {
                 roles.forEach((it: string) => {
                     var center = $('<center></center>');
@@ -253,6 +258,8 @@ module OEEDemos {
                     });
                 });
                 $('#role-list-user li:first').trigger('click');
+
+                kendo.ui.progress($('html'), false);
             }, null);
         }
 
@@ -281,6 +288,10 @@ module OEEDemos {
                 }
             });
 
+            $('#addRole').on('show.bs.modal', function (e) {
+                kendo.ui.progress($('#addRole'), true);
+            });
+
             $('#addRole').on('shown.bs.modal', function (e) {
                 var currentRoles = [];
                 var userName = ModuleLoad.getModuleInstance('UserConfiguration').viewModel.get('userInfo.UserName');
@@ -290,8 +301,9 @@ module OEEDemos {
                 }, null).then(function () {
                     AccountHelpUtils.credServiceClient.getAllRolesAsync().then(function (roles: string[]) {
                         var need2Add = [];
+                        var isExist = false;
                         for (var i = 0, max = roles.length; i < max; i++) {
-                            var isExist = false;
+                            isExist = false;
                             currentRoles.forEach((it) => {
                                 if (it === roles[i]) {
                                     isExist = true;
@@ -305,6 +317,7 @@ module OEEDemos {
 
                         if (need2Add.length === 0) {
                             alert("该用户已经拥有所有角色！");
+                            kendo.ui.progress($('#addRole'), false);
                             $('#addRole').modal('hide');
                         } else {
                             need2Add.forEach((it) => {
@@ -324,6 +337,8 @@ module OEEDemos {
                                 });
                             });
                         }
+
+                        kendo.ui.progress($('#addRole'), false);
                     }, null);
                 }, null);
             });
@@ -334,7 +349,10 @@ module OEEDemos {
         }
 
         private unbindEvents(): void{
-
+            this.viewModel.unbind('change');
+            $('#addRole').unbind('show.bs.modal');
+            $('#addRole').unbind('shown.bs.modal');
+            $('#addRole').unbind('hidden.bs.modal');
         }
 
         init(view: JQuery): void {

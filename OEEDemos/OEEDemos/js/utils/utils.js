@@ -24,6 +24,31 @@ var OEEDemos;
             });
             return hash[rootLevel];
         };
+        /**
+         * 根据树形data获取树的深度
+         */
+        AppUtils.getTreeDepth = function (data) {
+            var current = [];
+            var dataLength = data.length;
+            var curLength = data[dataLength - 1].length;
+            for (var i = 0; i < curLength; i++) {
+                if (typeof data[dataLength - 1][i].items !== 'undefined') {
+                    for (var j = 0, max = data[dataLength - 1][i].items.length; j < max; j++) {
+                        current.push(data[dataLength - 1][i].items[j]);
+                    }
+                }
+            }
+            if (current.length > 0) {
+                var a = [];
+                data.push(a);
+                dataLength++;
+                for (var i = 0, length = current.length; i < length; i++) {
+                    data[dataLength - 1].push(current[i]);
+                }
+                AppUtils.getTreeDepth(data);
+            }
+            return data.length;
+        };
         AppUtils.cleanData = function (data) {
             if (data.items.length > 0) {
                 data.items.forEach(function (item) {

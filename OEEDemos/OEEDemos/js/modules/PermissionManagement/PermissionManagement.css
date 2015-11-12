@@ -1,0 +1,63 @@
+﻿.permission-container {
+    padding:61px 0 0;
+}
+
+.permission-container>.container-fluid {
+   margin:11px 20px 0;
+   overflow:auto;
+}
+
+#role-list-all {
+    list-style:none;
+    padding:0;
+}
+
+#role-list-all li {
+    margin:10px 0;
+    cursor:pointer;
+    height:30px;
+    line-height:30px;
+}
+ 
+#role-list-all li:not(.li-selected-active):hover {
+    background-color:#bcb4b0 !important;
+}
+
+#role-list-all .li-selected-active {
+    background-color:#f35800;
+}
+
+#role-list-all .li-selected-active b {
+    color:#FFFFFF;
+}
+
+#role-list-all .li-selected-non-active {
+    background-color:#FFFFFF;
+}
+
+#role-list-all .li-selected-non-active b {
+    color:#000000; 
+}
+
+.function-area button {
+    display:block;
+    margin-top:20px;
+}
+
+.permission-table {
+    border: 1px solid #C0C0C0;
+    padding: 67px 0 0;
+}
+
+.role-table {
+    border: 1px solid #C0C0C0;
+    padding: 67px 0 0;
+}
+
+#permission-list {
+    padding-left:20px;
+}
+
+#permission-list > ul {
+    margin-top:10px;
+}

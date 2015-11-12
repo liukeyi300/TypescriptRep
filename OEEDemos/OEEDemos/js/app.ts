@@ -141,29 +141,69 @@ module OEEDemos {
                 if (serverAddress === "" || userName === "" || pwd === "") {
                     return;
                 }
-                kendo.ui.progress($('html'), true);
+                kendo.ui.progress($('#loginModal'), true);
                 AccountHelpUtils.login(serverAddress, userName, pwd, function (value: boolean) {
                         if (value) {
                             var serviceContext = new AicTech.PPA.DataModel.PPAEntities({
                                 name: 'oData',
                                 oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
                             });
-
-                            $.getJSON("js/moduleList.json", null, function (d) {
-                                var data = [];
-                                for (var key in d) {
-                                    data.push(d[key]);
+                            var roles = [];
+                            var allPermissions = [];
+                            AccountHelpUtils.roleServiceClient.getRolesForCurrentUserAsync().then((roless: string[]) => {
+                                roles = roless;
+                            }, null).then(function () {
+                                if (roles.indexOf('Administrator') >= 0) {
+                                    $.getJSON("js/moduleList.json", null, function (d) {
+                                        var data = [];
+                                        for (var key in d) {
+                                            data.push(d[key]);
+                                        }
+                                        StartUp.Instance.nav.setData(AppUtils.getTree(data, 0));
+                                        StartUp.Instance.hideLoginModal();
+                                        $('#logBtn').removeClass('btn-primary').addClass('btn-danger').removeAttr("data-toggle").removeAttr("data-target");
+                                        $('#logBtn').html("登出");
+                                        $('#spanUserName').html(userName);
+                                        $('#logBtn').on('click', function (e) {
+                                            StartUp.Instance.logOut();
+                                        });
+                                    });
+                                } else {
+                                    roles.forEach((role) => {
+                                        if (roles.indexOf(role) === roles.length - 1) {
+                                            AccountHelpUtils.credServiceClient.getPermissionsInRoleAsync(role).then((permissions) => {
+                                                permissions.forEach((per) => {
+                                                    allPermissions.push(per);
+                                                })
+                                            }, null).then(function () {
+                                                $.getJSON("js/moduleList.json", null, function (d) {
+                                                    var data = [];
+                                                    for (var key in d) {
+                                                        if (allPermissions.indexOf("Page_" + d[key].moduleName) >= 0) {
+                                                            data.push(d[key]);
+                                                        }
+                                                    }
+                                                    StartUp.Instance.nav.setData(AppUtils.getTree(data, 0));
+                                                    StartUp.Instance.hideLoginModal();
+                                                    $('#logBtn').removeClass('btn-primary').addClass('btn-danger').removeAttr("data-toggle").removeAttr("data-target");
+                                                    $('#logBtn').html("登出");
+                                                    $('#spanUserName').html(userName);
+                                                    $('#logBtn').on('click', function (e) {
+                                                        StartUp.Instance.logOut();
+                                                    });
+                                                });
+                                            }, null);
+                                        } else {
+                                            AccountHelpUtils.credServiceClient.getPermissionsInRoleAsync(role).then((permissions) => {
+                                                permissions.forEach((per) => {
+                                                    allPermissions.push(per);
+                                                })
+                                            }, null);
+                                        }
+                                    });
                                 }
-                                StartUp.Instance.nav.setData(AppUtils.getTree(data, 0));
-                                StartUp.Instance.hideLoginModal();
-                                $('#logBtn').removeClass('btn-primary').addClass('btn-danger').removeAttr("data-toggle").removeAttr("data-target");
-                                $('#logBtn').html("登出");
-                                $('#spanUserName').html(userName);
-                                $('#logBtn').on('click', function (e) {
-                                    StartUp.Instance.logOut();
-                                });
-                            });
-
+                            }, null);
+                           
                             serviceContext.PM_EQUIPMENT
                                 .map((it) => {
                                     return {
@@ -175,18 +215,19 @@ module OEEDemos {
                                 .toArray(function (data) {
                                     StartUp.Instance.equipTree.setData(AppUtils.getTree(data, '-'));
                                     StartUp.Instance.hideEquimentTree();
-                                    kendo.ui.progress($("html"), false);
+                                    kendo.ui.progress($("loginModal"), false);
                                 })
                                 .fail(function (e: { message: string }) {
                                     alert(e.message);
-                                    kendo.ui.progress($("html"), false);
+                                    kendo.ui.progress($("loginModal"), false);
                                 });
                         } else {
                             alert("登录失败！");
+                            kendo.ui.progress($('#loginModal'), false);
                         }
                     },
                     function () {
-                        kendo.ui.progress($('#nav-tree'), false);
+                        kendo.ui.progress($('#loginModal'), false);
                         alert("登录失败！");
                     });
             });
@@ -213,6 +254,10 @@ module OEEDemos {
             });
 
             this.showLoginModal();
+
+            $('#loginModal').on('shown.bs.modal', function (e) {
+                kendo.ui.progress($('html'), false);
+            });
         }
 
         private logOut(): void {

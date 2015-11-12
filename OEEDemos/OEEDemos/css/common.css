@@ -19,3 +19,19 @@
     -moz-box-sizing:border-box;
     -webkit-box-sizing:border-box;
 }
+
+.div-border-box > center {
+    margin:-67px 0 0;
+}
+
+.div-border-box>h1 {
+    margin:-50px 0 0 !important;
+}
+
+.hr-adjust {
+     margin-bottom:0;
+}
+
+.content-adjust {
+    overflow:auto;
+}

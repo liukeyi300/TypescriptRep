@@ -19,8 +19,8 @@
     <link rel="stylesheet" href="libs/visJS/vis.min.css" type="text/css" />
     <!--<link rel="stylesheet" href="css/KendoUI/kendo.mobile.all.min.css" type="text/css" />-->
    
-    <link rel="stylesheet" href="css/app.css" type="text/css" />
     <link rel="stylesheet" href="css/common.css" type="text/css" />
+    <link rel="stylesheet" href="css/app.css" type="text/css" />
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -39,17 +39,17 @@
                  </button>-->
                 <button type="button" id="logBtn" class="btn btn-primary btn-sm right navBtn navBtn-sm" 
                         data-toggle="modal" data-target="#loginModal">登录</button>
-                <span id="spanUserName"></span>
+                <span id="spanUserName" class="right"></span>
             </div>
         </div>
     </nav>
-    <div id="page-content">
-        <div id="navigation" class="left">
+    <div id="page-content" class="full-width">
+        <div id="navigation" class="left full-height">
             <div id="nav-tree"></div>
         </div>
-        <div id="content" class="right">
-            <div class="function-nav">
-                <form class="form-inline">
+        <div id="content" class="right full-height">
+            <div class="function-nav full-width">
+                <form class="form-inline full-height full-width">
                     <div class="form-group">
                         <label for="startTimeSelect">选择日期：</label>
                         <input type="text" value="" id="startTimeSelect" class="form-control" />
@@ -66,13 +66,13 @@
                     </div>-->
                 </form>
             </div>
-            <div id="equip-viewport">
-                <div id="equip-tree" class="left"></div>
-                <div id="viewport" class="right"></div>
+            <div id="equip-viewport" class="full-height full-width">
+                <div id="equip-tree" class="left full-height"></div>
+                <div id="viewport" class="right full-height"></div>
             </div>
         </div>
     </div>
-    <footer>
+    <footer class="full-width">
         <p>Copyright © 2011-2015 Beijing Advanced Information and Control Co. Ltd. All Rights Reserved.</p>
     </footer>
 
@@ -132,7 +132,7 @@
 
     <script src="libs/JQuery/jquery-2.1.4.min.js"></script>
     <script src="libs/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
-    <script src="libs/KendoUI/kendo.all.min.js"></script>
+    <script src="libs/KendoUI/kendo.all.js"></script>
     <script src="libs/visJS/vis.min.js"></script>
     <!--<script src="libs/ECharts/echarts-all.js"></script>-->
 

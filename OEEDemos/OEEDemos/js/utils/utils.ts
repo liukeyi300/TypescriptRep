@@ -5,7 +5,7 @@ module OEEDemos {
     }
 
     export class AppUtils {
-        constructor() {}
+        constructor() { }
 
         /**
          * 根据给定的data和根节点生成树形结构的对象
@@ -29,6 +29,33 @@ module OEEDemos {
                 AppUtils.cleanData(d);
             });
             return hash[rootLevel];
+        }
+
+        /**
+         * 根据树形data获取树的深度
+         */
+        static getTreeDepth(data: any[]): number {
+            var current = [];
+            var dataLength = data.length;
+            var curLength = data[dataLength - 1].length;
+            for (var i = 0; i < curLength; i++) {
+                if (typeof data[dataLength - 1][i].items !== 'undefined') {
+                    for (var j = 0, max = data[dataLength - 1][i].items.length; j < max; j++) {
+                        current.push(data[dataLength - 1][i].items[j]);
+                    }
+                }
+            }
+
+            if (current.length > 0) {
+                var a = [];
+                data.push(a);
+                dataLength++;
+                for (var i = 0, length = current.length; i < length; i++) {
+                    data[dataLength - 1].push(current[i]);
+                }
+                AppUtils.getTreeDepth(data);
+            } 
+            return data.length;
         }
 
         private static cleanData(data: { items: [any] }) {
