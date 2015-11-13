@@ -7,7 +7,7 @@ module OEEDemos{
 
         viewModel = kendo.observable({
             treeDataSource: [{
-                text: "Please Login!"
+                text: "等待中，请稍后。。。"
             }]
         });
 

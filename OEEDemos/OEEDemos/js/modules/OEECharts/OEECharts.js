@@ -92,20 +92,17 @@ var OEEDemos;
                 var endDate = this.endTime;
                 var currentEquipment = this.currentEquipment || "";
                 if (currentEquipment !== "") {
-                    if (typeof startDate === "undefined") {
-                        startDate = new Date();
-                        startDate.setDate(startDate.getDate() - 1);
-                    }
-                    if (typeof endDate === "undefined") {
-                        endDate = new Date();
-                    }
+                    var day = new Date();
+                    day.setDate(day.getDate() - 1);
+                    var start = this.startTime || day;
+                    var end = this.endTime || new Date();
                     kendo.ui.progress($("#oeeChart"), true);
                     this.ppaServiceContext.PPA_OEE_SUMMARY
                         .filter(function (items) {
                         return (items.PER_START_TIME >= this.startDate && items.PER_START_TIME < this.endDate
                             && items.EQP_ID === this.equid);
                     }, {
-                        startDate: startDate, endDate: endDate,
+                        startDate: start, endDate: end,
                         equid: currentEquipment
                     })
                         .map(function (it) {

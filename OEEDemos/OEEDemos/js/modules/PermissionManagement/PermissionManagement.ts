@@ -229,7 +229,7 @@ module OEEDemos {
         init(view: JQuery): void {
             this.view = view;
             $('#viewport').append(this.view);
-            kendo.bind(this.view, this.viewModel);
+            kendo.bind(this.view.find(".function-area"), this.viewModel);
             //this.bindEvents();
             this.initWidget();
             this.refreshRoleList();
@@ -237,15 +237,15 @@ module OEEDemos {
 
         update(): void {
             $('#viewport').append(this.view);
-            kendo.bind(this.view, this.viewModel);
-            //this.bindEvents();
+            kendo.bind(this.view.find(".function-area"), this.viewModel);
             this.initWidget();
+            //this.bindEvents();
             this.refreshRoleList();
         }
 
         destory(): void {
             var treeView = $('#permission-list').data('kendoTreeView');
-            kendo.unbind(this.view);
+            kendo.unbind(this.view.find(".function-area"));
             this.permissionList.destory();
             $('#permission-list').empty();
             //this.unbindEvents();
