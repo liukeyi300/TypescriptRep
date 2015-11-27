@@ -4,14 +4,22 @@ module OEEDemos {
     interface IPromise<T> extends JQueryPromise<T> {
     }
 
+    interface Dictionary {
+        [index: string]: string;
+        length: string;
+    }
+
     export class AppUtils {
+        static EquimentsName: Dictionary = {
+            length:"0"
+        };
         constructor() { }
 
         /**
          * 根据给定的data和根节点生成树形结构的对象
          * data中数据项需要有独一无二的id和parentId
          */
-        static getTree(data: any[], rootLevel: number|string): Object {
+        static getTree(data: any[], rootLevel: number|string, notNeedClean = false): Object {
             var hash = [];
             for (var i = 0; i < data.length; i++) {
                 var item = data[i];
@@ -24,10 +32,11 @@ module OEEDemos {
                 item.items = hash[id];
                 hash[parentId].push(item);
             }
-
-            hash[rootLevel].forEach(function (d) {
-                AppUtils.cleanData(d);
-            });
+            if (!notNeedClean) {
+                hash[rootLevel].forEach(function (d) {
+                    AppUtils.cleanData(d);
+                });
+            }
             return hash[rootLevel];
         }
 
@@ -35,12 +44,15 @@ module OEEDemos {
          * 根据树形data获取树的深度
          */
         static getTreeDepth(data: any[]): number {
-            var current = [];
-            var dataLength = data.length;
-            var curLength = data[dataLength - 1].length;
-            for (var i = 0; i < curLength; i++) {
+            var current = [],
+                dataLength = data.length,
+                curLength = data[data.length - 1].length,
+                i,
+                j,
+                max;
+            for (i = 0; i < curLength; i++) {
                 if (typeof data[dataLength - 1][i].items !== 'undefined') {
-                    for (var j = 0, max = data[dataLength - 1][i].items.length; j < max; j++) {
+                    for (j = 0, max = data[dataLength - 1][i].items.length; j < max; j++) {
                         current.push(data[dataLength - 1][i].items[j]);
                     }
                 }
@@ -50,12 +62,69 @@ module OEEDemos {
                 var a = [];
                 data.push(a);
                 dataLength++;
-                for (var i = 0, length = current.length; i < length; i++) {
+                for (i = 0, length = current.length; i < length; i++) {
                     data[dataLength - 1].push(current[i]);
                 }
                 AppUtils.getTreeDepth(data);
             } 
             return data.length;
+        }
+
+        static expandTreeNode(curNode: number | string, successCallback: (data: any[]) => void, failCallback: (e: any) => void): void {
+            var ppaEntities = new AicTech.PPA.DataModel.PPAEntities({
+                name:"oData",
+                oDataServiceHost:AccountHelpUtils.serviceAddress + AccountHelpUtils.ppaEntitiesDataRoot
+            });
+            if (curNode === "null") {
+                ppaEntities.PM_EQUIPMENT
+                    .filter(function (it) {
+                        return it.MASTER_NO == null;
+                    })
+                    .map((it) => {
+                        return {
+                            id: it.EQP_NO,
+                            parent: it.MASTER_NO,
+                            text: it.EQP_NAME
+                        }
+                    })
+                    .toArray(function (data) {
+                        successCallback(data);
+                        data.forEach((it) => {
+                            AppUtils.EquimentsName[it.id + ""] = it.text;
+                            var length = parseInt(AppUtils.EquimentsName.length);
+                            length++;
+                            AppUtils.EquimentsName.length = length + "";
+                        });
+                    })
+                    .fail(function (e) {
+                        failCallback(e);
+                    });
+            } else {
+                ppaEntities.PM_EQUIPMENT
+                    .filter(function (it) {
+                        return it.MASTER_NO == this.eqpNo;
+                    }, { eqpNo: curNode })
+                    .map((it) => {
+                        return {
+                            id: it.EQP_NO,
+                            parent: it.MASTER_NO,
+                            text: it.EQP_NAME,
+                            items:[]
+                        }
+                    })
+                    .toArray(function (data) {
+                        successCallback(data);
+                        data.forEach((it) => {
+                            AppUtils.EquimentsName[it.id + ""] = it.text;
+                            var length = parseInt(AppUtils.EquimentsName.length);
+                            length++;
+                            AppUtils.EquimentsName.length = length + "";
+                        });
+                    })
+                    .fail(function (e) {
+                        failCallback(e);
+                    });
+            }
         }
 
         private static cleanData(data: { items: [any] }) {
@@ -67,6 +136,8 @@ module OEEDemos {
                 delete data.items;
             }
         }
+
+
     }
 
     export class DateUtils {
@@ -118,11 +189,12 @@ module OEEDemos {
         public static authServiceClient: ApplicationServices.AuthenticationServiceClient;
         public static credServiceClient: ApplicationServices.CredentialServiceClient;
         public static roleServiceClient: ApplicationServices.RoleServiceClient;
+        public static ppaEntitiesDataRoot = "/Services/PPAEntitiesDataService.svc"
 
         private static authServiceRoot = "/Services/AuthenticationService.svc/ajax";
         private static credServiceRoot = "/Services/CredentialService.svc/ajax";
         private static roleServiceRoot = "/Services/RoleService.svc/ajax";
-
+        
         /**
          * 登录
          */

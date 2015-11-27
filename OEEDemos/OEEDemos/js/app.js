@@ -46,9 +46,31 @@ var OEEDemos;
                             listners[i](e, this);
                         }
                     }
+                },
+                expand: function (e) {
+                    var li = $(e.node);
+                    var isExpanded = li.data('expanded');
+                    if (isExpanded) {
+                        return;
+                    }
+                    var eqpId = this.dataItem(e.node).id;
+                    var tree = this;
+                    li.data('expanded', true);
+                    kendo.ui.progress(li, true);
+                    OEEDemos.AppUtils.expandTreeNode(eqpId, function (data) {
+                        if (data.length === 0) {
+                            StartUp.Instance.equipTree.getTree().dataItem(li).set('items', null);
+                            kendo.ui.progress(li, false);
+                            return;
+                        }
+                        StartUp.Instance.equipTree.getTree().append(data, $(e.node));
+                        kendo.ui.progress(li, false);
+                    }, function (e) {
+                        alert(e.message);
+                        kendo.ui.progress(li, false);
+                    });
                 }
             });
-            StartUp.Instance.equipTree.setData([{ text: "Please Login!" }]);
             StartUp.Instance.hideEquimentTree();
             var onNodeSelect = function (e, sender) {
                 var dataItem = sender.dataItem(e.node);
@@ -175,20 +197,11 @@ var OEEDemos;
                                 });
                             }
                         }, null);
-                        serviceContext.PM_EQUIPMENT
-                            .map(function (it) {
-                            return {
-                                id: it.EQP_ID,
-                                parent: it.PARENT,
-                                text: it.NAME
-                            };
-                        })
-                            .toArray(function (data) {
-                            StartUp.Instance.equipTree.setData(OEEDemos.AppUtils.getTree(data, '-'));
+                        OEEDemos.AppUtils.expandTreeNode("null", function (data) {
+                            StartUp.Instance.equipTree.setData(OEEDemos.AppUtils.getTree(data, 'null', true));
                             StartUp.Instance.hideEquimentTree();
-                            kendo.ui.progress($("loginModal"), false);
-                        })
-                            .fail(function (e) {
+                            kendo.ui.progress($('loginModal'), false);
+                        }, function (e) {
                             alert(e.message);
                             kendo.ui.progress($("loginModal"), false);
                         });
@@ -250,12 +263,12 @@ var OEEDemos;
             $('#loginModal').modal('hide');
         };
         StartUp.prototype.hideEquimentTree = function () {
-            $('#equip-tree').css("display", "none");
-            $('#viewport').css('width', "100%");
+            $('#equip-container').css("display", "none");
+            $('#viewport').removeClass("col-md-9").addClass('col-md-12');
         };
         StartUp.prototype.showEquipmentTree = function () {
-            $('#equip-tree').css("display", "block");
-            $('#viewport').css('width', "80%");
+            $('#equip-container').css("display", "block");
+            $('#viewport').removeClass("col-md-12").addClass('col-md-9');
         };
         StartUp.Instance = new StartUp();
         return StartUp;

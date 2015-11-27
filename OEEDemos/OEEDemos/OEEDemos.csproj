@@ -90,6 +90,8 @@
     <Content Include="images\icons\36_36\red.png" />
     <Content Include="images\icons\icons.png" />
     <Content Include="index.html" />
+    <Content Include="js\modules\DownTimePieCharts\DownTimePieCharts.css" />
+    <Content Include="js\modules\DownTimePieCharts\DownTimePieCharts.html" />
     <Content Include="js\modules\PermissionManagement\PermissionManagement.css" />
     <Content Include="js\modules\PermissionManagement\PermissionManagement.html" />
     <Content Include="js\modules\RoleConfiguration\RoleConfiguration.css" />
@@ -176,6 +178,7 @@
     <TypeScriptCompile Include="js\app.ts" />
     <TypeScriptCompile Include="js\moduleBase.ts" />
     <TypeScriptCompile Include="js\moduleLoad.ts" />
+    <TypeScriptCompile Include="js\modules\DownTimePieCharts\DownTimePieCharts.ts" />
     <TypeScriptCompile Include="js\modules\PermissionManagement\PermissionManagement.ts" />
     <TypeScriptCompile Include="js\modules\RoleConfiguration\RoleConfiguration.ts" />
     <TypeScriptCompile Include="js\modules\UserConfiguration\UserConfiguration.ts" />

@@ -7,14 +7,50 @@
 
 
 declare module PPAModel {
-  export class MD_CALCUALTION extends $data.Entity {
+  export class EXT_PP_POS extends $data.Entity {
     constructor();
-    constructor(initData: { CALC_ID?: string; NAME?: string; TYPE?: string; DESCRIPTION?: string; PROGRAM?: string; });
+    constructor(initData: { PPS_NO?: string; PP_NO?: string; POS?: number; PO_ID?: string; EXT_MAT_ID?: string; DEF_ID?: string; UOM_ID?: string; QUANTITY?: string; EXT_PRD_PLAN?: PPAModel.EXT_PRD_PLAN; });
+    PPS_NO: string;
+    PP_NO: string;
+    POS: number;
+    PO_ID: string;
+    EXT_MAT_ID: string;
+    DEF_ID: string;
+    UOM_ID: string;
+    QUANTITY: string;
+    EXT_PRD_PLAN: PPAModel.EXT_PRD_PLAN;
+    
+  }
+  
+  export class EXT_PRD_PLAN extends $data.Entity {
+    constructor();
+    constructor(initData: { PP_NO?: string; EXT_PP_ID?: string; SH_NO?: string; EXT_PP_POS?: PPAModel.EXT_PP_POS[]; });
+    PP_NO: string;
+    EXT_PP_ID: string;
+    SH_NO: string;
+    EXT_PP_POS: PPAModel.EXT_PP_POS[];
+    
+  }
+  
+  export class MD_CALCULATION extends $data.Entity {
+    constructor();
+    constructor(initData: { CALC_ID?: string; NAME?: string; TYPE?: string; DESCRIPTION?: string; });
     CALC_ID: string;
     NAME: string;
     TYPE: string;
     DESCRIPTION: string;
-    PROGRAM: string;
+    
+  }
+  
+  export class MD_CONFIGURATION extends $data.Entity {
+    constructor();
+    constructor(initData: { CFG_ID?: string; CFG_TYPE?: string; CFG_NAME?: string; OBJ_TYPE?: string; OBJ_NO?: string; CFG_VALUE?: string; });
+    CFG_ID: string;
+    CFG_TYPE: string;
+    CFG_NAME: string;
+    OBJ_TYPE: string;
+    OBJ_NO: string;
+    CFG_VALUE: string;
     
   }
   
@@ -44,51 +80,23 @@ declare module PPAModel {
   
   export class MD_DT_CAUSE extends $data.Entity {
     constructor();
-    constructor(initData: { DT_CAU_ID?: string; NAME?: string; DT_CLS_ID?: string; TYPE?: string; DESCRIPTION?: string; MD_DT_CLASSE?: PPAModel.MD_DT_CLASSE; });
+    constructor(initData: { DT_CAU_ID?: string; NAME?: string; DT_CLS_ID?: string; TYPE?: string; DESCRIPTION?: string; MD_DT_CLASS?: PPAModel.MD_DT_CLASS; });
     DT_CAU_ID: string;
     NAME: string;
     DT_CLS_ID: string;
     TYPE: string;
     DESCRIPTION: string;
-    MD_DT_CLASSE: PPAModel.MD_DT_CLASSE;
+    MD_DT_CLASS: PPAModel.MD_DT_CLASS;
     
   }
   
-  export class MD_DT_CLASSE extends $data.Entity {
+  export class MD_DT_CLASS extends $data.Entity {
     constructor();
     constructor(initData: { DT_CLS_ID?: string; NAME?: string; DESCRIPTION?: string; MD_DT_CAUSE?: PPAModel.MD_DT_CAUSE[]; });
     DT_CLS_ID: string;
     NAME: string;
     DESCRIPTION: string;
     MD_DT_CAUSE: PPAModel.MD_DT_CAUSE[];
-    
-  }
-  
-  export class MD_EQPDT_PAR_TAG extends $data.Entity {
-    constructor();
-    constructor(initData: { PV_NO?: string; PAR_ID?: string; EVT_NO?: string; PAR_POS?: number; PAR_TYPE?: string; REC_TYPE?: string; PAR_TAG?: string; PM_EQP_DT_EVENT?: PPAModel.PM_EQP_DT_EVENT; });
-    PV_NO: string;
-    PAR_ID: string;
-    EVT_NO: string;
-    PAR_POS: number;
-    PAR_TYPE: string;
-    REC_TYPE: string;
-    PAR_TAG: string;
-    PM_EQP_DT_EVENT: PPAModel.PM_EQP_DT_EVENT;
-    
-  }
-  
-  export class MD_EQPMAT_PAR_TAG extends $data.Entity {
-    constructor();
-    constructor(initData: { PV_NO?: string; PAR_ID?: string; OBJ_NO?: string; PAR_POS?: number; PAR_TYPE?: string; REC_TYPE?: string; PAR_TAG?: string; PM_EQP_CONSUMPTION?: PPAModel.PM_EQP_CONSUMPTION; });
-    PV_NO: string;
-    PAR_ID: string;
-    OBJ_NO: string;
-    PAR_POS: number;
-    PAR_TYPE: string;
-    REC_TYPE: string;
-    PAR_TAG: string;
-    PM_EQP_CONSUMPTION: PPAModel.PM_EQP_CONSUMPTION;
     
   }
   
@@ -135,88 +143,47 @@ declare module PPAModel {
     
   }
   
-  export class PM_CYC_TEAM extends $data.Entity {
+  export class PM_CFG_TEMPLATE extends $data.Entity {
     constructor();
-    constructor(initData: { OBJ_NO?: string; SHF_CYC_ID?: string; SHF_ID?: string; CYC_POS?: number; TEAM_ID?: string; });
-    OBJ_NO: string;
-    SHF_CYC_ID: string;
-    SHF_ID: string;
-    CYC_POS: number;
-    TEAM_ID: string;
+    constructor(initData: { TMPL_NO?: string; TMPL_ID?: string; TMPL_TYPE?: string; REMARK?: string; });
+    TMPL_NO: string;
+    TMPL_ID: string;
+    TMPL_TYPE: string;
+    REMARK: string;
     
   }
   
-  export class PM_ENG_CONSUMPTION extends $data.Entity {
+  export class PM_EQP_CALCULATION extends $data.Entity {
     constructor();
-    constructor(initData: { OBJ_NO?: string; REC_TYPE?: string; ENG_ID_TAG?: string; ENG_QTY_TAG?: string; });
-    OBJ_NO: string;
-    REC_TYPE: string;
-    ENG_ID_TAG: string;
-    ENG_QTY_TAG: string;
+    constructor(initData: { EQP_NO?: string; AVA_CALC_ID?: string; PER_CALC_ID?: string; QA_CALC_ID?: string; });
+    EQP_NO: string;
+    AVA_CALC_ID: string;
+    PER_CALC_ID: string;
+    QA_CALC_ID: string;
     
   }
   
-  export class PM_EQP_CONSUMPTION extends $data.Entity {
+  export class PM_EQP_CLASS extends $data.Entity {
     constructor();
-    constructor(initData: { OBJ_NO?: string; EQP_ID?: string; SRC_TAG?: string; CONDITION?: string; BATCH_ID_TAG?: string; CSM_MATID_TAG?: string; CSM_MATQTY_TAG?: string; UOM_ID?: string; MD_EQPMAT_PAR_TAG?: PPAModel.MD_EQPMAT_PAR_TAG[]; PM_EQUIPMENT?: PPAModel.PM_EQUIPMENT; });
-    OBJ_NO: string;
-    EQP_ID: string;
-    SRC_TAG: string;
-    CONDITION: string;
-    BATCH_ID_TAG: string;
-    CSM_MATID_TAG: string;
-    CSM_MATQTY_TAG: string;
-    UOM_ID: string;
-    MD_EQPMAT_PAR_TAG: PPAModel.MD_EQPMAT_PAR_TAG[];
-    PM_EQUIPMENT: PPAModel.PM_EQUIPMENT;
+    constructor(initData: { CLS_NO?: string; CLS_ID?: string; CLS_NAME?: string; IS_TEMPLATE?: string; PARENT_NO?: string; MASTER_NO?: string; EQP_LEVEL?: number; LIB_NO?: string; REMARK?: string; PM_EQP_CLS_PROPERTY?: PPAModel.PM_EQP_CLS_PROPERTY[]; });
+    CLS_NO: string;
+    CLS_ID: string;
+    CLS_NAME: string;
+    IS_TEMPLATE: string;
+    PARENT_NO: string;
+    MASTER_NO: string;
+    EQP_LEVEL: number;
+    LIB_NO: string;
+    REMARK: string;
+    PM_EQP_CLS_PROPERTY: PPAModel.PM_EQP_CLS_PROPERTY[];
     
   }
   
-  export class PM_EQP_DT_EVENT extends $data.Entity {
+  export class PM_EQP_CLS_PROPERTY extends $data.Entity {
     constructor();
-    constructor(initData: { EVT_NO?: string; EQP_ID?: string; EVT_NAME?: string; EVT_TYPE?: string; SRC_TAG?: string; CONDITION?: string; DT_CAU_ID?: string; MD_EQPDT_PAR_TAG?: PPAModel.MD_EQPDT_PAR_TAG[]; PM_EQUIPMENT?: PPAModel.PM_EQUIPMENT; });
-    EVT_NO: string;
-    EQP_ID: string;
-    EVT_NAME: string;
-    EVT_TYPE: string;
-    SRC_TAG: string;
-    CONDITION: string;
-    DT_CAU_ID: string;
-    MD_EQPDT_PAR_TAG: PPAModel.MD_EQPDT_PAR_TAG[];
-    PM_EQUIPMENT: PPAModel.PM_EQUIPMENT;
-    
-  }
-  
-  export class PM_EQP_LEVEL extends $data.Entity {
-    constructor();
-    constructor(initData: { LVL_ID?: string; NAME?: string; PARENT?: string; DESCRIPTION?: string; PM_EQUIPMENT?: PPAModel.PM_EQUIPMENT[]; });
-    LVL_ID: string;
-    NAME: string;
-    PARENT: string;
-    DESCRIPTION: string;
-    PM_EQUIPMENT: PPAModel.PM_EQUIPMENT[];
-    
-  }
-  
-  export class PM_EQP_PERFORMANCE extends $data.Entity {
-    constructor();
-    constructor(initData: { OBJ_NO?: string; EQP_ID?: string; PER_TYPE?: string; SPAN_UNIT?: string; SPAN?: number; TARGET?: string; ACT_TAG?: string; PM_EQUIPMENT?: PPAModel.PM_EQUIPMENT; });
-    OBJ_NO: string;
-    EQP_ID: string;
-    PER_TYPE: string;
-    SPAN_UNIT: string;
-    SPAN: number;
-    TARGET: string;
-    ACT_TAG: string;
-    PM_EQUIPMENT: PPAModel.PM_EQUIPMENT;
-    
-  }
-  
-  export class PM_EQP_PROPERTY extends $data.Entity {
-    constructor();
-    constructor(initData: { EQP_PRP_NO?: string; EQP_ID?: string; PAR_ID?: string; PAR_POS?: number; PAR_TYPE?: string; VALUE_TYPE?: string; HIGH_VALUE?: string; LOW_VALUE?: string; RANGE_TYPE?: string; PM_EQUIPMENT?: PPAModel.PM_EQUIPMENT; });
-    EQP_PRP_NO: string;
-    EQP_ID: string;
+    constructor(initData: { CLS_PRP_NO?: string; CLS_NO?: string; PAR_ID?: string; PAR_POS?: number; PAR_TYPE?: string; VALUE_TYPE?: string; HIGH_VALUE?: string; LOW_VALUE?: string; RANGE_TYPE?: string; PM_EQP_CLASS?: PPAModel.PM_EQP_CLASS; });
+    CLS_PRP_NO: string;
+    CLS_NO: string;
     PAR_ID: string;
     PAR_POS: number;
     PAR_TYPE: string;
@@ -224,43 +191,39 @@ declare module PPAModel {
     HIGH_VALUE: string;
     LOW_VALUE: string;
     RANGE_TYPE: string;
-    PM_EQUIPMENT: PPAModel.PM_EQUIPMENT;
+    PM_EQP_CLASS: PPAModel.PM_EQP_CLASS;
     
   }
   
-  export class PM_EQP_QUALITY extends $data.Entity {
+  export class PM_EQP_PROPERTY extends $data.Entity {
     constructor();
-    constructor(initData: { OBJ_NO?: string; EQP_ID?: string; TOTAL_TAG?: string; QUALIFY_TAG?: string; REWORK_TAG?: string; SCRAP_TAG?: string; BATCH_ID_TAG?: string; PM_EQUIPMENT?: PPAModel.PM_EQUIPMENT; });
-    OBJ_NO: string;
-    EQP_ID: string;
-    TOTAL_TAG: string;
-    QUALIFY_TAG: string;
-    REWORK_TAG: string;
-    SCRAP_TAG: string;
-    BATCH_ID_TAG: string;
+    constructor(initData: { EQP_PRP_NO?: string; EQP_NO?: string; PAR_ID?: string; PAR_POS?: number; PAR_TYPE?: string; VALUE_TYPE?: string; HIGH_VALUE?: string; LOW_VALUE?: string; RANGE_TYPE?: string; TAG_NO?: string; PM_EQUIPMENT?: PPAModel.PM_EQUIPMENT; });
+    EQP_PRP_NO: string;
+    EQP_NO: string;
+    PAR_ID: string;
+    PAR_POS: number;
+    PAR_TYPE: string;
+    VALUE_TYPE: string;
+    HIGH_VALUE: string;
+    LOW_VALUE: string;
+    RANGE_TYPE: string;
+    TAG_NO: string;
     PM_EQUIPMENT: PPAModel.PM_EQUIPMENT;
     
   }
   
   export class PM_EQUIPMENT extends $data.Entity {
     constructor();
-    constructor(initData: { EQP_ID?: string; NAME?: string; STATUS?: string; PARENT?: string; LVL_ID?: string; RT_TAG?: string; PER_CALC_ID?: string; DESCRIPTION?: string; QA_CALC_ID?: string; AVA_CALC_ID?: string; PM_EQP_CONSUMPTION?: PPAModel.PM_EQP_CONSUMPTION[]; PM_EQP_DT_EVENT?: PPAModel.PM_EQP_DT_EVENT[]; PM_EQP_LEVEL?: PPAModel.PM_EQP_LEVEL; PM_EQP_PERFORMANCE?: PPAModel.PM_EQP_PERFORMANCE[]; PM_EQP_PROPERTY?: PPAModel.PM_EQP_PROPERTY[]; PM_EQP_QUALITY?: PPAModel.PM_EQP_QUALITY[]; });
+    constructor(initData: { EQP_NO?: string; EQP_ID?: string; EQP_NAME?: string; EQP_TYPE?: string; CLS_NO?: string; MASTER_NO?: string; MAX_CAPACITY?: string; RT_TAG?: string; PM_EQP_PROPERTY?: PPAModel.PM_EQP_PROPERTY[]; });
+    EQP_NO: string;
     EQP_ID: string;
-    NAME: string;
-    STATUS: string;
-    PARENT: string;
-    LVL_ID: string;
+    EQP_NAME: string;
+    EQP_TYPE: string;
+    CLS_NO: string;
+    MASTER_NO: string;
+    MAX_CAPACITY: string;
     RT_TAG: string;
-    PER_CALC_ID: string;
-    DESCRIPTION: string;
-    QA_CALC_ID: string;
-    AVA_CALC_ID: string;
-    PM_EQP_CONSUMPTION: PPAModel.PM_EQP_CONSUMPTION[];
-    PM_EQP_DT_EVENT: PPAModel.PM_EQP_DT_EVENT[];
-    PM_EQP_LEVEL: PPAModel.PM_EQP_LEVEL;
-    PM_EQP_PERFORMANCE: PPAModel.PM_EQP_PERFORMANCE[];
     PM_EQP_PROPERTY: PPAModel.PM_EQP_PROPERTY[];
-    PM_EQP_QUALITY: PPAModel.PM_EQP_QUALITY[];
     
   }
   
@@ -278,10 +241,10 @@ declare module PPAModel {
   
   export class PM_PERIOD extends $data.Entity {
     constructor();
-    constructor(initData: { PER_ID?: string; PER_NAME?: string; SHF_ID?: string; START_TIME?: number; END_TIME?: number; PM_PER_DETAIL?: PPAModel.PM_PER_DETAIL[]; PM_SHIFT?: PPAModel.PM_SHIFT; });
+    constructor(initData: { PER_ID?: string; PER_NAME?: string; SH_ID?: string; START_TIME?: number; END_TIME?: number; PM_PER_DETAIL?: PPAModel.PM_PER_DETAIL[]; PM_SHIFT?: PPAModel.PM_SHIFT; });
     PER_ID: string;
     PER_NAME: string;
-    SHF_ID: string;
+    SH_ID: string;
     START_TIME: number;
     END_TIME: number;
     PM_PER_DETAIL: PPAModel.PM_PER_DETAIL[];
@@ -289,33 +252,56 @@ declare module PPAModel {
     
   }
   
-  export class PM_SH_CYCLE extends $data.Entity {
+  export class PM_SHIFT extends $data.Entity {
     constructor();
-    constructor(initData: { SHF_CYC_ID?: string; STATUS?: string; SHF_CYC_LEN?: number; START_D?: Date; START_POS?: number; });
-    SHF_CYC_ID: string;
-    STATUS: string;
-    SHF_CYC_LEN: number;
-    START_D: Date;
-    START_POS: number;
+    constructor(initData: { SH_ID?: string; SH_END?: string; SH_NAME?: string; SH_START?: string; PM_PERIOD?: PPAModel.PM_PERIOD[]; });
+    SH_ID: string;
+    SH_END: string;
+    SH_NAME: string;
+    SH_START: string;
+    PM_PERIOD: PPAModel.PM_PERIOD[];
     
   }
   
-  export class PM_SHIFT extends $data.Entity {
+  export class PM_SHIFT_PATTERN extends $data.Entity {
     constructor();
-    constructor(initData: { SHF_ID?: string; SHF_NAME?: string; START_TIME?: number; END_TIME?: number; PM_PERIOD?: PPAModel.PM_PERIOD[]; });
-    SHF_ID: string;
-    SHF_NAME: string;
-    START_TIME: number;
-    END_TIME: number;
-    PM_PERIOD: PPAModel.PM_PERIOD[];
+    constructor(initData: { SHP_ID?: string; SHP_LEN?: number; SHP_NAME?: string; PM_SHP_CYCLES?: PPAModel.PM_SHP_CYCLES[]; });
+    SHP_ID: string;
+    SHP_LEN: number;
+    SHP_NAME: string;
+    PM_SHP_CYCLES: PPAModel.PM_SHP_CYCLES[];
+    
+  }
+  
+  export class PM_SHP_CYCLES extends $data.Entity {
+    constructor();
+    constructor(initData: { SHP_CYCLE_NO?: string; SHP_CYCLE_LEN?: number; SHP_CYCLE_POS?: number; SHP_CYCLE_START?: number; SHP_ID?: string; SH_ID?: string; PM_SHIFT_PATTERN?: PPAModel.PM_SHIFT_PATTERN; });
+    SHP_CYCLE_NO: string;
+    SHP_CYCLE_LEN: number;
+    SHP_CYCLE_POS: number;
+    SHP_CYCLE_START: number;
+    SHP_ID: string;
+    SH_ID: string;
+    PM_SHIFT_PATTERN: PPAModel.PM_SHIFT_PATTERN;
+    
+  }
+  
+  export class PPA_CALENDAR extends $data.Entity {
+    constructor();
+    constructor(initData: { CALD_NO?: string; CALD_ID?: string; START_TIME?: Date; END_TIME?: Date; SHP_ID?: string; });
+    CALD_NO: string;
+    CALD_ID: string;
+    START_TIME: Date;
+    END_TIME: Date;
+    SHP_ID: string;
     
   }
   
   export class PPA_DT_RECORD extends $data.Entity {
     constructor();
-    constructor(initData: { REC_NO?: string; EQP_ID?: string; D_RECORD?: Date; DT_START_TIME?: Date; DT_END_TIME?: Date; DT_CAU_ID?: string; PROCESSED?: string; D_UPDATE?: Date; D_CALCULATE?: Date; OPERATOR?: string; PPA_DTR_PARAMETER?: PPAModel.PPA_DTR_PARAMETER[]; });
+    constructor(initData: { REC_NO?: string; EQP_NO?: string; D_RECORD?: Date; DT_START_TIME?: Date; DT_END_TIME?: Date; DT_CAU_ID?: string; PROCESSED?: string; D_UPDATE?: Date; D_CALCULATE?: Date; OPERATOR?: string; PPA_DTR_PARAMETER?: PPAModel.PPA_DTR_PARAMETER[]; });
     REC_NO: string;
-    EQP_ID: string;
+    EQP_NO: string;
     D_RECORD: Date;
     DT_START_TIME: Date;
     DT_END_TIME: Date;
@@ -344,26 +330,14 @@ declare module PPAModel {
     
   }
   
-  export class PPA_ENG_CONSUMPTION extends $data.Entity {
+  export class PPA_ENG_RECORD extends $data.Entity {
     constructor();
-    constructor(initData: { ENGC_NO?: string; D_PRODUCTION?: Date; ENGC_TYPE?: string; SHF_NO?: string; PER_NO?: string; ENG_ID?: string; QUANTITY?: string; });
-    ENGC_NO: string;
-    D_PRODUCTION: Date;
-    ENGC_TYPE: string;
-    SHF_NO: string;
-    PER_NO: string;
-    ENG_ID: string;
-    QUANTITY: string;
-    
-  }
-  
-  export class PPA_ENGC_RECORD extends $data.Entity {
-    constructor();
-    constructor(initData: { REC_NO?: string; D_RECORD?: Date; ENGC_TYPE?: string; SHF_NO?: string; PER_NO?: string; BATCH_ID?: string; ENG_ID?: string; QUANTITY?: string; PROCESSED?: string; D_UPDATE?: Date; OPERATOR?: string; });
+    constructor(initData: { REC_NO?: string; EQP_NO?: string; D_RECORD?: Date; ENGC_TYPE?: string; SH_NO?: string; PER_NO?: string; BATCH_ID?: string; ENG_ID?: string; QUANTITY?: string; PROCESSED?: string; D_UPDATE?: Date; OPERATOR?: string; PPA_ENGR_PARAMETER?: PPAModel.PPA_ENGR_PARAMETER[]; });
     REC_NO: string;
+    EQP_NO: string;
     D_RECORD: Date;
     ENGC_TYPE: string;
-    SHF_NO: string;
+    SH_NO: string;
     PER_NO: string;
     BATCH_ID: string;
     ENG_ID: string;
@@ -371,70 +345,60 @@ declare module PPAModel {
     PROCESSED: string;
     D_UPDATE: Date;
     OPERATOR: string;
+    PPA_ENGR_PARAMETER: PPAModel.PPA_ENGR_PARAMETER[];
     
   }
   
-  export class PPA_MAT_CONSUMPTION extends $data.Entity {
+  export class PPA_ENGR_PARAMETER extends $data.Entity {
     constructor();
-    constructor(initData: { MATC_NO?: string; CSM_MAT_ID?: string; MAT_NO?: string; QUANTITY?: string; UOM_ID?: string; REMARK?: string; PPA_MATERIAL?: PPAModel.PPA_MATERIAL; });
-    MATC_NO: string;
-    CSM_MAT_ID: string;
-    MAT_NO: string;
-    QUANTITY: string;
-    UOM_ID: string;
-    REMARK: string;
-    PPA_MATERIAL: PPAModel.PPA_MATERIAL;
-    
-  }
-  
-  export class PPA_MAT_PARAMETER extends $data.Entity {
-    constructor();
-    constructor(initData: { PV_NO?: string; PAR_ID?: string; MAT_NO?: string; PAR_POS?: number; PAR_TYPE?: string; VALUE_TYPE?: string; HIGH_VALUE?: string; LOW_VALUE?: string; RANGE_TYPE?: string; PPA_MATERIAL?: PPAModel.PPA_MATERIAL; });
+    constructor(initData: { PV_NO?: string; PAR_ID?: string; REC_NO?: string; PAR_POS?: number; PAR_TYPE?: string; VALUE_TYPE?: string; HIGH_VALUE?: string; LOW_VALUE?: string; RANGE_TYPE?: string; PPA_ENG_RECORD?: PPAModel.PPA_ENG_RECORD; });
     PV_NO: string;
     PAR_ID: string;
-    MAT_NO: string;
+    REC_NO: string;
     PAR_POS: number;
     PAR_TYPE: string;
     VALUE_TYPE: string;
     HIGH_VALUE: string;
     LOW_VALUE: string;
     RANGE_TYPE: string;
-    PPA_MATERIAL: PPAModel.PPA_MATERIAL;
+    PPA_ENG_RECORD: PPAModel.PPA_ENG_RECORD;
     
   }
   
-  export class PPA_MAT_STRUCTURE_ELEMENT extends $data.Entity {
+  export class PPA_EQP_CALENDAR extends $data.Entity {
     constructor();
-    constructor(initData: { MAT_STRE_NO?: string; MAT_STRE_POS?: number; MAT_STRE_TYPE?: string; PRED_MAT_NO?: string; SUCC_MAT_NO?: string; });
-    MAT_STRE_NO: string;
-    MAT_STRE_POS: number;
-    MAT_STRE_TYPE: string;
-    PRED_MAT_NO: string;
-    SUCC_MAT_NO: string;
+    constructor(initData: { OBJ_NO?: string; EQP_NO?: string; CALD_NO?: string; });
+    OBJ_NO: string;
+    EQP_NO: string;
+    CALD_NO: string;
     
   }
   
-  export class PPA_MATC_RECORD extends $data.Entity {
+  export class PPA_MAT_RECORD extends $data.Entity {
     constructor();
-    constructor(initData: { REC_NO?: string; D_RECORD?: Date; MATC_TYPE?: string; SHF_NO?: string; PER_NO?: string; BATCH_ID?: string; CON_MAT_ID?: string; QUANTITY?: string; PROCESSED?: string; D_UPDATE?: Date; OPERATOR?: string; PPA_MATCR_PARAMETER?: PPAModel.PPA_MATCR_PARAMETER[]; });
+    constructor(initData: { REC_NO?: string; EQP_NO?: string; D_RECORD?: Date; MATC_TYPE?: string; SHF_NO?: string; PER_NO?: string; MAT_TYPE?: string; EXT_MAT_ID?: string; DEF_ID?: string; UOM_ID?: string; PO_ID?: string; QUANTITY?: string; PROCESSED?: string; D_UPDATE?: Date; OPERATOR?: string; PPA_MATR_PARAMETER?: PPAModel.PPA_MATR_PARAMETER[]; });
     REC_NO: string;
+    EQP_NO: string;
     D_RECORD: Date;
     MATC_TYPE: string;
     SHF_NO: string;
     PER_NO: string;
-    BATCH_ID: string;
-    CON_MAT_ID: string;
+    MAT_TYPE: string;
+    EXT_MAT_ID: string;
+    DEF_ID: string;
+    UOM_ID: string;
+    PO_ID: string;
     QUANTITY: string;
     PROCESSED: string;
     D_UPDATE: Date;
     OPERATOR: string;
-    PPA_MATCR_PARAMETER: PPAModel.PPA_MATCR_PARAMETER[];
+    PPA_MATR_PARAMETER: PPAModel.PPA_MATR_PARAMETER[];
     
   }
   
-  export class PPA_MATCR_PARAMETER extends $data.Entity {
+  export class PPA_MATR_PARAMETER extends $data.Entity {
     constructor();
-    constructor(initData: { PV_NO?: string; PAR_ID?: string; REC_NO?: string; PAR_POS?: number; PAR_TYPE?: string; VALUE_TYPE?: string; HIGH_VALUE?: string; LOW_VALUE?: string; RANGE_TYPE?: string; PPA_MATC_RECORD?: PPAModel.PPA_MATC_RECORD; });
+    constructor(initData: { PV_NO?: string; PAR_ID?: string; REC_NO?: string; PAR_POS?: number; PAR_TYPE?: string; VALUE_TYPE?: string; HIGH_VALUE?: string; LOW_VALUE?: string; RANGE_TYPE?: string; PPA_MAT_RECORD?: PPAModel.PPA_MAT_RECORD; });
     PV_NO: string;
     PAR_ID: string;
     REC_NO: string;
@@ -444,32 +408,16 @@ declare module PPAModel {
     HIGH_VALUE: string;
     LOW_VALUE: string;
     RANGE_TYPE: string;
-    PPA_MATC_RECORD: PPAModel.PPA_MATC_RECORD;
-    
-  }
-  
-  export class PPA_MATERIAL extends $data.Entity {
-    constructor();
-    constructor(initData: { MAT_NO?: string; EXT_MAT_ID?: string; STATUS?: string; D_PRODUCTION?: Date; MAT_CLS_ID?: string; MAT_QTY?: string; UOM_ID?: string; PO_ID?: string; PPA_MAT_CONSUMPTION?: PPAModel.PPA_MAT_CONSUMPTION[]; PPA_MAT_PARAMETER?: PPAModel.PPA_MAT_PARAMETER[]; });
-    MAT_NO: string;
-    EXT_MAT_ID: string;
-    STATUS: string;
-    D_PRODUCTION: Date;
-    MAT_CLS_ID: string;
-    MAT_QTY: string;
-    UOM_ID: string;
-    PO_ID: string;
-    PPA_MAT_CONSUMPTION: PPAModel.PPA_MAT_CONSUMPTION[];
-    PPA_MAT_PARAMETER: PPAModel.PPA_MAT_PARAMETER[];
+    PPA_MAT_RECORD: PPAModel.PPA_MAT_RECORD;
     
   }
   
   export class PPA_OEE_SUMMARY extends $data.Entity {
     constructor();
-    constructor(initData: { SUM_NO?: string; EQP_ID?: string; SHF_NO?: string; PER_NO?: string; PER_START_TIME?: Date; PER_END_TIME?: Date; PL_PRD_TIME?: string; ACT_PRD_TIME?: string; SCH_DT_TIME?: string; UNSCH_DT_TIME?: string; UNSCH_DT_CNT?: string; TOTAL_ITEMS?: string; QA_ITEMS?: string; REWORK_ITEMS?: string; SCRAP_ITEMS?: string; OEE_AVA?: string; OEE_PER?: string; OEE_QUA?: string; D_UPDATE?: Date; OEE_COM?: string; });
+    constructor(initData: { SUM_NO?: string; EQP_NO?: string; SH_NO?: string; PER_NO?: string; PER_START_TIME?: Date; PER_END_TIME?: Date; PL_PRD_TIME?: string; ACT_PRD_TIME?: string; SCH_DT_TIME?: string; UNSCH_DT_TIME?: string; UNSCH_DT_CNT?: string; IDEAL?: string; ACTUAL?: string; TOTAL_ITEMS?: string; QA_ITEMS?: string; REWORK_ITEMS?: string; SCRAP_ITEMS?: string; PPA_AVA?: string; PPA_PER?: string; PPA_QUA?: string; PPA_COM?: string; D_UPDATE?: Date; });
     SUM_NO: string;
-    EQP_ID: string;
-    SHF_NO: string;
+    EQP_NO: string;
+    SH_NO: string;
     PER_NO: string;
     PER_START_TIME: Date;
     PER_END_TIME: Date;
@@ -478,15 +426,17 @@ declare module PPAModel {
     SCH_DT_TIME: string;
     UNSCH_DT_TIME: string;
     UNSCH_DT_CNT: string;
+    IDEAL: string;
+    ACTUAL: string;
     TOTAL_ITEMS: string;
     QA_ITEMS: string;
     REWORK_ITEMS: string;
     SCRAP_ITEMS: string;
-    OEE_AVA: string;
-    OEE_PER: string;
-    OEE_QUA: string;
+    PPA_AVA: string;
+    PPA_PER: string;
+    PPA_QUA: string;
+    PPA_COM: string;
     D_UPDATE: Date;
-    OEE_COM: string;
     
   }
   
@@ -504,13 +454,13 @@ declare module PPAModel {
   
   export class PPA_PER_RECORD extends $data.Entity {
     constructor();
-    constructor(initData: { REC_NO?: string; EQP_ID?: string; D_RECORD?: Date; REC_START_TIME?: Date; REC_END_TIME?: Date; SHF_NO?: string; PER_NO?: string; BATCH_ID?: string; IDEAL?: string; ACTUAL?: string; PROCESSED?: string; D_UPDATE?: Date; OPERATOR?: string; });
+    constructor(initData: { REC_NO?: string; EQP_NO?: string; D_RECORD?: Date; REC_START_TIME?: Date; REC_END_TIME?: Date; SH_NO?: string; PER_NO?: string; BATCH_ID?: string; IDEAL?: string; ACTUAL?: string; PROCESSED?: string; D_UPDATE?: Date; OPERATOR?: string; PPA_PERR_PARAMETER?: PPAModel.PPA_PERR_PARAMETER[]; });
     REC_NO: string;
-    EQP_ID: string;
+    EQP_NO: string;
     D_RECORD: Date;
     REC_START_TIME: Date;
     REC_END_TIME: Date;
-    SHF_NO: string;
+    SH_NO: string;
     PER_NO: string;
     BATCH_ID: string;
     IDEAL: string;
@@ -518,15 +468,16 @@ declare module PPAModel {
     PROCESSED: string;
     D_UPDATE: Date;
     OPERATOR: string;
+    PPA_PERR_PARAMETER: PPAModel.PPA_PERR_PARAMETER[];
     
   }
   
   export class PPA_PERIOD extends $data.Entity {
     constructor();
-    constructor(initData: { PER_NO?: string; PER_ID?: string; SHF_NO?: string; START_TIME?: Date; END_TIME?: Date; PPA_PER_DETAIL?: PPAModel.PPA_PER_DETAIL[]; PPA_SHIFT?: PPAModel.PPA_SHIFT; });
+    constructor(initData: { PER_NO?: string; PER_ID?: string; SH_NO?: string; START_TIME?: Date; END_TIME?: Date; PPA_PER_DETAIL?: PPAModel.PPA_PER_DETAIL[]; PPA_SHIFT?: PPAModel.PPA_SHIFT; });
     PER_NO: string;
     PER_ID: string;
-    SHF_NO: string;
+    SH_NO: string;
     START_TIME: Date;
     END_TIME: Date;
     PPA_PER_DETAIL: PPAModel.PPA_PER_DETAIL[];
@@ -534,32 +485,66 @@ declare module PPAModel {
     
   }
   
+  export class PPA_PERR_PARAMETER extends $data.Entity {
+    constructor();
+    constructor(initData: { PV_NO?: string; PAR_ID?: string; REC_NO?: string; PAR_POS?: number; PAR_TYPE?: string; VALUE_TYPE?: string; HIGH_VALUE?: string; LOW_VALUE?: string; RANGE_TYPE?: string; PPA_PER_RECORD?: PPAModel.PPA_PER_RECORD; });
+    PV_NO: string;
+    PAR_ID: string;
+    REC_NO: string;
+    PAR_POS: number;
+    PAR_TYPE: string;
+    VALUE_TYPE: string;
+    HIGH_VALUE: string;
+    LOW_VALUE: string;
+    RANGE_TYPE: string;
+    PPA_PER_RECORD: PPAModel.PPA_PER_RECORD;
+    
+  }
+  
   export class PPA_QA_RECORD extends $data.Entity {
     constructor();
-    constructor(initData: { REC_NO?: string; EQP_ID?: string; D_RECORD?: Date; REC_START_TIME?: Date; REC_END_TIME?: Date; SHF_NO?: string; PER_NO?: string; BATCH_ID?: string; TOTAL?: string; REWORK?: string; SCRAP?: string; PROCESSED?: string; D_UPDATE?: Date; OPERATOR?: string; QUALIFY?: string; });
+    constructor(initData: { REC_NO?: string; EQP_NO?: string; D_RECORD?: Date; REC_START_TIME?: Date; REC_END_TIME?: Date; SH_NO?: string; PER_NO?: string; BATCH_ID?: string; TOTAL?: string; QUALIFY?: string; REWORK?: string; SCRAP?: string; PROCESSED?: string; D_UPDATE?: Date; OPERATOR?: string; PPA_QAR_PARAMETER?: PPAModel.PPA_QAR_PARAMETER[]; });
     REC_NO: string;
-    EQP_ID: string;
+    EQP_NO: string;
     D_RECORD: Date;
     REC_START_TIME: Date;
     REC_END_TIME: Date;
-    SHF_NO: string;
+    SH_NO: string;
     PER_NO: string;
     BATCH_ID: string;
     TOTAL: string;
+    QUALIFY: string;
     REWORK: string;
     SCRAP: string;
     PROCESSED: string;
     D_UPDATE: Date;
     OPERATOR: string;
-    QUALIFY: string;
+    PPA_QAR_PARAMETER: PPAModel.PPA_QAR_PARAMETER[];
+    
+  }
+  
+  export class PPA_QAR_PARAMETER extends $data.Entity {
+    constructor();
+    constructor(initData: { PV_NO?: string; PAR_ID?: string; REC_NO?: string; PAR_POS?: number; PAR_TYPE?: string; VALUE_TYPE?: string; HIGH_VALUE?: string; LOW_VALUE?: string; RANGE_TYPE?: string; PPA_QA_RECORD?: PPAModel.PPA_QA_RECORD; });
+    PV_NO: string;
+    PAR_ID: string;
+    REC_NO: string;
+    PAR_POS: number;
+    PAR_TYPE: string;
+    VALUE_TYPE: string;
+    HIGH_VALUE: string;
+    LOW_VALUE: string;
+    RANGE_TYPE: string;
+    PPA_QA_RECORD: PPAModel.PPA_QA_RECORD;
     
   }
   
   export class PPA_SHIFT extends $data.Entity {
     constructor();
-    constructor(initData: { SHF_NO?: string; SHF_ID?: string; START_TIME?: Date; END_TIME?: Date; TEAM_ID?: string; PPA_PERIOD?: PPAModel.PPA_PERIOD[]; });
-    SHF_NO: string;
-    SHF_ID: string;
+    constructor(initData: { SH_NO?: string; SH_ID?: string; CALD_NO?: string; START_TIME?: Date; END_TIME?: Date; TEAM_ID?: string; PPA_PERIOD?: PPAModel.PPA_PERIOD[]; });
+    SH_NO: string;
+    SH_ID: string;
+    CALD_NO: string;
     START_TIME: Date;
     END_TIME: Date;
     TEAM_ID: string;
@@ -583,48 +568,47 @@ declare module PPAModel {
 
 declare module AicTech.PPA.DataModel {
     export class PPAEntities extends $data.EntityContext {
-        onReady(): $data.IPromise<any>;
-      onReady(handler: (context: PPAEntities) => void): $data.IPromise<any>;
+    onReady(): $data.IPromise<any>;
+    onReady(handler: (context: PPAEntities) => void): $data.IPromise<any>;
     
-    MD_CALCUALTION: $data.EntitySet<PPAModel.MD_CALCUALTION>;
+    EXT_PP_POS: $data.EntitySet<PPAModel.EXT_PP_POS>;
+    EXT_PRD_PLAN: $data.EntitySet<PPAModel.EXT_PRD_PLAN>;
+    MD_CALCULATION: $data.EntitySet<PPAModel.MD_CALCULATION>;
+    MD_CONFIGURATION: $data.EntitySet<PPAModel.MD_CONFIGURATION>;
     MD_DOM_VALUE: $data.EntitySet<PPAModel.MD_DOM_VALUE>;
     MD_DOMAIN: $data.EntitySet<PPAModel.MD_DOMAIN>;
     MD_DT_CAUSE: $data.EntitySet<PPAModel.MD_DT_CAUSE>;
-    MD_DT_CLASSE: $data.EntitySet<PPAModel.MD_DT_CLASSE>;
-    MD_EQPDT_PAR_TAG: $data.EntitySet<PPAModel.MD_EQPDT_PAR_TAG>;
-    MD_EQPMAT_PAR_TAG: $data.EntitySet<PPAModel.MD_EQPMAT_PAR_TAG>;
+    MD_DT_CLASS: $data.EntitySet<PPAModel.MD_DT_CLASS>;
     MD_PAR_CATEGORY: $data.EntitySet<PPAModel.MD_PAR_CATEGORY>;
     MD_PAR_CLASSIFICATION: $data.EntitySet<PPAModel.MD_PAR_CLASSIFICATION>;
     MD_PARAMETER: $data.EntitySet<PPAModel.MD_PARAMETER>;
     MD_UNITS_OF_MEASURE: $data.EntitySet<PPAModel.MD_UNITS_OF_MEASURE>;
-    PM_CYC_TEAM: $data.EntitySet<PPAModel.PM_CYC_TEAM>;
-    PM_ENG_CONSUMPTION: $data.EntitySet<PPAModel.PM_ENG_CONSUMPTION>;
-    PM_EQP_CONSUMPTION: $data.EntitySet<PPAModel.PM_EQP_CONSUMPTION>;
-    PM_EQP_DT_EVENT: $data.EntitySet<PPAModel.PM_EQP_DT_EVENT>;
-    PM_EQP_LEVEL: $data.EntitySet<PPAModel.PM_EQP_LEVEL>;
-    PM_EQP_PERFORMANCE: $data.EntitySet<PPAModel.PM_EQP_PERFORMANCE>;
+    PM_CFG_TEMPLATE: $data.EntitySet<PPAModel.PM_CFG_TEMPLATE>;
+    PM_EQP_CALCULATION: $data.EntitySet<PPAModel.PM_EQP_CALCULATION>;
+    PM_EQP_CLASS: $data.EntitySet<PPAModel.PM_EQP_CLASS>;
+    PM_EQP_CLS_PROPERTY: $data.EntitySet<PPAModel.PM_EQP_CLS_PROPERTY>;
     PM_EQP_PROPERTY: $data.EntitySet<PPAModel.PM_EQP_PROPERTY>;
-    PM_EQP_QUALITY: $data.EntitySet<PPAModel.PM_EQP_QUALITY>;
     PM_EQUIPMENT: $data.EntitySet<PPAModel.PM_EQUIPMENT>;
     PM_PER_DETAIL: $data.EntitySet<PPAModel.PM_PER_DETAIL>;
     PM_PERIOD: $data.EntitySet<PPAModel.PM_PERIOD>;
-    PM_SH_CYCLE: $data.EntitySet<PPAModel.PM_SH_CYCLE>;
     PM_SHIFT: $data.EntitySet<PPAModel.PM_SHIFT>;
+    PM_SHIFT_PATTERN: $data.EntitySet<PPAModel.PM_SHIFT_PATTERN>;
+    PM_SHP_CYCLES: $data.EntitySet<PPAModel.PM_SHP_CYCLES>;
+    PPA_CALENDAR: $data.EntitySet<PPAModel.PPA_CALENDAR>;
     PPA_DT_RECORD: $data.EntitySet<PPAModel.PPA_DT_RECORD>;
     PPA_DTR_PARAMETER: $data.EntitySet<PPAModel.PPA_DTR_PARAMETER>;
-    PPA_ENG_CONSUMPTION: $data.EntitySet<PPAModel.PPA_ENG_CONSUMPTION>;
-    PPA_ENGC_RECORD: $data.EntitySet<PPAModel.PPA_ENGC_RECORD>;
-    PPA_MAT_CONSUMPTION: $data.EntitySet<PPAModel.PPA_MAT_CONSUMPTION>;
-    PPA_MAT_PARAMETER: $data.EntitySet<PPAModel.PPA_MAT_PARAMETER>;
-    PPA_MAT_STRUCTURE_ELEMENT: $data.EntitySet<PPAModel.PPA_MAT_STRUCTURE_ELEMENT>;
-    PPA_MATC_RECORD: $data.EntitySet<PPAModel.PPA_MATC_RECORD>;
-    PPA_MATCR_PARAMETER: $data.EntitySet<PPAModel.PPA_MATCR_PARAMETER>;
-    PPA_MATERIAL: $data.EntitySet<PPAModel.PPA_MATERIAL>;
+    PPA_ENG_RECORD: $data.EntitySet<PPAModel.PPA_ENG_RECORD>;
+    PPA_ENGR_PARAMETER: $data.EntitySet<PPAModel.PPA_ENGR_PARAMETER>;
+    PPA_EQP_CALENDAR: $data.EntitySet<PPAModel.PPA_EQP_CALENDAR>;
+    PPA_MAT_RECORD: $data.EntitySet<PPAModel.PPA_MAT_RECORD>;
+    PPA_MATR_PARAMETER: $data.EntitySet<PPAModel.PPA_MATR_PARAMETER>;
     PPA_OEE_SUMMARY: $data.EntitySet<PPAModel.PPA_OEE_SUMMARY>;
     PPA_PER_DETAIL: $data.EntitySet<PPAModel.PPA_PER_DETAIL>;
     PPA_PER_RECORD: $data.EntitySet<PPAModel.PPA_PER_RECORD>;
     PPA_PERIOD: $data.EntitySet<PPAModel.PPA_PERIOD>;
+    PPA_PERR_PARAMETER: $data.EntitySet<PPAModel.PPA_PERR_PARAMETER>;
     PPA_QA_RECORD: $data.EntitySet<PPAModel.PPA_QA_RECORD>;
+    PPA_QAR_PARAMETER: $data.EntitySet<PPAModel.PPA_QAR_PARAMETER>;
     PPA_SHIFT: $data.EntitySet<PPAModel.PPA_SHIFT>;
     SYS_USER_SESSION: $data.EntitySet<PPAModel.SYS_USER_SESSION>;
     GetSequenceNextValue: {

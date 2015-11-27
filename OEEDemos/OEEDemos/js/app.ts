@@ -70,11 +70,35 @@ module OEEDemos {
                                 listners[i](e, this);
                             }
                         }
+                    },
+                    expand: function (e) {
+                        var li = $(e.node);
+                        var isExpanded = li.data('expanded');
+                        if (isExpanded) {
+                            return;
+                        } 
+                        var eqpId = this.dataItem(e.node).id;
+                        var tree = this;
+                        li.data('expanded', true);
+
+                        kendo.ui.progress(li, true);
+                        
+                        AppUtils.expandTreeNode(eqpId, (data: any[]) => {
+                             if (data.length === 0) {
+                                StartUp.Instance.equipTree.getTree().dataItem(li).set('items', null);
+                                kendo.ui.progress(li, false);
+                                return;
+                            }
+                            StartUp.Instance.equipTree.getTree().append(data, $(e.node));
+                            kendo.ui.progress(li, false);
+                        }, (e: { message: string }) => {
+                            alert(e.message);
+                            kendo.ui.progress(li, false);
+                        });
                     }
                 }
             );
-
-            StartUp.Instance.equipTree.setData([{ text: "Please Login!" }]);
+            
             StartUp.Instance.hideEquimentTree();
 
             var onNodeSelect = (e: kendo.ui.TreeViewSelectEvent, sender): void => {
@@ -203,21 +227,14 @@ module OEEDemos {
                                     });
                                 }
                             }, null);
-                           
-                            serviceContext.PM_EQUIPMENT
-                                .map((it) => {
-                                    return {
-                                        id: it.EQP_ID,
-                                        parent: it.PARENT,
-                                        text: it.NAME
-                                    }
-                                })
-                                .toArray(function (data) {
-                                    StartUp.Instance.equipTree.setData(AppUtils.getTree(data, '-'));
+
+                            AppUtils.expandTreeNode("null",
+                                (data: any[]) => {
+                                    StartUp.Instance.equipTree.setData(AppUtils.getTree(data, 'null', true));
                                     StartUp.Instance.hideEquimentTree();
-                                    kendo.ui.progress($("loginModal"), false);
-                                })
-                                .fail(function (e: { message: string }) {
+                                    kendo.ui.progress($('loginModal'), false);
+                                },
+                                (e: { message: string }) => {
                                     alert(e.message);
                                     kendo.ui.progress($("loginModal"), false);
                                 });
@@ -288,13 +305,13 @@ module OEEDemos {
         }
 
         private hideEquimentTree(): void {
-            $('#equip-tree').css("display", "none");
-            $('#viewport').css('width', "100%");
+            $('#equip-container').css("display", "none");
+            $('#viewport').removeClass("col-md-9").addClass('col-md-12')
         }
 
         private showEquipmentTree(): void {
-            $('#equip-tree').css("display", "block");
-            $('#viewport').css('width', "80%");
+            $('#equip-container').css("display", "block");
+            $('#viewport').removeClass("col-md-12").addClass('col-md-9')
         }
     }
     

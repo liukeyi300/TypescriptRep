@@ -17,6 +17,8 @@ var OEEDemos;
                         oeeCOM: 0
                     }]
             });
+            this.dataItem = new vis.DataSet();
+            this.dataGroup = new vis.DataSet();
         }
         OEECharts.prototype.timeRangeListner = function (startTime, endTime) {
             var oeeCharts = OEEDemos.ModuleLoad.getModuleInstance("OEECharts");
@@ -30,6 +32,20 @@ var OEEDemos;
             oeeCharts.refreshData();
         };
         OEECharts.prototype.initChart = function () {
+            //var container = $('#oeeChart')[0];
+            //var options = {
+            //    dataAxis: {
+            //        showMinorLabels: false
+            //    },
+            //    legend: {
+            //        left: {
+            //            position:"bottom-left"
+            //        }
+            //    },
+            //    start: '2015-09-01',
+            //    end:'2015-10-01'
+            //};
+            //this.chart = new vis.Graph2D(container, this.dataItem, this.dataGroup, options);
             $("#oeeChart").kendoChart({
                 title: {
                     text: "OEEDemo Charts"
@@ -60,7 +76,7 @@ var OEEDemos;
                         type: "date",
                         field: "oeeStartTime",
                         baseUnit: "hours",
-                        justified: true,
+                        justified: false,
                         labels: {
                             dateFormats: {
                                 hours: "M-d HH:mm"
@@ -85,6 +101,11 @@ var OEEDemos;
                     template: "#= series.name #: #= value #"
                 }
             });
+            var chart = $("#oeeChart").data('kendoChart');
+            chart.bind('drag', function (e) {
+            });
+            chart.bind('dragEnd', function (e) {
+            });
         };
         OEECharts.prototype.refreshData = function () {
             try {
@@ -100,7 +121,7 @@ var OEEDemos;
                     this.ppaServiceContext.PPA_OEE_SUMMARY
                         .filter(function (items) {
                         return (items.PER_START_TIME >= this.startDate && items.PER_START_TIME < this.endDate
-                            && items.EQP_ID === this.equid);
+                            && items.EQP_NO === this.equid);
                     }, {
                         startDate: start, endDate: end,
                         equid: currentEquipment
@@ -108,10 +129,10 @@ var OEEDemos;
                         .map(function (it) {
                         return {
                             oeeStartTime: it.PER_START_TIME,
-                            oeeAVA: it.OEE_AVA,
-                            oeePER: it.OEE_PER,
-                            oeeQUA: it.OEE_QUA,
-                            oeeCOM: it.OEE_COM
+                            oeeAVA: it.PPA_AVA,
+                            oeePER: it.PPA_PER,
+                            oeeQUA: it.PPA_QUA,
+                            oeeCOM: it.PPA_COM
                         };
                     })
                         .toArray(function (result) {

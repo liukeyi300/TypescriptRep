@@ -8,7 +8,8 @@ var OEEDemos;
          * 根据给定的data和根节点生成树形结构的对象
          * data中数据项需要有独一无二的id和parentId
          */
-        AppUtils.getTree = function (data, rootLevel) {
+        AppUtils.getTree = function (data, rootLevel, notNeedClean) {
+            if (notNeedClean === void 0) { notNeedClean = false; }
             var hash = [];
             for (var i = 0; i < data.length; i++) {
                 var item = data[i];
@@ -19,21 +20,21 @@ var OEEDemos;
                 item.items = hash[id];
                 hash[parentId].push(item);
             }
-            hash[rootLevel].forEach(function (d) {
-                AppUtils.cleanData(d);
-            });
+            if (!notNeedClean) {
+                hash[rootLevel].forEach(function (d) {
+                    AppUtils.cleanData(d);
+                });
+            }
             return hash[rootLevel];
         };
         /**
          * 根据树形data获取树的深度
          */
         AppUtils.getTreeDepth = function (data) {
-            var current = [];
-            var dataLength = data.length;
-            var curLength = data[dataLength - 1].length;
-            for (var i = 0; i < curLength; i++) {
+            var current = [], dataLength = data.length, curLength = data[data.length - 1].length, i, j, max;
+            for (i = 0; i < curLength; i++) {
                 if (typeof data[dataLength - 1][i].items !== 'undefined') {
-                    for (var j = 0, max = data[dataLength - 1][i].items.length; j < max; j++) {
+                    for (j = 0, max = data[dataLength - 1][i].items.length; j < max; j++) {
                         current.push(data[dataLength - 1][i].items[j]);
                     }
                 }
@@ -42,12 +43,69 @@ var OEEDemos;
                 var a = [];
                 data.push(a);
                 dataLength++;
-                for (var i = 0, length = current.length; i < length; i++) {
+                for (i = 0, length = current.length; i < length; i++) {
                     data[dataLength - 1].push(current[i]);
                 }
                 AppUtils.getTreeDepth(data);
             }
             return data.length;
+        };
+        AppUtils.expandTreeNode = function (curNode, successCallback, failCallback) {
+            var ppaEntities = new AicTech.PPA.DataModel.PPAEntities({
+                name: "oData",
+                oDataServiceHost: AccountHelpUtils.serviceAddress + AccountHelpUtils.ppaEntitiesDataRoot
+            });
+            if (curNode === "null") {
+                ppaEntities.PM_EQUIPMENT
+                    .filter(function (it) {
+                    return it.MASTER_NO == null;
+                })
+                    .map(function (it) {
+                    return {
+                        id: it.EQP_NO,
+                        parent: it.MASTER_NO,
+                        text: it.EQP_NAME
+                    };
+                })
+                    .toArray(function (data) {
+                    successCallback(data);
+                    data.forEach(function (it) {
+                        AppUtils.EquimentsName[it.id + ""] = it.text;
+                        var length = parseInt(AppUtils.EquimentsName.length);
+                        length++;
+                        AppUtils.EquimentsName.length = length + "";
+                    });
+                })
+                    .fail(function (e) {
+                    failCallback(e);
+                });
+            }
+            else {
+                ppaEntities.PM_EQUIPMENT
+                    .filter(function (it) {
+                    return it.MASTER_NO == this.eqpNo;
+                }, { eqpNo: curNode })
+                    .map(function (it) {
+                    return {
+                        id: it.EQP_NO,
+                        parent: it.MASTER_NO,
+                        text: it.EQP_NAME,
+                        items: []
+                    };
+                })
+                    .toArray(function (data) {
+                    successCallback(data);
+                    data.forEach(function (it) {
+                        AppUtils.EquimentsName[it.id + ""] = it.text;
+                        var length = parseInt(AppUtils.EquimentsName.length);
+                        length++;
+                        AppUtils.EquimentsName.length = length + "";
+                    });
+                })
+                    .fail(function (e) {
+                    failCallback(e);
+                });
+            }
         };
         AppUtils.cleanData = function (data) {
             if (data.items.length > 0) {
@@ -58,6 +116,9 @@ var OEEDemos;
             else {
                 delete data.items;
             }
+        };
+        AppUtils.EquimentsName = {
+            length: "0"
         };
         return AppUtils;
     })();
@@ -149,6 +210,7 @@ var OEEDemos;
                 }
             }
         };
+        AccountHelpUtils.ppaEntitiesDataRoot = "/Services/PPAEntitiesDataService.svc";
         AccountHelpUtils.authServiceRoot = "/Services/AuthenticationService.svc/ajax";
         AccountHelpUtils.credServiceRoot = "/Services/CredentialService.svc/ajax";
         AccountHelpUtils.roleServiceRoot = "/Services/RoleService.svc/ajax";

@@ -55,22 +55,11 @@
     "baseUrl": "js/modules/PermissionManagement/",
     "moduleName": "PermissionManagement"
   },
-  "test": {
-    "text": "PalletPage",
+  "DownTimePieCharts": {
+    "text": "设备停机分析饼状图",
     "id": 9,
-    "parent": 2,
-    "moduleName": "PalletPage"
-  },
-  "test1": {
-    "text": "AreaPage",
-    "id": 10,
-    "parent": 5,
-    "moduleName": "AreaPage"
-  },
-  "test2": {
-    "text": "PricePage",
-    "id": 11,
-    "parent": 10,
-    "moduleName": "PricePage"
+    "parent": 1,
+    "baseUrl": "js/modules/DownTimePieCharts/",
+    "moduleName": "DownTimePieCharts"
   }
 }

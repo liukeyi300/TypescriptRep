@@ -23,31 +23,22 @@
     <link rel="stylesheet" href="css/app.css" type="text/css" />
 </head>
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a href="#" class="navbar-brand">
-                    <img alt="AICOEE" src="images/background/aic_logo_g.png" />
-                </a>
-            </div>
-            <div class="collapse navbar-collapse">
-                <!--<button type="button" class="btn btn-danger btn-sm right navBtn navBtn-sm" id="logoutBtn">
-                    登出
-                </button>
-                <button type="button" class="btn btn-primary btn-sm right navBtn navBtn-sm" data-toggle="modal" data-target="#loginModal">
-                    登录
-                 </button>-->
-                <button type="button" id="logBtn" class="btn btn-primary btn-sm right navBtn navBtn-sm" 
-                        data-toggle="modal" data-target="#loginModal">登录</button>
-                <span id="spanUserName" class="right"></span>
-            </div>
+    <nav>
+        <div class="left">
+            <a href="#" class="navbar-brand">
+                <img alt="AICOEE" src="images/background/aic_logo_g.png" />
+            </a>
         </div>
+        <button type="button" id="logBtn" class="btn btn-primary btn-sm right nav-btn" 
+                data-toggle="modal" data-target="#loginModal">登录</button>
+        <span id="spanUserName" class="right"></span>
     </nav>
-    <div id="page-content" class="full-width">
-        <div id="navigation" class="left full-height">
-            <div id="nav-tree"></div>
+    <div id="page-content" class="container-fluid full-height">
+        <div class="row full-height">
+        <div id="navigation" class="col-md-2 col-sm-4 col-xs-11 full-height">
+            <div id="nav-tree" class="full-height"></div>
         </div>
-        <div id="content" class="right full-height">
+        <div id="content" class="col-md-10 col-sm-8 col-xs-12 full-height div-border-box">
             <div class="function-nav full-width">
                 <form class="form-inline full-height full-width">
                     <div class="form-group">
@@ -58,21 +49,22 @@
                         <label for="endTimeSelect">到</label>
                         <input type="text" value="" id="endTimeSelect" class="form-control" />
                     </div>
-                    <button id="resetFunctionNav" class="btn btn-danger btn-sm right navBtn navBtn-sm" type="button">重置</button>
-                    <button id="comfirmFunctionNav" class="btn btn-success btn-sm right navBtn navBtn-sm" type="button">确定</button>
-                    <!--<div class="form-group right">
-                        <input type="text" value="" id="equitId" class="right" readonly disabled />
-                        <button id="selectEquipment" class="btn btn-info btn-sm right navBtn-sm" type="button" data-toggle="modal" data-target="#eqModal">选择设备</button>
-                    </div>-->
+                    <button id="resetFunctionNav" class="btn btn-danger btn-sm right nav-btn" type="button">重置</button>
+                    <button id="comfirmFunctionNav" class="btn btn-success btn-sm right nav-btn" type="button">确定</button>
                 </form>
             </div>
-            <div id="equip-viewport" class="full-height full-width">
-                <div id="equip-tree" class="left full-height"></div>
-                <div id="viewport" class="right full-height"></div>
+            <div id="equip-viewport" class="full-height container-fluid">
+                <div class="row full-height">
+                    <div id="equip-container" class="col-md-3 full-height">
+                        <div id="equip-tree" class="full-height"></div>
+                    </div>
+                    <div id="viewport" class="col-md-9 full-height"></div>
+                </div>
             </div>
         </div>
+        </div>
     </div>
-    <footer class="full-width">
+    <footer class="full-width" style="height:44px">
         <p>Copyright © 2011-2015 Beijing Advanced Information and Control Co. Ltd. All Rights Reserved.</p>
     </footer>
 
@@ -132,7 +124,7 @@
 
     <script src="libs/JQuery/jquery-2.1.4.min.js"></script>
     <script src="libs/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
-    <script src="libs/KendoUI/kendo.all.min.js"></script>
+    <script src="libs/KendoUI/kendo.all.js"></script>
     <script src="libs/visJS/vis.min.js"></script>
     <!--<script src="libs/ECharts/echarts-all.js"></script>-->
 

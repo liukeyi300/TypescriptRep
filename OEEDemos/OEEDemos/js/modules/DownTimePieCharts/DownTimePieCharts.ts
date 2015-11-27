@@ -1,35 +1,29 @@
 ﻿/// <reference path="../../reference.ts" />
 module OEEDemos {
-    export class DowntimeColumnCharts implements ModuleBase {
+    export class DownTimePieCharts implements ModuleBase {
         ppaServiceContext = new AicTech.PPA.DataModel.PPAEntities({
             name: 'oData',
             oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
         });
-        needEquiptree = true;
         view: JQuery;
-        viewModel= kendo.observable({
-            columnChartsSeries: [{
+        needEquiptree = true;
+        viewModel = kendo.observable({
+            pieChartsSeries: [{
                 id: "",
                 dtTime: 0,
                 dtCauId: "",
-                currentPercent:0
+                currentPercent: 0,
+                dtTimes:0
             }]
         });
-        equipmentTree: Navigations;
-        private currentNode;
 
-        constructor() {}
+        constructor() { }
 
-        private timeRangeListner(startTime: Date, endTime: Date): void {
-            //alert("StartTime: " + startTime + ", EndTime: " + endTime);
-            //alert("DTCharts.TimeRangeListner");
-        }
 
         private equipNodeSelect(e: kendo.ui.TreeViewSelectEvent, sender): void {
             var equId = sender.dataItem(e.node).id;
-            var dtInstance = ModuleLoad.getModuleInstance("DowntimeColumnCharts");
-
-            dtInstance.currentNode = equId;
+            var dtInstance = ModuleLoad.getModuleInstance("DownTimePieCharts");
+            
             dtInstance.ppaServiceContext.PPA_DT_RECORD
                 .filter(function (it) { return it.EQP_NO == this.eqid }, { eqid: equId })
                 .map((it) => {
@@ -61,10 +55,12 @@ module OEEDemos {
                                 id: AppUtils.EquimentsName[it.id],
                                 dtTime: curDtTime,
                                 dtCauId: it.dtCauId,
-                                currentPercent:0
+                                currentPercent: 0,
+                                dtTimes:1
                             };
                         } else {
                             hash[it.dtCauId].dtTime += curDtTime;
+                            hash[it.dtCauId].dtTimes++;
                         }
                     });
 
@@ -74,16 +70,16 @@ module OEEDemos {
                     }
 
                     data.sort((a: any, b: any) => {
-                        return a.dtTime - b.dtTime <=0 ? 1:-1;
+                        return a.dtTime - b.dtTime <= 0 ? 1 : -1;
                     });
 
                     data.forEach(function (it) {
-                        currentTime += it.dtTime;
-                        it.currentPercent = ((currentTime / totalTime)*100).toFixed(2);
+                        currentTime = it.dtTime;
+                        it.currentPercent = ((currentTime / totalTime) * 100).toFixed(2);
                         it.dtTime = it.dtTime.toFixed(2);
                     });
 
-                    dtInstance.viewModel.set("columnChartsSeries", data);
+                    dtInstance.viewModel.set("pieChartsSeries", data);
                 })
                 .fail(function (e: { message: string }) {
                     //kendo.ui.progress($("#oeeChart"), false);
@@ -91,86 +87,54 @@ module OEEDemos {
                 });;
         }
 
-        private initCharts(): void {
-            $("#columnCharts").kendoChart({
+        private initWidget() {
+            $('#down-time-pie-charts').kendoChart({
                 title: {
-                    text:"DownTime Column Chart"
+                    position: "top",
+                    text:"OEE Downtime Pie-Chart"
                 },
                 legend: {
-                    visible: true,
-                    position:"top"
+                    position:'top'
+                },
+                chartArea: {
+                    background:""
                 },
                 seriesDefaults: {
-                    type:"column"
+                    labels: {
+                        visible: true,
+                        background: "transparent",
+                        template:"#=dataItem.dtCauId# : #=dataItem.dtTime#"
+                    }
                 },
                 series: [{
+                    type: 'pie',
+                    startAngle: 150,
+                    categoryField: "dtCauId",
                     field: "dtTime",
-                    name:"DownTime",
-                    axis: "dtTime",
-                    tooltip: {
-                        visible: true,
-                        template: "#= dataItem.id # - #= dataItem.dtCauId # : #= value #mins"
-                    }
-                }, {
-                    field: "currentPercent",
-                    name:"DownTime Percent",
-                    axis: "totalDtTime",
-                    type: "line",
-                    tooltip: {
-                        visible: true,
-                        template:"#= dataItem.currentPercent # %" 
-                    },
-                    color:"#007EFF"
-                }],
-                categoryAxis: [{
-                    field: "dtCauId",
-                    majorGridLines: {
-                        visible: false
-                    },
-                    axisCrossingValue: [0,10],
-                    justified: true
-                }],
-                valueAxis: [{
-                    name: "dtTime",
-                    min: 0
-                }, {
-                    name: "totalDtTime",
-                    min: 0,
-                    max: 110,
-                    color:"#007EFF"
                 }]
             });
-            
         }
 
-        private refreshData(): void {
-
-        }
-
-        init(view: JQuery): void {
+        init(view: JQuery) {
             this.view = view;
-            $('#viewport').append(this.view);
-            this.initCharts();
+            this.view.appendTo($('#viewport'));
             kendo.bind(this.view, this.viewModel);
-            this.refreshData();
-            StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
+            this.initWidget();
+
             StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
         }
 
-        update(): void {
+        update() {
             $('#viewport').append(this.view);
-            this.initCharts();
             kendo.bind(this.view, this.viewModel);
-            this.refreshData();
-            StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
+            this.initWidget();
             StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
         }
 
-        destory(): void {
-            var chart = $("#columnCharts").data("kendoChart");
+        destory() {
+            var chart = $('#down-time-pie-charts').data('kendoChart');
             kendo.unbind(this.view);
             chart.destroy();
-            StartUp.Instance.deleteTimeRangeListner(this.timeRangeListner);
             StartUp.Instance.deleteEquipNodeSelectListner(this.equipNodeSelect);
         }
     }

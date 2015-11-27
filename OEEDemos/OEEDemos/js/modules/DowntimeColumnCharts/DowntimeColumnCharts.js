@@ -26,10 +26,10 @@ var OEEDemos;
             var dtInstance = OEEDemos.ModuleLoad.getModuleInstance("DowntimeColumnCharts");
             dtInstance.currentNode = equId;
             dtInstance.ppaServiceContext.PPA_DT_RECORD
-                .filter(function (it) { return it.EQP_ID == this.eqid; }, { eqid: equId })
+                .filter(function (it) { return it.EQP_NO == this.eqid; }, { eqid: equId })
                 .map(function (it) {
                 return {
-                    id: it.EQP_ID,
+                    id: it.EQP_NO,
                     startTime: it.DT_START_TIME,
                     endTime: it.DT_END_TIME,
                     dtCauId: it.DT_CAU_ID,
@@ -53,7 +53,7 @@ var OEEDemos;
                     totalTime += curDtTime;
                     if (typeof hash[it.dtCauId] === "undefined") {
                         hash[it.dtCauId] = {
-                            id: it.id,
+                            id: OEEDemos.AppUtils.EquimentsName[it.id],
                             dtTime: curDtTime,
                             dtCauId: it.dtCauId,
                             currentPercent: 0

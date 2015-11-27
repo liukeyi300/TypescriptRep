@@ -1,22 +1,21 @@
 ﻿.downtimeTimelineChartsContainer {
-    height:100%;
-    width:100%;
+    padding:70px 0 60px;
 }
 
 #downtimeTimelineCharts {
     width:95%;
-    height:80%;
     overflow:auto;
     margin:25px 20px 0 20px;
     border:1px solid #C0C0C0;
 }
 
 .downtimeTimelineChartsContainer  ul {
-    margin:0 20px;
+    margin:-15px 20px 0;
     width:95%;
     overflow:hidden;
     list-style:none;
     padding:0;
+    height:60px;
 }
 
 .downtimeTimelineChartsContainer  ul  li {

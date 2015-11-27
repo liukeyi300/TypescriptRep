@@ -1,18 +1,38 @@
 ﻿body {
     font: 400 14px Arial, Helvetica, sans-serif;
+    padding-top:55px; 
+    padding-bottom:44px;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
 }
 
 html,body {
     height:100%;
     width:100%;
-    min-width:1200px;
     margin:0;
     overflow:hidden;
 }
 
-.navbar {
-    margin-bottom:5px;
-    border-radius:0;
+nav {
+    height:55px;
+    margin-top:-55px;
+    margin-bottom:0;
+    width:100%;
+    border-bottom:1px solid #ebecee;
+}
+
+#spanUserName {
+    height: 28px;
+    width: 100px;
+    margin:13px 0 0 0;
+    font-size:18px;
+    text-align:center;
+}
+
+.nav-btn {
+    width:70px;
+    margin:10px;
 }
 
 footer {
@@ -31,21 +51,21 @@ footer p {
 }
 
 #page-content {
-    position:absolute;
-    top:55px;
-    bottom:44px;
     margin:0;
-    overflow:hidden;
+    overflow:auto;
 }
 
 #navigation {
-    width:15%;
     overflow:auto;
     border-right:1px solid #ebecee;
+    padding:0;
+}
+
+#nav-tree>ul {
+    margin:10px 0 0 20px;
 }
 
 #nav-tree {
-    padding:20px 40px 20px 20px;
     user-select:none;
     -moz-user-select:none;
     -ms-user-select: none;
@@ -53,18 +73,14 @@ footer p {
 }
 
 #content {
-    width:84%;
-    overflow:hidden;
-    box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    -webkit-box-sizing:border-box;
+    overflow:auto;
     padding:50px 0 0;
+    margin:0;
 }
 
 #content > .function-nav {
     height:50px;
     border-bottom:1px solid #ebecee;
-    padding-right:30px;
     margin:-50px 0 0;
 }
 
@@ -86,28 +102,13 @@ footer p {
     height:30px;
 }
 
-#equip-viewport {
-    padding-bottom:20px;
-}
-
-#equip-tree {
-    width:18%;
+#equip-container {
     border-right:1px solid #ebecee;
-    padding:30px 0 0 20px;
+    padding:0;
 }
 
-#viewport {
-    width:80%;
-}
-
-.navbar-brand {
-    padding:10px;
-}
-.navBtn {
-    margin:10px;
-}
-.navBtn-sm {
-    width:70px;
+#equip-tree>ul {
+    margin:10px 0 0 20px;
 }
 
 .login-form-item {
@@ -161,11 +162,3 @@ footer p {
 .modal-dialog {
     margin:100px auto;
 }
-
-#spanUserName {
-    height: 28px;
-    width: 100px;
-    margin:13px 0 0 0;
-    font-size:18px;
-}
-

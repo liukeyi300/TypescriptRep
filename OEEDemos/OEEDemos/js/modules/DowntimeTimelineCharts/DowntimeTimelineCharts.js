@@ -14,8 +14,9 @@ var OEEDemos;
         }
         DowntimeTimelineCharts.prototype.equipNodeSelect = function (e, sender) {
             var equId = sender.dataItem(e.node).id;
+            var equName = sender.dataItem(e.node).text;
             var dtInstance = OEEDemos.ModuleLoad.getModuleInstance("DowntimeTimelineCharts");
-            dtInstance.refreshData(equId);
+            dtInstance.refreshData(equId, equName);
         };
         DowntimeTimelineCharts.prototype.timeRangeListner = function (start, end) {
             var dtInstance = OEEDemos.ModuleLoad.getModuleInstance("DowntimeTimelineCharts");
@@ -31,13 +32,13 @@ var OEEDemos;
             };
             this.timeline = new vis.Timeline(container, this.dataItems, this.dataGroups, options);
         };
-        DowntimeTimelineCharts.prototype.refreshData = function (eqId) {
+        DowntimeTimelineCharts.prototype.refreshData = function (eqId, eqName) {
             try {
                 var allEqu = [];
                 var dtInstance = OEEDemos.ModuleLoad.getModuleInstance("DowntimeTimelineCharts");
                 if (typeof eqId !== "undefined") {
-                    allEqu.push({ id: eqId, content: eqId });
-                    this.dataGroups.update({ id: eqId, content: eqId });
+                    allEqu.push({ id: eqId, content: eqName });
+                    this.dataGroups.update({ id: eqId, content: eqName });
                 }
                 else {
                     allEqu = this.dataGroups.get();
@@ -50,14 +51,14 @@ var OEEDemos;
                     var end = this.endTime || new Date();
                     for (var i = 0, max = allEqu.length; i < max; i++) {
                         this.ppaServiceContext.PPA_DT_RECORD.filter(function (it) {
-                            return it.EQP_ID == this.eqid && it.DT_START_TIME >= this.startDate && it.DT_END_TIME < this.endDate;
+                            return it.EQP_NO == this.eqid && it.DT_START_TIME >= this.startDate && it.DT_END_TIME < this.endDate;
                         }, { startDate: start, endDate: end, eqid: allEqu[i].id }).map(function (it) {
                             return {
                                 id: it.REC_NO,
                                 start: it.DT_START_TIME,
                                 end: it.DT_END_TIME,
                                 cause: it.DT_CAU_ID,
-                                eqp: it.EQP_ID
+                                eqp: it.EQP_NO
                             };
                         }).toArray(function (re) {
                             re.forEach(function (it) {
@@ -66,7 +67,7 @@ var OEEDemos;
                                     start: it.start,
                                     end: it.end,
                                     group: it.eqp,
-                                    title: it.eqp + "-" + it.cause + ": \n" + it.start + " - " + it.end,
+                                    title: OEEDemos.AppUtils.EquimentsName[it.eqp] + "-" + it.cause + ": \n" + it.start + " - " + it.end,
                                     className: "vis-item-" + it.cause
                                 });
                             });

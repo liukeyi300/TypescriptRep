@@ -17,6 +17,11 @@ declare module vis {
         setOptions(options: TimelineOptions): void;
     }
 
+    class Graph2D {
+        constructor(container: HTMLElement, items: any[]|DataSet|DataView, options: any);
+        constructor(container: HTMLElement, items: any[]|DataSet|DataView, groups: any[]|DataSet|DataView, options: any);
+    }
+
     class DataSet {
         length: number;
         constructor(data?: any[], options?: DataSetOptions);
@@ -24,7 +29,9 @@ declare module vis {
         clear(senderId?): number[];
         distinct(field): any[];
         get(options?, data?): any;
-        update(data: any): number[]; 
+        update(data: any): number[];
+        on(event: string, callback: (event: string, properties: any, senderId: string | number)=> void): void;
+        off(event: string, callback: (event: string, properties: any, senderId: string | number) => void): void;
     }
 
     interface DataSetOptions {

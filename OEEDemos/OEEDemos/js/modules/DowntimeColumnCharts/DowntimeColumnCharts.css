@@ -1,12 +1,6 @@
-﻿.downtimeChartsContainer {
-    height:100%;
-    width:100%;
-}
-
-#columnCharts {
+﻿#columnCharts {
     width:95%;
-    height:100%;
-    padding:20px 0 0 20px;
+    padding:20px 0 5px 20px;
 }
 
 /*.tabbable {

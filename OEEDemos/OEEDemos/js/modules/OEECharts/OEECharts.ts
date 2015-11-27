@@ -20,6 +20,10 @@ module OEEDemos {
         private endTime: Date;
         private currentEquipment: string;
 
+        private dataItem = new vis.DataSet();
+        private dataGroup = new vis.DataSet();
+        private chart: vis.Graph2D;
+
         constructor() { }
 
         private timeRangeListner(startTime: Date, endTime: Date): void {
@@ -36,6 +40,20 @@ module OEEDemos {
         }
 
         private initChart() {
+            //var container = $('#oeeChart')[0];
+            //var options = {
+            //    dataAxis: {
+            //        showMinorLabels: false
+            //    },
+            //    legend: {
+            //        left: {
+            //            position:"bottom-left"
+            //        }
+            //    },
+            //    start: '2015-09-01',
+            //    end:'2015-10-01'
+            //};
+            //this.chart = new vis.Graph2D(container, this.dataItem, this.dataGroup, options);
             $("#oeeChart").kendoChart({
                 title: {
                     text: "OEEDemo Charts"
@@ -66,7 +84,7 @@ module OEEDemos {
                     type: "date",
                     field: "oeeStartTime",
                     baseUnit: "hours",
-                    justified: true,
+                    justified: false,
                     labels: {
                         dateFormats: {
                             hours: "M-d HH:mm"
@@ -91,6 +109,13 @@ module OEEDemos {
                     template: "#= series.name #: #= value #"
                 }
             });
+
+            var chart = $("#oeeChart").data('kendoChart');
+            chart.bind('drag', function (e) {
+                
+            })
+            chart.bind('dragEnd', function (e) {
+            })
         }
         
 
@@ -108,7 +133,7 @@ module OEEDemos {
                     this.ppaServiceContext.PPA_OEE_SUMMARY
                         .filter(function (items) {
                             return (items.PER_START_TIME >= this.startDate && items.PER_START_TIME < this.endDate
-                                && items.EQP_ID === this.equid);
+                                && items.EQP_NO === this.equid);
                             }, {
                             startDate: start, endDate: end,
                                 equid: currentEquipment
@@ -116,20 +141,20 @@ module OEEDemos {
                         .map(function (it) {
                             return {
                                 oeeStartTime: it.PER_START_TIME,
-                                oeeAVA: it.OEE_AVA,
-                                oeePER: it.OEE_PER,
-                                oeeQUA: it.OEE_QUA,
-                                oeeCOM: it.OEE_COM
+                                oeeAVA: it.PPA_AVA,
+                                oeePER: it.PPA_PER,
+                                oeeQUA: it.PPA_QUA,
+                                oeeCOM: it.PPA_COM
                             };
                         })
                         .toArray(function (result) {
                             OEEDemos.ModuleLoad.getModuleInstance(StartUp.currentInstanceName).viewModel.set("series", result);
+                            
                             kendo.ui.progress($("#oeeChart"), false);
                         }).fail(function (e: { message: string }) {
                             kendo.ui.progress($("#oeeChart"), false);
                             alert(e.message);
                         });
-
                 } else {
                     //alert("请选择设备！！");
                     return;
@@ -147,6 +172,7 @@ module OEEDemos {
             this.refreshData();
             StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
             StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
+
         }
         
         update() {

@@ -34,6 +34,10 @@ var OEEDemos;
                 tree.destroy();
             }
         };
+        Navigations.prototype.getTree = function () {
+            var tree = this.view.data('kendoTreeView');
+            return tree;
+        };
         return Navigations;
     })();
     OEEDemos.Navigations = Navigations;

@@ -17,8 +17,9 @@ module OEEDemos {
 
         private equipNodeSelect(e: kendo.ui.TreeViewSelectEvent, sender): void {
             var equId = sender.dataItem(e.node).id;
+            var equName = sender.dataItem(e.node).text;
             var dtInstance = ModuleLoad.getModuleInstance("DowntimeTimelineCharts");
-            dtInstance.refreshData(equId);
+            dtInstance.refreshData(equId, equName);
         }
 
         private timeRangeListner(start: Date, end: Date): void {
@@ -37,13 +38,13 @@ module OEEDemos {
             this.timeline = new vis.Timeline(container, this.dataItems, this.dataGroups, options);
         }
 
-        private refreshData(eqId?): void {
+        private refreshData(eqId?, eqName?): void {
             try {
                 var allEqu = [];
                 var dtInstance = ModuleLoad.getModuleInstance("DowntimeTimelineCharts");
                 if (typeof eqId !== "undefined") {
-                    allEqu.push({ id: eqId, content: eqId });
-                    this.dataGroups.update({ id: eqId, content: eqId });
+                    allEqu.push({ id: eqId, content: eqName });
+                    this.dataGroups.update({ id: eqId, content: eqName });
                 } else {
                     allEqu = this.dataGroups.get();
                     this.dataItems.clear();
@@ -55,14 +56,14 @@ module OEEDemos {
                     var end = this.endTime || new Date();
                     for (var i = 0, max = allEqu.length; i < max; i++) {
                         this.ppaServiceContext.PPA_DT_RECORD.filter(function (it) {
-                            return it.EQP_ID == this.eqid && it.DT_START_TIME >= this.startDate && it.DT_END_TIME < this.endDate;
+                            return it.EQP_NO == this.eqid && it.DT_START_TIME >= this.startDate && it.DT_END_TIME < this.endDate;
                         }, { startDate: start, endDate: end, eqid: allEqu[i].id }).map((it) => {
                             return {
                                 id: it.REC_NO,
                                 start: it.DT_START_TIME,
                                 end: it.DT_END_TIME,
                                 cause: it.DT_CAU_ID,
-                                eqp: it.EQP_ID
+                                eqp: it.EQP_NO
                             }
                         }).toArray((re) => {
                             re.forEach(function (it) {
@@ -71,7 +72,7 @@ module OEEDemos {
                                     start: it.start,
                                     end: it.end,
                                     group: it.eqp,
-                                    title: it.eqp + "-" + it.cause + ": \n" + it.start + " - " + it.end,
+                                    title: AppUtils.EquimentsName[it.eqp] + "-" + it.cause + ": \n" + it.start + " - " + it.end,
                                     className: "vis-item-" + it.cause
                                 });
                             });

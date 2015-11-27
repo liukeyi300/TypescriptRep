@@ -44,6 +44,11 @@ module OEEDemos{
                 tree.destroy();
             }
         }
+
+        public getTree(): kendo.ui.TreeView {
+            var tree = this.view.data('kendoTreeView');
+            return tree;
+        }
     }
 
 }
