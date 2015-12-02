@@ -1,0 +1,6 @@
+D:\githubdir\TypescriptRep\AicControls\AicControls\bin\AicControls.dll.config
+D:\githubdir\TypescriptRep\AicControls\AicControls\bin\AicControls.dll
+D:\githubdir\TypescriptRep\AicControls\AicControls\bin\AicControls.pdb
+D:\githubdir\TypescriptRep\AicControls\AicControls\obj\Debug\AicControls.csprojResolveAssemblyReference.cache
+D:\githubdir\TypescriptRep\AicControls\AicControls\obj\Debug\AicControls.dll
+D:\githubdir\TypescriptRep\AicControls\AicControls\obj\Debug\AicControls.pdb
