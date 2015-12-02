@@ -1,4 +1,21 @@
-﻿#down-time-pie-charts {
-    width:95%;
-    padding:20px 0 5px 20px;
+﻿.down-time-pie-charts-container {
+    padding:61px 0 50px;
+}
+
+    .down-time-pie-charts-container hr {
+        margin:0;
+    }
+
+#down-time-pie-charts {
+    width:50%;
+    float:left;
+}
+
+#down-time-pie-charts-2 {
+    width:50%;
+     float:left;
+}
+
+.color-select {
+    height:50px;
 }

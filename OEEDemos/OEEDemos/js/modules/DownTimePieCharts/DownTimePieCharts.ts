@@ -89,12 +89,8 @@ module OEEDemos {
 
         private initWidget() {
             $('#down-time-pie-charts').kendoChart({
-                title: {
-                    position: "top",
-                    text:"OEE Downtime Pie-Chart"
-                },
                 legend: {
-                    position:'top'
+                    position:'bottom'
                 },
                 chartArea: {
                     background:""
@@ -103,7 +99,33 @@ module OEEDemos {
                     labels: {
                         visible: true,
                         background: "transparent",
-                        template:"#=dataItem.dtCauId# : #=dataItem.dtTime#"
+                        template:"#=dataItem.dtCauId# : \n #=dataItem.dtTimes#次"
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    startAngle: 150,
+                    categoryField: "dtCauId",
+                    field: "dtTimes",
+                }],
+                tooltip: {
+                    visible: true,
+                    template:"#=dataItem.dtCauId# : #=dataItem.dtTimes #次"
+                }
+            });
+
+            $('#down-time-pie-charts-2').kendoChart({
+                legend: {
+                    position: 'bottom'
+                },
+                chartArea: {
+                    background: ""
+                },
+                seriesDefaults: {
+                    labels: {
+                        visible: true,
+                        background: "transparent",
+                        template: "#=dataItem.dtCauId# : \n #=dataItem.dtTime#"
                     }
                 },
                 series: [{
@@ -111,7 +133,11 @@ module OEEDemos {
                     startAngle: 150,
                     categoryField: "dtCauId",
                     field: "dtTime",
-                }]
+                }],
+                tooltip: {
+                    visible: true,
+                    template:"#=dataItem.dtCauId# : #=dataItem.dtTime #次"
+                }
             });
         }
 

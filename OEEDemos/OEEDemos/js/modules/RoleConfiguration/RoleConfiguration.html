@@ -1,0 +1,83 @@
+﻿<div class="roleConfigurationContainer div-border-box full-height full-width">
+    <h1>角色管理</h1>
+    <div class="container-fluid full-height">
+        <div class="row full-height">
+            <div class="col-md-3 col-xs-4 role-table full-height div-border-box">
+                <center>
+                    <h3>角色列表</h3>
+                </center>
+                <hr class="hr-adjust" />
+                <div class="content-adjust full-height">
+                    <ul id="role-list-all"></ul>
+                </div>
+            </div>
+            <div class="col-md-3 col-md-offset-1 col-xs-4 user-list full-height div-border-box">
+                <center>
+                    <h3>用户列表</h3>
+                </center>
+                <hr class="hr-adjust">
+                <div class="content-adjust full-height">
+                    <ul id="user-list-role"></ul>
+                </div>
+            </div>
+            <div class="col-md-3 col-md-offset-1 col-xs-4 full-height function-area">
+                <center>
+                    <button class="btn btn-lg btn-info" data-toggle="modal" data-target="#create-role">创建角色</button>
+                </center>
+                <hr />
+                <center>
+                    <button class="btn btn-lg btn-danger" data-bind="click:deleteRole">删除角色</button>
+                </center>
+                <hr />
+                <center>
+                    <button class="btn btn-lg btn-info" data-toggle="modal" data-target="#add-user">添加用户</button>
+                </center>
+                <hr />
+                <center>
+                    <button class="btn btn-lg btn-danger" data-bind="click:removeUser">删除用户</button>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="create-role" tabindex="-1" role="alertdialog" aria-labelledby="createRoleLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" arial-label="Close"></button>
+                <h3 id="addRoleLabel" class="modal-title">创建角色</h3>
+            </div>
+            <div class="modal-body">
+                <dl>
+                    <dt>请输入角色名：</dt>
+                    <dd>
+                        <input type="text" class="full-width" data-bind="value:roleName" />
+                    </dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bind="click:createRole">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="add-user" class="modal fade" tabindex="-1" role="alertdialog" aria-labelledby="addUserLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" arial-label="Close" class="close"></button>
+                <h3 id="addUserLabel" class="modal-title">添加用户</h3>
+            </div>
+            <div class="modal-body">
+                <ul id="user-list-4add"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bind="click:addUser">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>

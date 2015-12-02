@@ -1,0 +1,73 @@
+﻿.roleConfigurationContainer {
+    padding:61px 0 0;
+}
+
+.roleConfigurationContainer>.container-fluid {
+   margin:11px 20px 0;
+   overflow:auto;
+}
+
+.role-table {
+    border: 1px solid #C0C0C0;
+    padding: 67px 0 0;
+}
+
+.user-list { 
+    border: 1px solid #C0C0C0;
+    padding: 67px 0 0;
+}
+
+.roleConfigurationContainer ul, #user-list-4add {
+    list-style:none;
+    padding:0;
+}
+
+.roleConfigurationContainer ul li, #user-list-4add li {
+    margin:10px 0;
+    cursor:pointer;
+    height:30px;
+    line-height:30px;
+}
+ 
+.roleConfigurationContainer ul li:not(.li-selected-active):hover,
+#user-list-4add li:not(.li-selected-active):hover {
+    background-color:#bcb4b0 !important;
+}
+
+.roleConfigurationContainer ul .li-selected-active,
+#user-list-4add .li-selected-active {
+    background-color:#f35800;
+}
+
+.roleConfigurationContainer ul .li-selected-active b,
+#user-list-4add .li-selected-active b {
+    color:#FFFFFF;
+}
+
+.roleConfigurationContainer ul .li-selected-non-active,
+#user-list-4add .li-selected-non-active {
+    background-color:#FFFFFF;
+}
+
+.roleConfigurationContainer ul .li-selected-non-active b,
+#user-list-4add .li-selected-non-active b {
+    color:#000000; 
+}
+
+.function-area button {
+    display:block;
+    margin-top:20px;
+}
+
+#create-role dl {
+    margin:0;
+}
+
+#create-role dt {
+    margin-bottom:5px;
+}
+
+#create-role dd {
+    text-align:right;
+}
+
