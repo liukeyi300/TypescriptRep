@@ -173,7 +173,7 @@ module OEEDemos {
      * 模块加载器传入参数列表
      * baseUrl:string 上下文路径
      * moduleName:string  模块名称
-     * onInstantiated:(instance:any, viewTemplate:HTMLElement) =>void 加载完成后的回调函函数
+     * onInstantiated:(instance:any, viewTemplate:HTMLElement) =>void 加载完成后的回调函数
      */
     export interface ModuleLoadOptions {
         moduleName: string;
