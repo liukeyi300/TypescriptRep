@@ -1,8 +1,11 @@
-﻿module Aic.Html.Controls {
+﻿/// <reference path="lib/jquery/jquery.d.ts" /> 
+var i = 1;
+module Aic.Html.Controls {
     export class Greeter {
         element: HTMLElement;
         span: HTMLElement;
         timerToken: number;
+   
 
         constructor(element: HTMLElement) {
           //  this.element = element;
@@ -13,7 +16,19 @@
         }
 
         start() {
-           // this.timerToken = setInterval(() => this.span.innerHTML = new Date().toUTCString(), 500);
+            // this.timerToken = setInterval(() => this.span.innerHTML = new Date().toUTCString(), 500);
+            $('button').on('click', () => {
+                if (i % 2 === 1) {
+                    $('#a>.pipe-normal').attr('fill', 'url(#alert)');
+                    $('#a>.pipe-op-normal').attr('display', 'none');
+                    $('#a>.pipe-op-alert').attr('display', 'block');
+                } else {
+                    $('#a>.pipe-normal').attr('fill', 'url(#metal)');
+                    $('#a>.pipe-op-normal').attr('display', 'block');
+                    $('#a>.pipe-op-alert').attr('display', 'none');
+                }
+                i++;
+            });
         }
 
         stop() {

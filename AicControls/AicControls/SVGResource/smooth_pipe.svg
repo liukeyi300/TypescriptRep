@@ -3,7 +3,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="_x30_" xmlns:agg="http://www.example.com"
 	 xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px" width="80px"
-	 height="80px" viewBox="0 0 40 40" xml:space="preserve">
+	 height="80px" xml:space="preserve">
 
 <agg:params>
 	<agg:param name="color" description="Color" type="C" cssAttributes="fill" classes="color"/>
@@ -26,9 +26,14 @@
 		opacity:0.2;
 	}
 
+    .color-alert {
+        fill:#FF0000;
+        opacity:0.2;
+    }
+
       ]]>
 </style>
-
+    <defs>
 <linearGradient id="metal" gradientUnits="userSpaceOnUse" x1="0" y1="10" x2="0" y2="30">
 	<stop  offset="0" style="stop-color:#4D5C75"/>
 	<stop  offset="0.0313" style="stop-color:#616F85"/>
@@ -47,11 +52,29 @@
 	<stop  offset="1" style="stop-color:#4D5C75"/>
 </linearGradient>
 
+        <linearGradient id="alert" gradientUnits="userSpaceOnUse" x1="0" y1="10" x2="0" y2="30">
+        <stop offset="0" style="stop-color:#f70404" />
+        <stop offset="0.0313" style="stop-color:#f84949" />
+        <stop offset="0.1108" style="stop-color:#ff7e7e" />
+        <stop offset="0.1908" style="stop-color:#fba1a1" />
+        <stop offset="0.27" style="stop-color:#fbc7c7" />
+        <stop offset="0.3485" style="stop-color:#ffe4e4" />
+        <stop offset="0.4256" style="stop-color:#fff3f3" />
+        <stop offset="0.5" style="stop-color:#F6FAFC" />
+        <stop offset="0.5744" style="stop-color:#fff3f3" />
+        <stop offset="0.6515" style="stop-color:#ffe4e4" />
+        <stop offset="0.73" style="stop-color:#fbc7c7" />
+        <stop offset="0.8092" style="stop-color:#fba1a1" />
+        <stop offset="0.8892" style="stop-color:#ff7e7e" />
+        <stop offset="0.9687" style="stop-color:#f84949" />
+        <stop offset="1" style="stop-color:#f70404" />
+        </linearGradient>
+        </defs>
 <rect x="0" y="10" fill="url(#metal)" width="40" height="20"/>
-
+<rect x="0" y="10" fill="url(#alert)" width="40" height="20" display="none"/>
 <rect x="0" y="10" class="color" width="40" height="20"/>
 
 <line class="stroke" x1="0" y1="10" x2="40" y2="10"/>
 <line class="stroke" x1="0" y1="30" x2="40" y2="30"/>
-
+    <text width="40" height="20" x="30" y="40">abc</text>
 </svg>

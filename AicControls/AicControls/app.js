@@ -1,3 +1,5 @@
+/// <reference path="lib/jquery/jquery.d.ts" /> 
+var i = 1;
 var Aic;
 (function (Aic) {
     var Html;
@@ -14,6 +16,19 @@ var Aic;
                 }
                 Greeter.prototype.start = function () {
                     // this.timerToken = setInterval(() => this.span.innerHTML = new Date().toUTCString(), 500);
+                    $('button').on('click', function () {
+                        if (i % 2 === 1) {
+                            $('#a>.pipe-normal').attr('fill', 'url(#alert)');
+                            $('#a>.pipe-op-normal').attr('display', 'none');
+                            $('#a>.pipe-op-alert').attr('display', 'block');
+                        }
+                        else {
+                            $('#a>.pipe-normal').attr('fill', 'url(#metal)');
+                            $('#a>.pipe-op-normal').attr('display', 'block');
+                            $('#a>.pipe-op-alert').attr('display', 'none');
+                        }
+                        i++;
+                    });
                 };
                 Greeter.prototype.stop = function () {
                     clearTimeout(this.timerToken);
