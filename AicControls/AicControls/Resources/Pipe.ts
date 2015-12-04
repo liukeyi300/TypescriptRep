@@ -126,6 +126,12 @@ module Aic.Html.Controls {
             stop1.setAttributeNS(null, "style", "stop-color:#F6FAFC");
             linearGra.appendChild(stop1);
         }
+
+        private drawStop(offset: string, style: string, svgContainer) {
+            var stop = AicControlsUtils.getSVGElement('stop', svgContainer);
+            stop.setAttributeNS(null, 'offset', offset);
+            stop.setAttributeNS(null, 'style', style);
+        }
     }
 
     interface PipeOptions {
