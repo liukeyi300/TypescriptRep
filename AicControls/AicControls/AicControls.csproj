@@ -34,6 +34,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="lib\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Resources\AicControlsUtils.ts" />
     <TypeScriptCompile Include="Resources\Pipe.ts" />
   </ItemGroup>
   <ItemGroup>
