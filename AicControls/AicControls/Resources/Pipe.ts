@@ -148,6 +148,12 @@ module Aic.Html.Controls {
 
         public setData() {
         }
+
+        private drawStop(offset: string, style: string, svgContainer) {
+            var stop = AicControlsUtils.getSVGElement('stop', svgContainer);
+            stop.setAttributeNS(null, 'offset', offset);
+            stop.setAttributeNS(null, 'style', style);
+        }
     }
 
     interface PipeOptions {
