@@ -27,13 +27,12 @@
     <Content Include="lib\jquery\jquery-2.1.4.js" />
     <Content Include="lib\jquery\jquery-2.1.4.min.js" />
     <Content Include="Styles\common.css" />
-    <Content Include="SVGResource\smooth_pipe.svg" />
-    <Content Include="SVGResource\test.svg" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="lib\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Resources\AicControlBase.ts" />
     <TypeScriptCompile Include="Resources\AicControlsUtils.ts" />
     <TypeScriptCompile Include="Resources\Pipe.ts" />
   </ItemGroup>
@@ -45,7 +44,9 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="SVGResource\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>

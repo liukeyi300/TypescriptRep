@@ -10,7 +10,9 @@ var Aic;
                 }
                 AicControlsUtils.getSVGElement = function (elementType, svgContainer) {
                     var element = document.createElementNS("http://www.w3.org/2000/svg", elementType);
-                    svgContainer.appendChild(element);
+                    if (typeof svgContainer !== 'undefined') {
+                        svgContainer.appendChild(element);
+                    }
                     return element;
                 };
                 AicControlsUtils.extendObj = function (objA, objB) {

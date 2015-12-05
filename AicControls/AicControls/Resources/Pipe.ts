@@ -3,20 +3,27 @@
 module Aic.Html.Controls {
     /**
      * Pipe Controls
-     * Create pipe svg elments and insert them to svg label
+     * Create pipe svg elments and insert that to the svg label
      */
-    export class Pipe {
+    export class Pipe extends AICControlBase {
         private svgContainer;
-        private status: StatusOptions[];
+        private status = [];
+        private currentStatus: string;
+        private fillRect;
+        private opaRect;
+        private options: PipeOptions;
+        private leftValueText;
+        private rightValueText;
         /**
          * return a instance can control the new elements
          *
-         * @param svgContainer:SVGElement 
-         * @param options: PipeOptions
+         * @param {SVGElement} svgContainer 
+         * @param {PipeOptions} options
          */
         constructor(svgContainer, options?: PipeOptions) {
+            super();
             var ops = options || {};
-            var option: PipeOptions = {
+            this.options = {
                 x: ops.x | 0,
                 y: ops.y | 0,
                 width: ops.width | 50,
@@ -25,10 +32,7 @@ module Aic.Html.Controls {
                     strokeColor: "black",
                     strokeWidth: 0.3
                 } : ops.stroke,
-                title: typeof ops.title === "undefined" ? {
-                    content: "2WayPipe",
-                    position: "top"
-                } : ops.title,
+                title: ops.title,
                 status: typeof ops.status === "undefined" ? [{
                     statuContent: "Normal",
                     statuColor: "#4D5C75"
@@ -38,93 +42,111 @@ module Aic.Html.Controls {
                     out: 0,
                     status: "Normal"
                 } : ops.data,
-                type: typeof ops.type === "undefined" ? "2WayPipe" : ops.type
+                type: typeof ops.type === "undefined" ? "2WayPipe" : ops.type,
+                leftText: typeof ops.leftText === "undefined" ? "" : ops.leftText,
+                rightText: typeof ops.rightText === "undefined" ? "" : ops.rightText,
+                text: typeof ops.text === "undefined" ? {
+                    position: TextPosition.bottom,
+                    fontSize:12
+                } : ops.text
             };
             var g = AicControlsUtils.getSVGElement('g', svgContainer);
             this.svgContainer = g;
-            this.status = option.status;
-            if (option.type === "2WayPipe") {
-                this.draw2WayPipe(option.width, option.height, option.x, option.y, g, "",  option.status);
+            if (this.options.type === "2WayPipe") {
+                this.draw2WayPipe(this.options, g);
             }
         }
 
         /**
          * draw a 2-way-pipe SVG element started on point(x,y) 
          * 
-         * @param width
-         * @param height
-         * @param x
-         * @param y
+         * @param {PipeOptions} options
          * @param {SVGElement} svgContainer
-         * @param className
-         * @param {Object} [StautsOptions] Available options:
-         *                            -{string} statuContent, statu`s description, "Normal" by default
-         *                            -{string} statuColor,     statu`s color, "#4D5C75" by default
          */
-        private draw2WayPipe(width: number, height: number, x: number, y: number, svgContainer, className, status: StatusOptions[]) {
+        private draw2WayPipe(options: PipeOptions, svgContainer) {
+            var x = options.x,
+                  y = options.y,
+                  width = options.width,
+                  height = options.height,
+                  status = options.status,
+                  leftText = options.leftText,
+                  rightText = options.rightText;
+
             if (height !== 0) {
                 if (height < 0) {
                     height *= -1;
                 }
-                var style = AicControlsUtils.getSVGElement('style', svgContainer);
+                // add styles and gradients
                 var defs = AicControlsUtils.getSVGElement('defs', svgContainer);
+                var style = AicControlsUtils.getSVGElement('style', svgContainer);
                 $(style).text('.stroke{stroke-width:0.3;stroke- linecap:round; stroke - linejoin:round;stroke: black;fill: none;}\n.pipe-op{opacity:0.2}\n');
                 for (var i = 0, max = status.length; i < max; i++) {
                     var styleText = $(style).text();
                     $(style).text(styleText + ".pipe-op-" + status[i].statuContent + "{fill:" + status[i].statuColor + "}\n");
-                    this.drawLinearGradient(status[i].statuContent, "#F6FAFC", 7, x, y, x, y + height, status[i].statuContent, defs);
-                    var rect = this.drawRect(x, y, width, height, svgContainer, "pipe-" + status[i].statuContent, "fill:url(#" + status[i].statuContent + ");");
-                    if (i !== 0) {
-                        rect.setAttributeNS(null, 'display', 'none');
-                    } 
+                    this.drawLinearGradient(status[i].statuColor, "#F6FAFC", 7, x, y, x, y + height, status[i].statuContent, defs);
+                    this.status[status[i].statuContent] = status[i].statuColor;
                 }
-                var rect1 = this.drawRect(x, y, width, height, svgContainer, "pipe-op pipe-op-" + status[0].statuContent);
+
+                //draw pipe and cache it
+                this.fillRect = this.drawRect(x, y, width, height, svgContainer, "pipe-" + status[0].statuContent, "fill:url(#" + status[0].statuContent + ");");
+                this.opaRect = this.drawRect(x, y, width, height, svgContainer, "pipe-op pipe-op-" + status[0].statuContent);
+
+                //draw left and right texts
+                //because the clientWidth is always 0 in ie, we use scrollWidth to relocate the position.
+                if (options.text.position === TextPosition.bottom) {
+                    var text = this.drawText(x - 30, y + height + 20, 30, 20, leftText, options.text.fontSize, svgContainer);
+                    var showWidth = text.scrollWidth;
+                    text.setAttributeNS(null, "width", showWidth + "");
+                    text.setAttributeNS(null, 'x', x + 5 - showWidth + "");
+                    this.leftValueText = this.drawText(x, y + height + 20, width / 2, 20, "14.5ml/s", options.text.fontSize, svgContainer); 
+
+                    
+                    text = this.drawText(x + width - 5, y + height + 20, 45, 20, rightText, options.text.fontSize, svgContainer);
+                    showWidth = text.scrollWidth;
+                    text.setAttributeNS(null, "width", showWidth + "");
+                    this.rightValueText = this.drawText(x + width + showWidth - 3, y + height + 20, width / 2, 20, "", options.text.fontSize, svgContainer);
+                } else {
+                    this.drawText(x - 30, y - 5, 30, 20, leftText, options.text.fontSize, svgContainer);
+                    this.leftValueText = this.drawText(x + 5, y - 5, width / 2, 20, "", options.text.fontSize, svgContainer);
+
+                    this.drawText(x + width - 5, y - 5, 45, 20, rightText, options.text.fontSize, svgContainer);
+                    this.rightValueText = this.drawText(x + width + 40, y - 5, width / 2, 20, "", options.text.fontSize, svgContainer);
+                }
+
+                //draw title
+                if (typeof options.title !== 'undefined' && options.title !== false) {
+
+                }
+
+                //draw stroke line
                 this.drawLine(x + "", y + "", x + width + "", y + "", svgContainer, "stroke");
                 this.drawLine(x + "", y + height + "", x + width + "", y + height + "", svgContainer, "stroke");
+
+                //cache current statu
+                this.currentStatus = status[0].statuContent;
+            }
+        }
+        
+        public setStatus(statu: string) {
+            if (typeof this.status[statu] === 'undefined') {
+                alert("该管道无此状态！");
+                return;
+            }
+            if (this.currentStatus === statu) {
+                return;
+            } else {
+                this.fillRect.setAttributeNS(null, "class", 'pipe-' + statu);
+                $(this.fillRect).css('fill', 'url(#' + statu + ')');
+                this.opaRect.setAttributeNS(null, 'class', 'pipe-op pipe-op-' + statu);
+                this.currentStatus = statu;
             }
         }
 
-        private drawRect(x: number, y: number, width: number, height: number, svgContainer, className?: string, style?: string) {
-            var rect = AicControlsUtils.getSVGElement('rect', svgContainer);
-            rect.setAttributeNS(null, "x", x + "");
-            rect.setAttributeNS(null, "y", y + "");
-            rect.setAttributeNS(null, "width", width + "");
-            rect.setAttributeNS(null, "height", height + "");
-            if (className !== null) {
-                rect.setAttributeNS(null, "class", className);
-            }
-            if (typeof style !== "undefined") {
-                rect.setAttributeNS(null, "style", style);
-            }
-            return rect;
+        public getStaus(): string {
+            return this.currentStatus;
         }
 
-        private drawLine(x1: string, y1: string, x2: string, y2: string, svgContainer, className: string) {
-            var line = AicControlsUtils.getSVGElement('line', svgContainer);
-            line.setAttributeNS(null, "x1", x1);
-            line.setAttributeNS(null, "y1",y1);
-            line.setAttributeNS(null, "x2", x2);
-            line.setAttributeNS(null, "y2", y2);
-            line.setAttributeNS(null, "class", className);
-            return line;
-        }  
-
-        private drawLinearGradient(startColor: string, endColor: string, sectionNumber: number, x1: number, y1: number, x2: number, y2: number, id: string, svgContainer) {
-            var linearGra = AicControlsUtils.getSVGElement('linearGradient', svgContainer);
-            linearGra.setAttributeNS(null, 'x1', x1 + "");
-            linearGra.setAttributeNS(null, 'y1', y1 + "");
-            linearGra.setAttributeNS(null, 'x2', x2 + "");
-            linearGra.setAttributeNS(null, 'y2', y2 + "");
-            linearGra.setAttributeNS(null, 'id', id);
-            linearGra.setAttributeNS(null, 'gradientUnits', 'userSpaceOnUse');
-            var stop = document.createElementNS(null, 'stop');
-            stop.setAttributeNS(null, "offset", "0");
-            stop.setAttributeNS(null, "style", "stop-color:#4D5C75");
-            linearGra.appendChild(stop);
-            var stop1 = document.createElementNS(null, 'stop');
-            stop1.setAttributeNS(null, "offset", "1");
-            stop1.setAttributeNS(null, "style", "stop-color:#F6FAFC");
-            linearGra.appendChild(stop1);
+        public setData() {
         }
     }
 
@@ -138,6 +160,9 @@ module Aic.Html.Controls {
         status?: StatusOptions[];
         data?: TwoWayPipeData;
         type?: string;
+        leftText?: string;
+        rightText?: string;
+        text?: TextOptions;
     }
 
     interface StrokOptions {
@@ -159,5 +184,14 @@ module Aic.Html.Controls {
         in?: number;
         out?: number;
         status?: string;
+    }
+
+    interface TextOptions {
+        position: TextPosition;
+        fontSize: number;
+    }
+
+    enum TextPosition {
+        "top"=0,"bottom",
     }
 }
