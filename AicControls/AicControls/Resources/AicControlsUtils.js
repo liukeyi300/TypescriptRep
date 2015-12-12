@@ -11,7 +11,7 @@ var Aic;
                 AicControlsUtils.getSVGElement = function (elementType, svgContainer) {
                     var element = document.createElementNS("http://www.w3.org/2000/svg", elementType);
                     if (typeof svgContainer !== 'undefined') {
-                        svgContainer.appendChild(element);
+                        $(element).appendTo(svgContainer);
                     }
                     return element;
                 };

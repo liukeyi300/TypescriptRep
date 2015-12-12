@@ -1,0 +1,33 @@
+﻿.aic-pipe .pipe-2way-title {
+    height:30px;
+}
+
+.pipe-2way-title text {
+    font-size:16px;
+    line-height:30px;
+}
+
+.aic-pipe .pipe-2way-value {
+    height:30px;
+    width:50%;
+}
+
+.pipe-2way-value text {
+    font-size:14px;
+    line-height:30px;
+    width:67%;
+    word-wrap:break-word; 
+    -ms-word-wrap:break-word;
+    overflow:hidden;
+}
+
+.pipe-2way-value text:first-child {
+    width:33%;
+}
+
+.aic-pipe svg {
+    display:block;
+}
+
+
+

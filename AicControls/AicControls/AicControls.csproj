@@ -26,15 +26,20 @@
     <Content Include="index.html" />
     <Content Include="lib\jquery\jquery-2.1.4.js" />
     <Content Include="lib\jquery\jquery-2.1.4.min.js" />
+    <Content Include="lib\kendo\kendo.all.js" />
+    <Content Include="lib\kendo\kendo.all.min.js" />
     <Content Include="Styles\common.css" />
+    <Content Include="Styles\pipe.css" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
     <TypeScriptCompile Include="lib\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="lib\kendo\kendo.all.d.ts" />
     <TypeScriptCompile Include="Resources\AicControlBase.ts" />
-    <TypeScriptCompile Include="Resources\AicControlsUtils.ts" />
+    <TypeScriptCompile Include="Resources\AicControlUtils.ts" />
     <TypeScriptCompile Include="Resources\Pipe.ts" />
+    <TypeScriptCompile Include="Resources\reference.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="web.Debug.config">

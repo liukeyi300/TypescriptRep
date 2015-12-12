@@ -1,132 +1,175 @@
-﻿/// <reference path="../lib/jquery/jquery.d.ts" />
+﻿/// <reference path="reference.ts" />
 
 module Aic.Html.Controls {
     /**
      * Pipe Controls
      * Create pipe svg elments and insert that to the svg label
      */
-    export class Pipe extends AICControlBase {
-        private svgContainer;
+    export class Pipe extends AicControlBase {
         private status = [];
         private currentStatus: string;
-        private fillRect;
-        private opaRect;
         private options: PipeOptions;
-        private leftValueText;
-        private rightValueText;
+        private twoWayPipeSVGstring =
+            '<svg version= "1.1" xmlns= "http://www.w3.org/2000/svg"  xml:space="preserve" x="0" y="0" width="40" height="20"> '+
+                '<style>' +
+                    '.stroke{ stroke-width:0.3;stroke-linecap:round;stroke-linejoin:round;stroke: black;fill: none;}\n .default-color {fill: #3664BF;opacity: 0.2; }' +
+                '</style>' + 
+                '<defs>' + 
+                   '<linearGradient id="default" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="20">' +
+                        '<stop offset= "0" style= "stop-color:#4D5C75" />' +
+                        '<stop offset="0.5" style= "stop-color:#F6FAFC" />' +
+                        '<stop offset="1" style= "stop-color:#4D5C75" />' + 
+                    '</linearGradient>' +
+                '</defs>'  +
+                '<rect x="0" y="0" width="40" height="20" class="pipe" fill="url(#default)"/>' +
+                '<rect x="0" y="0" width="40" height="20" class="default-color pipe-op"/>' +
+                '<line class="stroke" x1="0" y1="0" x2="40" y2="0" />' +
+                '<line class="stroke" x1="0" y1="20" x2="40" y2="20">' +
+            '</svg>';
+        private viewModel = kendo.observable({
+            leftText: " ",
+            rightText: " ",
+            leftValue: "12316.564ml/s",
+            rightValue: "45612.59942ml/s",
+            title: "asfa"
+        });
         /**
-         * return a instance can control the new elements
+         * Create a instance to control new elements
          *
-         * @param {SVGElement} svgContainer 
+         * @param {JQuery} svgContainer 
          * @param {PipeOptions} options
          */
-        constructor(svgContainer, options?: PipeOptions) {
+        constructor(svgContainer: JQuery, options?: PipeOptions) {
             super();
             var ops = options || {};
             this.options = {
-                x: ops.x | 0,
-                y: ops.y | 0,
-                width: ops.width | 50,
-                height: ops.height | 20,
+                width: ops.width || 200,
+                height: ops.height || 100,
                 stroke: typeof ops.stroke === "undefined" ? {
                     strokeColor: "black",
                     strokeWidth: 0.3
                 } : ops.stroke,
-                title: ops.title,
+                title: ops.title || "",
                 status: typeof ops.status === "undefined" ? [{
-                    statuContent: "Normal",
+                    statuContent: "default",
                     statuColor: "#4D5C75"
                 }] : ops.status,
-                data: typeof ops.data === "undefined" ? {
-                    in: 0,
-                    out: 0,
-                    status: "Normal"
-                } : ops.data,
+                data: ops.data || null,
                 type: typeof ops.type === "undefined" ? "2WayPipe" : ops.type,
                 leftText: typeof ops.leftText === "undefined" ? "" : ops.leftText,
-                rightText: typeof ops.rightText === "undefined" ? "" : ops.rightText,
-                text: typeof ops.text === "undefined" ? {
-                    position: TextPosition.bottom,
-                    fontSize:12
-                } : ops.text
+                rightText: typeof ops.rightText === "undefined" ? "" : ops.rightText
             };
-            var g = AicControlsUtils.getSVGElement('g', svgContainer);
-            this.svgContainer = g;
+            this.svgContainer = svgContainer;
             if (this.options.type === "2WayPipe") {
-                this.draw2WayPipe(this.options, g);
+                this.draw2WayPipe(svgContainer, this.options);
             }
         }
 
         /**
          * draw a 2-way-pipe SVG element started on point(x,y) 
          * 
+         * @param {JQuery} svgContainer
          * @param {PipeOptions} options
-         * @param {SVGElement} svgContainer
          */
-        private draw2WayPipe(options: PipeOptions, svgContainer) {
-            var x = options.x,
-                  y = options.y,
-                  width = options.width,
-                  height = options.height,
-                  status = options.status,
-                  leftText = options.leftText,
-                  rightText = options.rightText;
+        private draw2WayPipe(svgContainer: JQuery, options: PipeOptions) {
+            var svg: JQuery,
+                defs,
+                style,
+                titleDiv: JQuery,
+                leftValueDiv: JQuery,
+                rightValueDiv: JQuery,
+                width = options.width,
+                height = options.height,
+                status = options.status,
+                leftText = options.leftText,
+                rightText = options.rightText;
 
             if (height !== 0) {
                 if (height < 0) {
                     height *= -1;
                 }
+
+                svgContainer.addClass('aic-pipe');
+                svgContainer.css({ height: (height + 60) + "px", width: width + "px" });
+
+                titleDiv = $('<div class="pipe-2way-title aic-full-width">');
+                leftValueDiv = $('<div class="aic-left pipe-2way-value aic-text-left" >');
+                rightValueDiv = $('<div class="aic-right pipe-2way-value aic-text-right">');
+
+                svg = this.setSize($(this.twoWayPipeSVGstring), {
+                    width: options.width,
+                    height: options.height
+                });
+                
                 // add styles and gradients
-                var defs = AicControlsUtils.getSVGElement('defs', svgContainer);
-                var style = AicControlsUtils.getSVGElement('style', svgContainer);
-                $(style).text('.stroke{stroke-width:0.3;stroke- linecap:round; stroke - linejoin:round;stroke: black;fill: none;}\n.pipe-op{opacity:0.2}\n');
+                defs = svg.find('defs').empty()[0];
+                style = svg.find('style')[0]; 
+                $(style).text('.pipe-op{opacity:0.2}\n');
                 for (var i = 0, max = status.length; i < max; i++) {
                     var styleText = $(style).text();
                     $(style).text(styleText + ".pipe-op-" + status[i].statuContent + "{fill:" + status[i].statuColor + "}\n");
-                    this.drawLinearGradient(status[i].statuColor, "#F6FAFC", 7, x, y, x, y + height, status[i].statuContent, defs);
+                    this.drawLinearGradient(status[i].statuColor, "#F6FAFC", 7, 0, 0, 0, 20, status[i].statuContent, defs);
                     this.status[status[i].statuContent] = status[i].statuColor;
                 }
 
-                //draw pipe and cache it
-                this.fillRect = this.drawRect(x, y, width, height, svgContainer, "pipe-" + status[0].statuContent, "fill:url(#" + status[0].statuContent + ");");
-                this.opaRect = this.drawRect(x, y, width, height, svgContainer, "pipe-op pipe-op-" + status[0].statuContent);
-
-                //draw left and right texts
-                //because the clientWidth is always 0 in ie, we use scrollWidth to relocate the position.
-                if (options.text.position === TextPosition.bottom) {
-                    var text = this.drawText(x - 30, y + height + 20, 30, 20, leftText, options.text.fontSize, svgContainer);
-                    var showWidth = text.scrollWidth;
-                    text.setAttributeNS(null, "width", showWidth + "");
-                    text.setAttributeNS(null, 'x', x + 5 - showWidth + "");
-                    this.leftValueText = this.drawText(x, y + height + 20, width / 2, 20, "14.5ml/s", options.text.fontSize, svgContainer); 
-
-                    
-                    text = this.drawText(x + width - 5, y + height + 20, 45, 20, rightText, options.text.fontSize, svgContainer);
-                    showWidth = text.scrollWidth;
-                    text.setAttributeNS(null, "width", showWidth + "");
-                    this.rightValueText = this.drawText(x + width + showWidth - 3, y + height + 20, width / 2, 20, "", options.text.fontSize, svgContainer);
-                } else {
-                    this.drawText(x - 30, y - 5, 30, 20, leftText, options.text.fontSize, svgContainer);
-                    this.leftValueText = this.drawText(x + 5, y - 5, width / 2, 20, "", options.text.fontSize, svgContainer);
-
-                    this.drawText(x + width - 5, y - 5, 45, 20, rightText, options.text.fontSize, svgContainer);
-                    this.rightValueText = this.drawText(x + width + 40, y - 5, width / 2, 20, "", options.text.fontSize, svgContainer);
-                }
-
                 //draw title
-                if (typeof options.title !== 'undefined' && options.title !== false) {
-
+                if (typeof options.title !== 'undefined' && options.title !== "") {
+                    var center = $('<center></center>');
+                    $('<text data-bind="html:title"></text>').appendTo(center);
+                    center.appendTo(titleDiv);
+                    titleDiv.appendTo(svgContainer);
+                } else {
+                    svgContainer.height((svgContainer.height() - 30) + "px");
                 }
 
-                //draw stroke line
-                this.drawLine(x + "", y + "", x + width + "", y + "", svgContainer, "stroke");
-                this.drawLine(x + "", y + height + "", x + width + "", y + height + "", svgContainer, "stroke");
+                //add svg element
+                svg.appendTo(svgContainer);
 
-                //cache current statu
-                this.currentStatus = status[0].statuContent;
+                //add value
+                if (options.data !== null) {
+                    leftValueDiv.appendTo(svgContainer);
+                    rightValueDiv.appendTo(svgContainer);
+                    $("<text data-bind='html:leftText'></text>").appendTo(leftValueDiv);
+                    $("<text data-bind='html:leftValue'></text>").appendTo(leftValueDiv);
+                    $("<text data-bind='html:rightText'></text>").appendTo(rightValueDiv);
+                    $("<text data-bind='html:rightValue'></text>").appendTo(rightValueDiv);
+                } else {
+                    svgContainer.height(svgContainer.height()-30);
+                }
+
+                //set start statu
+                this.setStatus(status[0].statuContent);
+
+                //set data
+                this.setData(options.data);
+            }
+
+            kendo.bind(svgContainer, this.viewModel);
+
+            if (typeof options.leftText !== "undefined" && options.leftText !== "") {
+                this.viewModel.set('leftText', "&nbsp;"+options.leftText);
+            }
+            if (typeof options.rightText !== "undefined" && options.rightText !== "") {
+                this.viewModel.set('rightText', options.rightText);
+            }
+            if (options.data !== null) {
+                if (typeof options.data.in !== "undefined" && typeof options.data.in !== "undefined") {
+                    this.viewModel.set('leftValue', options.data.in);
+                }
+                if (typeof options.data.out !== "undefined" && typeof options.data.in !== "undefined") {
+                    this.viewModel.set('rightValue', options.data.out + "&nbsp;");
+                }
+            }
+            if (typeof options.title !== "undefined" && options.title !== "") {
+                this.viewModel.set('title', options.title);
             }
         }
         
+        /**
+         * Change the pipe`s status by changing 'fill' and 'class'
+         *
+         * @param {string} statu
+         */
         public setStatus(statu: string) {
             if (typeof this.status[statu] === 'undefined') {
                 alert("该管道无此状态！");
@@ -135,9 +178,8 @@ module Aic.Html.Controls {
             if (this.currentStatus === statu) {
                 return;
             } else {
-                this.fillRect.setAttributeNS(null, "class", 'pipe-' + statu);
-                $(this.fillRect).css('fill', 'url(#' + statu + ')');
-                this.opaRect.setAttributeNS(null, 'class', 'pipe-op pipe-op-' + statu);
+                this.svgContainer.find('.pipe').css('fill', 'url(#' + statu + ')');
+                this.svgContainer.find('.pipe-op')[0].setAttributeNS(null, 'class', 'pipe-op pipe-op-' + statu);
                 this.currentStatus = statu;
             }
         }
@@ -146,58 +188,49 @@ module Aic.Html.Controls {
             return this.currentStatus;
         }
 
-        public setData() {
+        public setData(data: TwoWayPipeData) {
+            if (data !== null) {
+                if (typeof data.in !== "undefined" && typeof data.in !== "undefined") {
+                    this.viewModel.set('leftValue', data.in);
+                }
+                if (typeof data.out !== "undefined" && typeof data.in !== "undefined") {
+                    this.viewModel.set('rightValue', data.out + "&nbsp;");
+                }
+            }
         }
 
-        private drawStop(offset: string, style: string, svgContainer) {
-            var stop = AicControlsUtils.getSVGElement('stop', svgContainer);
-            stop.setAttributeNS(null, 'offset', offset);
-            stop.setAttributeNS(null, 'style', style);
+        public setOptions(abc): void {
+            super.setOptions(abc);
         }
+
+        public destroy(): void {
+
+        };
     }
 
-    interface PipeOptions {
-        x?: number;
-        y?: number;
-        width?: number;
-        height?: number;
+    interface PipeOptions extends BaseOptions {
         stroke?: boolean | StrokOptions;
-        title?: boolean | TitleOptions;
+        title?: string;
         status?: StatusOptions[];
         data?: TwoWayPipeData;
-        type?: string;
         leftText?: string;
         rightText?: string;
-        text?: TextOptions;
+        type?: string;
     }
 
-    interface StrokOptions {
+    export interface StrokOptions {
         strokeColor: string;
         strokeWidth: number;
-    } 
-
-    interface TitleOptions {
-        content: string;
-        position: string;
     }
 
-    interface StatusOptions {
+    export interface StatusOptions {
         statuContent: string;
         statuColor: string;
     }
 
-    interface TwoWayPipeData {
-        in?: number;
-        out?: number;
+    export interface TwoWayPipeData {
+        in?: string;
+        out?: string;
         status?: string;
-    }
-
-    interface TextOptions {
-        position: TextPosition;
-        fontSize: number;
-    }
-
-    enum TextPosition {
-        "top"=0,"bottom",
     }
 }

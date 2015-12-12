@@ -28,8 +28,38 @@ var Aic;
                     //    }
                     //    i++;
                     //});
-                    var pipe = new Controls.Pipe($('svg')[0], { x: 100, y: 100, leftText: "输入流量：", rightText: "", status: [{ statuContent: "xcv", statuColor: "#FF0000" }, { statuContent: "wqer", statuColor: "#616F85" }] });
-                    var pipe2 = new Controls.Pipe($('svg')[0], { x: 200, y: 200, width: 100, height: 20, status: [{ statuContent: "def", statuColor: "#ff32f5" }, { statuContent: "abc", statuColor: "#561292" }] });
+                    var pipe = new Controls.Pipe($('#test01'), {
+                        width: 500,
+                        height: 30,
+                        leftText: "in: ",
+                        rightText: "out: ",
+                        status: [{
+                                statuContent: "xcv",
+                                statuColor: "#FF0000"
+                            }, {
+                                statuContent: "wqer",
+                                statuColor: "#616F85"
+                            }],
+                        data: {
+                            in: "23654.15ml/s",
+                            out: "6234.18ml/s",
+                            status: "wqer"
+                        },
+                        title: "Pipe 1"
+                    });
+                    var pipe2 = new Controls.Pipe($('#test02'), {
+                        width: 200,
+                        height: 20,
+                        leftText: "输入: ",
+                        rightText: "输出: ",
+                        status: [{
+                                statuContent: "def",
+                                statuColor: "#ff32f5"
+                            }, {
+                                statuContent: "abc",
+                                statuColor: "#561292"
+                            }]
+                    });
                     $('#test').on('click', function (e) {
                         if (pipe2.getStaus() === "def") {
                             pipe2.setStatus("abc");

@@ -5,28 +5,27 @@
     <meta charset="utf-8" />
     <title>Aic Controls App</title>
     <link rel="stylesheet" href="app.css" type="text/css" />
+    <link rel="stylesheet" href="Styles/common.css" type="text/css" />
+    <link rel="stylesheet" href="Styles/pipe.css" type="text/css" />
     
 </head>
 <body>
     <h1>Aic Controls App</h1>
 
     <div id="content" style="height:100%;width:100%;">
-        <svg version="1.1" id="Go" xmlns:agg="http://www.example.com"
-	     xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px" width="500px"
-	     height="500px" xml:space="preserve">
-            <agg:params>
-                <agg:param name="color" description="Color" type="C" cssAttributes="fill" classes="color" />
-                <agg:param type="F" name="saturation" description="Saturation" min="0" max="1" cssAttributes="opacity" classes="color" />
-            </agg:params>
-        </svg>
+        <div id="pipes-container">
+            <div id="test01"></div>
+            <div id="test02"></div>
+        </div>
         <button width="50px" height="20px" id="test">Test</button>
         <button width="50px" height="20px" id="test2">Test2</button>
     </div>
 
     <script src="lib/jquery/jquery-2.1.4.min.js"></script>
-    <script src="app.js"></script>
-    <script src="Resources/AicControlsUtils.js"></script>
+    <script src="lib/kendo/kendo.all.js"></script>
+    <script src="Resources/AicControlUtils.js"></script>
     <script src="Resources/AicControlBase.js"></script>
     <script src="Resources/Pipe.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

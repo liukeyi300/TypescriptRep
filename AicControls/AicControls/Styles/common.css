@@ -1,7 +1,23 @@
-﻿.left {
+﻿.aic-left {
     float:left;
 }
 
-.right {
+.aic-right {
     float: right;
+}
+
+.aic-full-width {
+    width:100%;
+}
+
+.aic-full-height {
+    height:100%;
+}
+
+.aic-text-left {
+    text-align:left;
+}
+
+.aic-text-right {
+    text-align:right;
 }

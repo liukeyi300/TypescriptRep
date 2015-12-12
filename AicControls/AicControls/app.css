@@ -5,3 +5,20 @@
 span {
     font-style: italic;
 }
+
+#pipes-container {
+    height:600px;
+    width:100%;
+}
+
+#test01 {
+    position:relative;
+    left:20px;    
+    top:90px;
+}
+
+#test02 {
+    position:relative;
+    left:520px;
+    top:35px;
+}
