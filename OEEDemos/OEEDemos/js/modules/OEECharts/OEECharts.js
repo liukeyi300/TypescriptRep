@@ -121,7 +121,7 @@ var OEEDemos;
                     this.ppaServiceContext.PPA_OEE_SUMMARY
                         .filter(function (items) {
                         return (items.PER_START_TIME >= this.startDate && items.PER_START_TIME < this.endDate
-                            && items.EQP_NO === this.equid);
+                            && items.EQP_NO == this.equid);
                     }, {
                         startDate: start, endDate: end,
                         equid: currentEquipment

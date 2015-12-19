@@ -21,7 +21,7 @@ var Aic;
                  * Create a instance to control new elements
                  *
                  * @param {JQuery} svgContainer
-                 * @param {PipeOptions} options
+                 * @param {IPipeOptions} options
                  */
                 function Pipe(svgContainer, options) {
                     _super.call(this);
@@ -76,7 +76,7 @@ var Aic;
                  * draw a 2-way-pipe SVG element started on point(x,y)
                  *
                  * @param {JQuery} svgContainer
-                 * @param {PipeOptions} options
+                 * @param {IPipeOptions} options
                  */
                 Pipe.prototype.draw2WayPipe = function (svgContainer, options) {
                     var svg, defs, style, titleDiv, leftValueDiv, rightValueDiv, width = options.width, height = options.height, status = options.status, leftText = options.leftText, rightText = options.rightText;

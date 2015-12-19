@@ -16,18 +16,6 @@ var Aic;
                 }
                 Greeter.prototype.start = function () {
                     // this.timerToken = setInterval(() => this.span.innerHTML = new Date().toUTCString(), 500);
-                    //$('button').on('click', () => {
-                    //    if (i % 2 === 1) {
-                    //        $('#a>.pipe-normal').attr('fill', 'url(#alert)');
-                    //        $('#a>.pipe-op-normal').attr('display', 'none');
-                    //        $('#a>.pipe-op-alert').attr('display', 'block');
-                    //    } else {
-                    //        $('#a>.pipe-normal').attr('fill', 'url(#metal)');
-                    //        $('#a>.pipe-op-normal').attr('display', 'block');
-                    //        $('#a>.pipe-op-alert').attr('display', 'none');
-                    //    }
-                    //    i++;
-                    //});
                     var pipe = new Controls.Pipe($('#test01'), {
                         width: 500,
                         height: 30,
@@ -49,7 +37,7 @@ var Aic;
                     });
                     var pipe2 = new Controls.Pipe($('#test02'), {
                         width: 200,
-                        height: 20,
+                        height: 30,
                         leftText: "输入: ",
                         rightText: "输出: ",
                         status: [{
@@ -68,6 +56,7 @@ var Aic;
                             pipe2.setStatus('def');
                         }
                     });
+                    var arrowButton = new Controls.ArrowButton($('#test03'));
                     $('#test2').on('click', function (e) {
                         if (pipe.getStaus() === "xcv") {
                             pipe.setStatus("wqer");

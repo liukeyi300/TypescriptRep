@@ -30,7 +30,8 @@
      'CALC_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
      'NAME': { 'type':'Edm.String','nullable':false,'required':true,'maxLength':128 },
      'TYPE': { 'type':'Edm.String','nullable':false,'required':true,'maxLength':5 },
-     'DESCRIPTION': { 'type':'Edm.String','maxLength':512 }
+     'DESCRIPTION': { 'type':'Edm.String','maxLength':512 },
+     'PROGRAM': { 'type':'Edm.String','maxLength':Number.POSITIVE_INFINITY }
   });
 
   $data.Entity.extend('PPAModel.MD_CONFIGURATION', {
@@ -321,7 +322,7 @@
 
   $data.Entity.extend('PPAModel.PPA_OEE_SUMMARY', {
      'SUM_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'EQP_NO': { 'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'EQP_NO': { 'type':'Edm.Decimal','nullable':false,'required':true },
      'SH_NO': { 'type':'Edm.Decimal','nullable':false,'required':true },
      'PER_NO': { 'type':'Edm.Decimal','nullable':false,'required':true },
      'PER_START_TIME': { 'type':'Edm.DateTime','nullable':false,'required':true },
@@ -356,7 +357,7 @@
   $data.Entity.extend('PPAModel.PPA_PER_RECORD', {
      'REC_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
      'EQP_NO': { 'type':'Edm.Decimal','nullable':false,'required':true },
-     'D_RECORD': { 'type':'Edm.DateTime' },
+     'D_RECORD': { 'type':'Edm.DateTime','nullable':false,'required':true },
      'REC_START_TIME': { 'type':'Edm.DateTime','nullable':false,'required':true },
      'REC_END_TIME': { 'type':'Edm.DateTime','nullable':false,'required':true },
      'SH_NO': { 'type':'Edm.Decimal','nullable':false,'required':true },
@@ -403,7 +404,7 @@
      'PER_NO': { 'type':'Edm.Decimal','nullable':false,'required':true },
      'BATCH_ID': { 'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
      'TOTAL': { 'type':'Edm.Decimal','nullable':false,'required':true },
-     'QUALIFY': { 'type':'Edm.Decimal' },
+     'QUALIFY': { 'type':'Edm.Decimal','nullable':false,'required':true },
      'REWORK': { 'type':'Edm.Decimal','nullable':false,'required':true },
      'SCRAP': { 'type':'Edm.Decimal','nullable':false,'required':true },
      'PROCESSED': { 'type':'Edm.String','nullable':false,'required':true,'maxLength':1 },

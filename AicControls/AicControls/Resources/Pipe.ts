@@ -8,7 +8,7 @@ module Aic.Html.Controls {
     export class Pipe extends AicControlBase {
         private status = [];
         private currentStatus: string;
-        private options: PipeOptions;
+        private options: IPipeOptions;
         private twoWayPipeSVGstring =
             '<svg version= "1.1" xmlns= "http://www.w3.org/2000/svg"  xml:space="preserve" x="0" y="0" width="40" height="20"> '+
                 '<style>' +
@@ -37,9 +37,9 @@ module Aic.Html.Controls {
          * Create a instance to control new elements
          *
          * @param {JQuery} svgContainer 
-         * @param {PipeOptions} options
+         * @param {IPipeOptions} options
          */
-        constructor(svgContainer: JQuery, options?: PipeOptions) {
+        constructor(svgContainer: JQuery, options?: IPipeOptions) {
             super();
             var ops = options || {};
             this.options = {
@@ -69,9 +69,9 @@ module Aic.Html.Controls {
          * draw a 2-way-pipe SVG element started on point(x,y) 
          * 
          * @param {JQuery} svgContainer
-         * @param {PipeOptions} options
+         * @param {IPipeOptions} options
          */
-        private draw2WayPipe(svgContainer: JQuery, options: PipeOptions) {
+        private draw2WayPipe(svgContainer: JQuery, options: IPipeOptions) {
             var svg: JQuery,
                 defs,
                 style,
@@ -188,7 +188,7 @@ module Aic.Html.Controls {
             return this.currentStatus;
         }
 
-        public setData(data: TwoWayPipeData) {
+        public setData(data: ITwoWayPipeData) {
             if (data !== null) {
                 if (typeof data.in !== "undefined" && typeof data.in !== "undefined") {
                     this.viewModel.set('leftValue', data.in);
@@ -208,27 +208,27 @@ module Aic.Html.Controls {
         };
     }
 
-    interface PipeOptions extends BaseOptions {
-        stroke?: boolean | StrokOptions;
+    interface IPipeOptions extends IBaseOptions {
+        stroke?: boolean | IStrokOptions;
         title?: string;
-        status?: StatusOptions[];
-        data?: TwoWayPipeData;
+        status?: IStatusOptions[];
+        data?: ITwoWayPipeData;
         leftText?: string;
         rightText?: string;
         type?: string;
     }
 
-    export interface StrokOptions {
+    export interface IStrokOptions {
         strokeColor: string;
         strokeWidth: number;
     }
 
-    export interface StatusOptions {
+    export interface IStatusOptions {
         statuContent: string;
         statuColor: string;
     }
 
-    export interface TwoWayPipeData {
+    export interface ITwoWayPipeData {
         in?: string;
         out?: string;
         status?: string;

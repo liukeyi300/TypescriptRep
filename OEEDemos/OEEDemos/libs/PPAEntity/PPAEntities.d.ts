@@ -34,11 +34,12 @@ declare module PPAModel {
   
   export class MD_CALCULATION extends $data.Entity {
     constructor();
-    constructor(initData: { CALC_ID?: string; NAME?: string; TYPE?: string; DESCRIPTION?: string; });
+    constructor(initData: { CALC_ID?: string; NAME?: string; TYPE?: string; DESCRIPTION?: string; PROGRAM?: string; });
     CALC_ID: string;
     NAME: string;
     TYPE: string;
     DESCRIPTION: string;
+    PROGRAM: string;
     
   }
   
@@ -568,8 +569,8 @@ declare module PPAModel {
 
 declare module AicTech.PPA.DataModel {
     export class PPAEntities extends $data.EntityContext {
-    onReady(): $data.IPromise<any>;
-    onReady(handler: (context: PPAEntities) => void): $data.IPromise<any>;
+        onReady(): $data.IPromise<any>;
+        onReady(handler: (context: PPAEntities) => void): $data.IPromise<any>;
     
     EXT_PP_POS: $data.EntitySet<PPAModel.EXT_PP_POS>;
     EXT_PRD_PLAN: $data.EntitySet<PPAModel.EXT_PRD_PLAN>;

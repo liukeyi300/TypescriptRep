@@ -251,6 +251,8 @@ var OEEDemos;
             $('#logBtn').unbind('click');
             $('#logBtn').removeClass('btn-danger').addClass('btn-primary').attr("data-toggle", "modal").attr("data-target", "#loginModal");
             $('#spanUserName').html("");
+            $('#startTimeSelect').val("");
+            $('#endTimeSelect').val("");
             StartUp.Instance.nav.setData([{ text: "Please Login!" }]);
             StartUp.Instance.equipTree.setData([{ text: "Please Login!" }]);
             StartUp.Instance.hideEquimentTree();

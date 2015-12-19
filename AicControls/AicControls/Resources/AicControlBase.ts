@@ -4,7 +4,7 @@ module Aic.Html.Controls {
     export class AicControlBase {
         public svgContainer: JQuery;
         constructor() { }
-        
+        /*
         public drawRect(x: number, y: number, width: number, height: number, svgContainer, className?: string, style?: string) {
             var rect = AicControlUtils.getSVGElement('rect', svgContainer);
             rect.setAttributeNS(null, "x", x + "");
@@ -29,7 +29,7 @@ module Aic.Html.Controls {
             line.setAttributeNS(null, "class", className);
             return line;
         }
-
+        */
         public drawLinearGradient(startColor: string, endColor: string, sectionNumber: number, x1: number, y1: number, x2: number, y2: number, id: string, svgContainer) {
             var linearGra = AicControlUtils.getSVGElement('linearGradient', svgContainer);
             linearGra.setAttributeNS(null, 'x1', x1 + "");
@@ -43,7 +43,7 @@ module Aic.Html.Controls {
             this.drawStop("1", "stop-color:" + startColor, linearGra);
             return linearGra;
         }
-
+        /*
         public drawText(x: number, y: number, width: number, height: number, textString: string, fontSize: number, svgContainer) {
             var text = AicControlUtils.getSVGElement('text', svgContainer);
             text.setAttributeNS(null, 'x', x + '');
@@ -54,7 +54,7 @@ module Aic.Html.Controls {
             text.textContent = textString;
             return text;
         }
-
+        */
         /**
          * transform a element from original size to new size
          * use matrix(a,b,c,e,d,f) 
@@ -64,9 +64,9 @@ module Aic.Html.Controls {
          * @param {Size} size
          * @return {JQuery} el
          */
-        public setSize(el: JQuery, size: Size): JQuery {
-            var oW = el.width(),
-                oH = el.height(),
+        public setSize(el: JQuery, size: ISize): JQuery {
+            var oW = parseFloat(el.attr('width')),
+                oH = parseFloat(el.attr('height')),
                 nW = size.width,
                 nH = size.height;
 
@@ -87,7 +87,7 @@ module Aic.Html.Controls {
             return el;
         }
 
-        public setOptions(options: BaseOptions): void {
+        public setOptions(options: IBaseOptions): void {
 
         }
 
@@ -99,24 +99,4 @@ module Aic.Html.Controls {
         }
     }
 
-    export interface BaseOptions {
-        width?: number;
-        height?: number;
-    }
-
-    export interface Size {
-        width: number;
-        height: number;
-    }
-
-    export interface Point {
-        x: number;
-        y: number;
-    }
-
-    export interface Point3D {
-        x: number;
-        y: number;
-        z: number;
-    }
 }

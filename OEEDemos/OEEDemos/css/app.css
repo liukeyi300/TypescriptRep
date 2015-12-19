@@ -87,6 +87,7 @@ footer p {
 .form-group {
     height:30px;
     margin:10px 10px 10px 0;
+    display:block;
 }
 
 .form-group label {
@@ -162,3 +163,4 @@ footer p {
 .modal-dialog {
     margin:100px auto;
 }
+

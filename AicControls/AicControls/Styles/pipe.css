@@ -9,7 +9,9 @@
 
 .aic-pipe .pipe-2way-value {
     height:30px;
-    width:50%;
+    width:100%;
+    position:absolute;
+    bottom:0;
 }
 
 .pipe-2way-value text {

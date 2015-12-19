@@ -17,18 +17,6 @@ module Aic.Html.Controls {
 
         start() {
             // this.timerToken = setInterval(() => this.span.innerHTML = new Date().toUTCString(), 500);
-            //$('button').on('click', () => {
-            //    if (i % 2 === 1) {
-            //        $('#a>.pipe-normal').attr('fill', 'url(#alert)');
-            //        $('#a>.pipe-op-normal').attr('display', 'none');
-            //        $('#a>.pipe-op-alert').attr('display', 'block');
-            //    } else {
-            //        $('#a>.pipe-normal').attr('fill', 'url(#metal)');
-            //        $('#a>.pipe-op-normal').attr('display', 'block');
-            //        $('#a>.pipe-op-alert').attr('display', 'none');
-            //    }
-            //    i++;
-            //});
             var pipe = new Pipe($('#test01'), {
                 width: 500,
                 height:30,
@@ -50,7 +38,7 @@ module Aic.Html.Controls {
             });
            var pipe2 = new Pipe($('#test02'), {
                 width: 200,
-                height: 20,
+                height: 30,
                 leftText: "输入: ",
                 rightText: "输出: ",
                 status: [{
@@ -67,7 +55,9 @@ module Aic.Html.Controls {
                 } else {
                     pipe2.setStatus('def');
                 }
-            });
+           });
+
+            var arrowButton = new ArrowButton($('#test03'));
 
             $('#test2').on('click', function (e) {
                 if (pipe.getStaus() === "xcv") {
