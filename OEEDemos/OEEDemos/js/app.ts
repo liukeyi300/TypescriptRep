@@ -166,6 +166,7 @@ module OEEDemos {
                     return;
                 }
                 kendo.ui.progress($('#loginModal'), true);
+
                 AccountHelpUtils.login(serverAddress, userName, pwd, function (value: boolean) {
                         if (value) {
                             var serviceContext = new AicTech.PPA.DataModel.PPAEntities({
@@ -242,11 +243,7 @@ module OEEDemos {
                             alert("登录失败！");
                             kendo.ui.progress($('#loginModal'), false);
                         }
-                    },
-                    function () {
-                        kendo.ui.progress($('#loginModal'), false);
-                        alert("登录失败！");
-                    });
+                    }, null);
             });
 
             $('#comfirmFunctionNav').on('click', function (e) {

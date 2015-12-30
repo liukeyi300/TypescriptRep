@@ -199,8 +199,8 @@ module Aic.Html.Controls {
             }
         }
 
-        public setOptions(abc): void {
-            super.setOptions(abc);
+        public setOptions(options: IPipeOptions): void {
+            super.setOptions(options);
         }
 
         public destroy(): void {

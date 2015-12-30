@@ -183,8 +183,8 @@ var Aic;
                         }
                     }
                 };
-                Pipe.prototype.setOptions = function (abc) {
-                    _super.prototype.setOptions.call(this, abc);
+                Pipe.prototype.setOptions = function (options) {
+                    _super.prototype.setOptions.call(this, options);
                 };
                 Pipe.prototype.destroy = function () {
                 };

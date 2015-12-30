@@ -65,7 +65,7 @@ var Aic;
                  * (x,y) => (ax+cy+e, bx+dy+f)
                  *
                  * @param {JQuery} el
-                 * @param {Size} size
+                 * @param {ISize} size
                  * @return {JQuery} el
                  */
                 AicControlBase.prototype.setSize = function (el, size) {
@@ -82,6 +82,10 @@ var Aic;
                     return el;
                 };
                 AicControlBase.prototype.setOptions = function (options) {
+                    this.svgContainer.css({
+                        width: options.width + "px",
+                        height: options.height + "px"
+                    });
                 };
                 AicControlBase.prototype.drawStop = function (offset, style, svgContainer) {
                     var stop = Controls.AicControlUtils.getSVGElement('stop', svgContainer);

@@ -61,7 +61,7 @@ module Aic.Html.Controls {
          * (x,y) => (ax+cy+e, bx+dy+f)
          *
          * @param {JQuery} el
-         * @param {Size} size
+         * @param {ISize} size
          * @return {JQuery} el
          */
         public setSize(el: JQuery, size: ISize): JQuery {
@@ -88,7 +88,10 @@ module Aic.Html.Controls {
         }
 
         public setOptions(options: IBaseOptions): void {
-
+            this.svgContainer.css({
+                width: options.width+"px",
+                height: options.height+"px"
+            });
         }
 
         private drawStop(offset: string, style: string, svgContainer) {

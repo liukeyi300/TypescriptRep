@@ -1,5 +1,9 @@
 ﻿body {
     font-family: 'Segoe UI', sans-serif;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
 }
 
 span {
@@ -25,5 +29,4 @@ span {
 #test03 {
     position:relative;
     left:200px;
-    top:500px;
 }

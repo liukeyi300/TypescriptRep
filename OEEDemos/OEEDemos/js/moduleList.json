@@ -61,5 +61,12 @@
     "parent": 1,
     "baseUrl": "js/modules/DownTimePieCharts/",
     "moduleName": "DownTimePieCharts"
+  },
+  "ShiftManagement": {
+    "text": "ShiftMangement",
+    "id": 10,
+    "parent": 1,
+    "baseUrl": "js/modules/ShiftManagement/",
+    "moduleName": "ShiftManagement"
   }
 }

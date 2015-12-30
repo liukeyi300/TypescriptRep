@@ -96,6 +96,8 @@
     <Content Include="js\modules\PermissionManagement\PermissionManagement.html" />
     <Content Include="js\modules\RoleConfiguration\RoleConfiguration.css" />
     <Content Include="js\modules\RoleConfiguration\RoleConfiguration.html" />
+    <Content Include="js\modules\ShiftManagement\ShiftManagement.css" />
+    <Content Include="js\modules\ShiftManagement\ShiftManagement.html" />
     <Content Include="js\modules\UserConfiguration\UserConfiguration.css" />
     <Content Include="js\modules\UserConfiguration\UserConfiguration.html" />
     <Content Include="js\modules\DowntimeColumnCharts\DowntimeColumnCharts.css" />
@@ -181,6 +183,7 @@
     <TypeScriptCompile Include="js\modules\DownTimePieCharts\DownTimePieCharts.ts" />
     <TypeScriptCompile Include="js\modules\PermissionManagement\PermissionManagement.ts" />
     <TypeScriptCompile Include="js\modules\RoleConfiguration\RoleConfiguration.ts" />
+    <TypeScriptCompile Include="js\modules\ShiftManagement\ShiftManagement.ts" />
     <TypeScriptCompile Include="js\modules\UserConfiguration\UserConfiguration.ts" />
     <TypeScriptCompile Include="js\modules\DowntimeColumnCharts\DowntimeColumnCharts.ts" />
     <TypeScriptCompile Include="js\modules\DowntimeTimelineCharts\DowntimeTimelineCharts.ts" />

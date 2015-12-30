@@ -16,7 +16,8 @@
     }
 
     export interface IBrush {
-
+        type?: BrushType;
+        color: string;
     }
 
     export interface IMask {
@@ -25,10 +26,16 @@
     }
 
     export enum Direction {
-        Up,
-        Right,
+        Up=1,
         Down,
+        Right,
         Left
+    }
+
+    export enum BrushType {
+        Normal = 1,
+        LinearGradient,
+        RadialGradient
     }
 
     export interface IBaseOptions {
@@ -43,27 +50,27 @@
     }
     
     export interface IBorderThickness {
-        top?: string;
-        right?: string;
-        bottom?: string;
-        left?: string;
-        all?: string;
+        top?: number | string;
+        right?: number | string;
+        bottom?: number | string;
+        left?: number | string;
+        all?: number | string;
     }
 
     export interface IMargin {
-        top?: string;
-        right?: string;
-        bottom?: string;
-        left?: string;
-        all?: string;
+        top?: number | string;
+        right?: number | string;
+        bottom?: number | string;
+        left?: number | string;
+        all?: number | string;
     }
 
     export interface IPadding {
-        top?: string;
-        right?: string;
-        bottom?: string;
-        left?: string;
-        all?: string;
+        top?: number | string;
+        right?: number | string;
+        bottom?: number | string;
+        left?: number | string;
+        all?: number | string;
     }
 
 }

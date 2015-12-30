@@ -210,10 +210,7 @@ var OEEDemos;
                         alert("登录失败！");
                         kendo.ui.progress($('#loginModal'), false);
                     }
-                }, function () {
-                    kendo.ui.progress($('#loginModal'), false);
-                    alert("登录失败！");
-                });
+                }, null);
             });
             $('#comfirmFunctionNav').on('click', function (e) {
                 if (typeof StartUp.Instance.timeRangeListner === "undefined") {
