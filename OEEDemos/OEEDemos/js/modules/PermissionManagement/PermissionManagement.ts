@@ -93,7 +93,8 @@ module OEEDemos {
                     if ($(e.node).find('input').is(":checked")) {
                         ModuleLoad.getModuleInstance('PermissionManagement').checkParentNode(this.dataItem(e.node));
                     }
-                }
+                },
+                dataImageUrlField:"null"
             });
         }
 
@@ -128,8 +129,11 @@ module OEEDemos {
 
                 $.getJSON('js/moduleList.json', null, function (d) {
                     var data = [],
-                        treeData;
+                        treeData,
+                        item;
                     for (var key in d) {
+                        item = d[key];
+                        delete item.imageUrl;
                         data.push(d[key]);
                     }
                     treeData = AppUtils.getTree(data, 0);

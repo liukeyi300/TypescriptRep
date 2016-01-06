@@ -68,7 +68,7 @@ var OEEDemos;
                                     end: it.end,
                                     group: it.eqp,
                                     title: OEEDemos.AppUtils.EquimentsName[it.eqp] + "-" + it.cause + ": \n" + it.start + " - " + it.end,
-                                    className: "vis-item-" + it.cause
+                                    className: "vis-item-" + it.cause + " aic-vis-item"
                                 });
                             });
                             dtInstance.timeline.setOptions({

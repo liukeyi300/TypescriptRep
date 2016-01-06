@@ -4,7 +4,8 @@
     "id": 1,
     "parent": 0,
     "baseUrl": "",
-    "moduleName": "OEEDisplay"
+    "moduleName": "OEEDisplay",
+    "imageUrl": "images/icons/20_20/column.png"
   },
   "OEECharts": {
     "text": "OEE数据",

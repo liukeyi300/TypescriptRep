@@ -3,7 +3,7 @@ module OEEDemos {
     export class OEECharts implements ModuleBase {
         ppaServiceContext = new AicTech.PPA.DataModel.PPAEntities({
             name: 'oData',
-            oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
+            oDataServiceHost: AccountHelpUtils.serviceAddress + AccountHelpUtils.ppaEntitiesDataRoot
         }); 
         view: JQuery;
         needEquiptree = true;
@@ -20,41 +20,23 @@ module OEEDemos {
         private endTime: Date;
         private currentEquipment: string;
 
-        private dataItem = new vis.DataSet();
-        private dataGroup = new vis.DataSet();
-        private chart: vis.Graph2D;
-
         constructor() { }
 
         private timeRangeListner(startTime: Date, endTime: Date): void {
-            var oeeCharts = ModuleLoad.getModuleInstance("OEECharts");
+            var oeeCharts: OEECharts = ModuleLoad.getModuleInstance("OEECharts");
             oeeCharts.startTime = startTime;
             oeeCharts.endTime = endTime;
             oeeCharts.refreshData(); 
         }
 
         private equipNodeSelect(e: kendo.ui.TreeViewSelectEvent, sender): void {
-            var oeeCharts = ModuleLoad.getModuleInstance("OEECharts");
+            var oeeCharts: OEECharts = ModuleLoad.getModuleInstance("OEECharts");
             oeeCharts.currentEquipment = sender.dataItem(e.node).id;
             oeeCharts.refreshData();
         }
 
         private initChart() {
-            //var container = $('#oeeChart')[0];
-            //var options = {
-            //    dataAxis: {
-            //        showMinorLabels: false
-            //    },
-            //    legend: {
-            //        left: {
-            //            position:"bottom-left"
-            //        }
-            //    },
-            //    start: '2015-09-01',
-            //    end:'2015-10-01'
-            //};
-            //this.chart = new vis.Graph2D(container, this.dataItem, this.dataGroup, options);
-            $("#oeeChart").kendoChart({
+            $("#oee-chart").kendoChart({
                 title: {
                     text: "OEEDemo Charts"
                 },
@@ -109,27 +91,20 @@ module OEEDemos {
                     template: "#= series.name #: #= value #"
                 }
             });
-
-            var chart = $("#oeeChart").data('kendoChart');
-            chart.bind('drag', function (e) {
-                
-            })
-            chart.bind('dragEnd', function (e) {
-            })
         }
         
-
         private refreshData(): void {
             try {
-                var startDate = this.startTime;
-                var endDate = this.endTime;
-                var currentEquipment = this.currentEquipment || "";
+                var startDate = this.startTime,
+                    endDate = this.endTime,
+                    currentEquipment = this.currentEquipment || "",
+                    oeeCharts: OEECharts = ModuleLoad.getModuleInstance("OEECharts");
                 if (currentEquipment !== "") {
                     var day = new Date();
                     day.setDate(day.getDate() - 1);
                     var start = this.startTime || day
                     var end = this.endTime || new Date();
-                    kendo.ui.progress($("#oeeChart"), true);
+                    kendo.ui.progress($("#oee-chart"), true);
                     this.ppaServiceContext.PPA_OEE_SUMMARY
                         .filter(function (items) {
                         return (items.PER_START_TIME >= this.startDate && items.PER_START_TIME < this.endDate
@@ -148,15 +123,20 @@ module OEEDemos {
                             };
                         })
                         .toArray(function (result) {
-                            OEEDemos.ModuleLoad.getModuleInstance(StartUp.currentInstanceName).viewModel.set("series", result);
-                            
-                            kendo.ui.progress($("#oeeChart"), false);
+                            if (result.length === 0) {
+                                $('.oeeChartsContainer .aic-overlay').removeClass('hide').addClass('show');
+                            } else {
+                                $('.oeeChartsContainer .aic-overlay').removeClass('show').addClass('hide');
+                            }
+                            oeeCharts.viewModel.set("series", result);
+                            kendo.ui.progress($("#oee-chart"), false);
                         }).fail(function (e: { message: string }) {
-                            kendo.ui.progress($("#oeeChart"), false);
+                            $('.oeeChartsContainer .aic-overlay').removeClass('hide').addClass('show');
+                            kendo.ui.progress($("#oee-chart"), false);
                             alert(e.message);
                         });
                 } else {
-                    //alert("请选择设备！！");
+                    $('.oeeChartsContainer .aic-overlay').removeClass('hide').addClass('show');
                     return;
                 }
             } catch (e) {
@@ -169,23 +149,28 @@ module OEEDemos {
             $('#viewport').append(this.view);
             this.initChart();
             kendo.bind(this.view, this.viewModel);
+            this.currentEquipment = StartUp.Instance.currentEquipmentId;
+            this.startTime = StartUp.Instance.startTime;
+            this.endTime = StartUp.Instance.endTime;
             this.refreshData();
             StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
             StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
-
         }
         
         update() {
             $('#viewport').append(this.view);
             this.initChart();
             kendo.bind(this.view, this.viewModel);
+            this.currentEquipment = StartUp.Instance.currentEquipmentId;
+            this.startTime = StartUp.Instance.startTime;
+            this.endTime = StartUp.Instance.endTime;
             this.refreshData();
             StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
             StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
         }
 
         destory() {
-            var chart = $("#oeeChart").data("kendoChart");
+            var chart = $("#oee-chart").data("kendoChart");
             kendo.unbind(this.view);
             chart.destroy();
             StartUp.Instance.deleteTimeRangeListner(this.timeRangeListner);

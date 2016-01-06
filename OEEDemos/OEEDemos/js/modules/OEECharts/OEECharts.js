@@ -5,7 +5,7 @@ var OEEDemos;
         function OEECharts() {
             this.ppaServiceContext = new AicTech.PPA.DataModel.PPAEntities({
                 name: 'oData',
-                oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
+                oDataServiceHost: OEEDemos.AccountHelpUtils.serviceAddress + OEEDemos.AccountHelpUtils.ppaEntitiesDataRoot
             });
             this.needEquiptree = true;
             this.viewModel = kendo.observable({
@@ -17,8 +17,6 @@ var OEEDemos;
                         oeeCOM: 0
                     }]
             });
-            this.dataItem = new vis.DataSet();
-            this.dataGroup = new vis.DataSet();
         }
         OEECharts.prototype.timeRangeListner = function (startTime, endTime) {
             var oeeCharts = OEEDemos.ModuleLoad.getModuleInstance("OEECharts");
@@ -32,21 +30,7 @@ var OEEDemos;
             oeeCharts.refreshData();
         };
         OEECharts.prototype.initChart = function () {
-            //var container = $('#oeeChart')[0];
-            //var options = {
-            //    dataAxis: {
-            //        showMinorLabels: false
-            //    },
-            //    legend: {
-            //        left: {
-            //            position:"bottom-left"
-            //        }
-            //    },
-            //    start: '2015-09-01',
-            //    end:'2015-10-01'
-            //};
-            //this.chart = new vis.Graph2D(container, this.dataItem, this.dataGroup, options);
-            $("#oeeChart").kendoChart({
+            $("#oee-chart").kendoChart({
                 title: {
                     text: "OEEDemo Charts"
                 },
@@ -101,23 +85,16 @@ var OEEDemos;
                     template: "#= series.name #: #= value #"
                 }
             });
-            var chart = $("#oeeChart").data('kendoChart');
-            chart.bind('drag', function (e) {
-            });
-            chart.bind('dragEnd', function (e) {
-            });
         };
         OEECharts.prototype.refreshData = function () {
             try {
-                var startDate = this.startTime;
-                var endDate = this.endTime;
-                var currentEquipment = this.currentEquipment || "";
+                var startDate = this.startTime, endDate = this.endTime, currentEquipment = this.currentEquipment || "", oeeCharts = OEEDemos.ModuleLoad.getModuleInstance("OEECharts");
                 if (currentEquipment !== "") {
                     var day = new Date();
                     day.setDate(day.getDate() - 1);
                     var start = this.startTime || day;
                     var end = this.endTime || new Date();
-                    kendo.ui.progress($("#oeeChart"), true);
+                    kendo.ui.progress($("#oee-chart"), true);
                     this.ppaServiceContext.PPA_OEE_SUMMARY
                         .filter(function (items) {
                         return (items.PER_START_TIME >= this.startDate && items.PER_START_TIME < this.endDate
@@ -136,15 +113,22 @@ var OEEDemos;
                         };
                     })
                         .toArray(function (result) {
-                        OEEDemos.ModuleLoad.getModuleInstance(OEEDemos.StartUp.currentInstanceName).viewModel.set("series", result);
-                        kendo.ui.progress($("#oeeChart"), false);
+                        if (result.length === 0) {
+                            $('.oeeChartsContainer .aic-overlay').removeClass('hide').addClass('show');
+                        }
+                        else {
+                            $('.oeeChartsContainer .aic-overlay').removeClass('show').addClass('hide');
+                        }
+                        oeeCharts.viewModel.set("series", result);
+                        kendo.ui.progress($("#oee-chart"), false);
                     }).fail(function (e) {
-                        kendo.ui.progress($("#oeeChart"), false);
+                        $('.oeeChartsContainer .aic-overlay').removeClass('hide').addClass('show');
+                        kendo.ui.progress($("#oee-chart"), false);
                         alert(e.message);
                     });
                 }
                 else {
-                    //alert("请选择设备！！");
+                    $('.oeeChartsContainer .aic-overlay').removeClass('hide').addClass('show');
                     return;
                 }
             }
@@ -157,6 +141,9 @@ var OEEDemos;
             $('#viewport').append(this.view);
             this.initChart();
             kendo.bind(this.view, this.viewModel);
+            this.currentEquipment = OEEDemos.StartUp.Instance.currentEquipmentId;
+            this.startTime = OEEDemos.StartUp.Instance.startTime;
+            this.endTime = OEEDemos.StartUp.Instance.endTime;
             this.refreshData();
             OEEDemos.StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
             OEEDemos.StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
@@ -165,12 +152,15 @@ var OEEDemos;
             $('#viewport').append(this.view);
             this.initChart();
             kendo.bind(this.view, this.viewModel);
+            this.currentEquipment = OEEDemos.StartUp.Instance.currentEquipmentId;
+            this.startTime = OEEDemos.StartUp.Instance.startTime;
+            this.endTime = OEEDemos.StartUp.Instance.endTime;
             this.refreshData();
             OEEDemos.StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
             OEEDemos.StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
         };
         OEECharts.prototype.destory = function () {
-            var chart = $("#oeeChart").data("kendoChart");
+            var chart = $("#oee-chart").data("kendoChart");
             kendo.unbind(this.view);
             chart.destroy();
             OEEDemos.StartUp.Instance.deleteTimeRangeListner(this.timeRangeListner);

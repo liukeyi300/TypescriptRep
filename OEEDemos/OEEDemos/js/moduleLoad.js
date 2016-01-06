@@ -150,8 +150,9 @@ var OEEDemos;
             ModuleLoad.loadedScripts[scriptUrl] = true;
         };
         ModuleLoad.instances = []; //All instances 
-        ModuleLoad.modules = []; //All modules
+        ModuleLoad.modules = []; //All loaded modules 
         ModuleLoad.loadedScripts = []; //All scripts
+        ModuleLoad.allModules = []; //All modules
         return ModuleLoad;
     })();
     OEEDemos.ModuleLoad = ModuleLoad;

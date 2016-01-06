@@ -2,8 +2,9 @@
 module OEEDemos {
     export class ModuleLoad {
         private static instances:ModuleBase[] = [];                     //All instances 
-        private static modules = [];                                            //All modules
+        private static modules = [];                                            //All loaded modules 
         private static loadedScripts = [];                                    //All scripts
+        public static allModules = [];                                        //All modules
         constructor() { }
 
          /**

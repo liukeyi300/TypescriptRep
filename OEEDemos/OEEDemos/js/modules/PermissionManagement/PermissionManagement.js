@@ -84,7 +84,8 @@ var OEEDemos;
                     if ($(e.node).find('input').is(":checked")) {
                         OEEDemos.ModuleLoad.getModuleInstance('PermissionManagement').checkParentNode(this.dataItem(e.node));
                     }
-                }
+                },
+                dataImageUrlField: "null"
             });
         };
         PermissionManagement.prototype.refreshRoleList = function () {
@@ -112,8 +113,10 @@ var OEEDemos;
                     });
                 });
                 $.getJSON('js/moduleList.json', null, function (d) {
-                    var data = [], treeData;
+                    var data = [], treeData, item;
                     for (var key in d) {
+                        item = d[key];
+                        delete item.imageUrl;
                         data.push(d[key]);
                     }
                     treeData = OEEDemos.AppUtils.getTree(data, 0);

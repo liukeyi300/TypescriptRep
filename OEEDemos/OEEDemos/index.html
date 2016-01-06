@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="renderer" content="webkit"/>
 
-    <title>OEEDemo</title>
+    <title>AIC OEE Demo</title>
 
     <link rel="stylesheet" href="libs/bootstrap-3.3.5-dist/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="libs/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css" type="text/css"/>
@@ -24,50 +24,49 @@
 </head>
 <body>
     <nav>
-        <div class="left">
-            <a href="#" class="navbar-brand">
-                <img alt="AICOEE" src="images/background/aic_logo_g.png" />
+        <div class="full-width oee-title">
+            <span>AIC OEE Demo</span>
+            <span id="spanUserName" class="right">欢迎，请登录!</span>
+        </div>
+        <div class="full-width oee-logo">
+            <!--<img alt="AICOEE" src="images/background/aic_logo_g.png" />-->
+            <a  id="logBtn" class="right "
+                    data-toggle="modal" data-target="#loginModal">
+                登录
             </a>
         </div>
-        <button type="button" id="logBtn" class="btn btn-primary btn-sm right nav-btn" 
-                data-toggle="modal" data-target="#loginModal">登录</button>
-        <span id="spanUserName" class="right"></span>
     </nav>
-    <div id="page-content" class="container-fluid full-height">
+    <div id="page-content" class="container-fluid full-width">
         <div class="row full-height">
-        <div id="navigation" class="col-md-2 col-sm-4 col-xs-11 full-height">
-            <div id="nav-tree" class="full-height"></div>
-        </div>
-        <div id="content" class="col-md-10 col-sm-8 col-xs-12 full-height div-border-box">
-            <div class="function-nav full-width">
-                <form class="form-inline full-height full-width">
-                    <div class="form-group left">
-                        <label for="startTimeSelect">选择日期：</label>
-                        <input type="text" value="" id="startTimeSelect" class="form-control" />
-                    </div>
-                    <div class="form-group left">
-                        <label for="endTimeSelect">到</label>
-                        <input type="text" value="" id="endTimeSelect" class="form-control" />
-                    </div>
-                    <button id="resetFunctionNav" class="btn btn-danger btn-sm right nav-btn" type="button">重置</button>
-                    <button id="comfirmFunctionNav" class="btn btn-success btn-sm right nav-btn" type="button">确定</button>
-                </form>
+            <div id="navigation" class="full-height left"  data-state="showed">
+                <div id="nav-tree" class="full-height"></div>
             </div>
-            <div id="equip-viewport" class="full-height container-fluid">
-                <div class="row full-height">
-                    <div id="equip-container" class="col-md-3 full-height">
-                        <div id="equip-tree" class="full-height"></div>
+            <div id="hover-nav" class="left full-height" title="隐藏菜单栏">
+                <img src="images/icons/8_8/arrow_left.png" alt="" width="8" height="8" />
+            </div>
+            <div id="content" class="full-height div-border-box">
+                <div class="function-nav full-width">
+                    <label for="startTimeSelect">选择日期：</label>
+                    <input type="text" value="" id="startTimeSelect" class="form-control"/>
+                    <label for="endTimeSelect">到</label>
+                    <input type="text" value="" id="endTimeSelect" class="form-control" />
+                    <button id="confirmFunctionNav" class="btn btn-primary btn-sm func-btn" type="button">确定</button>
+                    <div class="clear-float"></div>
+                </div>
+                <div id="equip-viewport" class="full-height container-fluid">
+                    <div class="row full-height">
+                        <div id="equip-container" class="col-md-3 full-height">
+                            <div id="equip-tree" class="full-height"></div>
+                        </div>
+                        <div id="viewport" class="col-md-9 full-height"></div>
                     </div>
-                    <div id="viewport" class="col-md-9 full-height"></div>
                 </div>
             </div>
         </div>
-        </div>
     </div>
-    <footer class="full-width" style="height:44px">
+    <!--<footer class="full-width" style="height:44px">
         <p>Copyright © 2011-2015 Beijing Advanced Information and Control Co. Ltd. All Rights Reserved.</p>
-    </footer>
-
+    </footer>-->
     <!--<div id="eqModal" class="modal fade" tabindex="-1" role="alertdialog" aria-labelledby="eqModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -98,20 +97,20 @@
                         <label class="login-label">
                             <span class="login-icon1"></span>
                         </label>
-                        <input type="url" class="login-input" value="http://192.168.0.3:6666" 
-                               id="inputServerAddress" autocomplete="off" maxlength="100"  autofocus="autofocus" required="required" />
+                        <input type="url" class="login-input" value="http://192.168.0.3:6666"
+                               id="inputServerAddress" autocomplete="off" maxlength="100" autofocus="autofocus" required="required" />
                     </div>
                     <div class="login-form-item">
                         <label class="login-label">
                             <span class="login-icon login-icon-user"></span>
                         </label>
-                        <input type="text" class="login-input" id="inputUserName" autocomplete="off" maxlength="100" placeholder="用户名" required="required"  />
+                        <input type="text" class="login-input" id="inputUserName" autocomplete="off" maxlength="100" placeholder="用户名" required="required" />
                     </div>
                     <div class="login-form-item">
                         <label class="login-label">
                             <span class="login-icon login-icon-pwd"></span>
                         </label>
-                        <input type="password" class="login-input" id="inputPwd"  autocomplete="off" maxlength="100" placeholder="密码" required="required" />
+                        <input type="password" class="login-input" id="inputPwd" autocomplete="off" maxlength="100" placeholder="密码" required="required" />
                     </div>
                 </div>
                 <div class="modal-footer">

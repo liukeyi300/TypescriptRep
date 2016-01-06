@@ -3,6 +3,7 @@ var OEEDemos;
 (function (OEEDemos) {
     var StartUp = (function () {
         function StartUp() {
+            this.currentEquipmentId = "";
             this.viewModel = kendo.observable({});
         }
         StartUp.prototype.startUp = function () {
@@ -31,13 +32,9 @@ var OEEDemos;
             StartUp.Instance.equipNodeCheckListner.splice(StartUp.Instance.equipNodeCheckListner.indexOf(listner), 1);
         };
         StartUp.prototype.initWidgets = function () {
-            StartUp.Instance.nav = new OEEDemos.Navigations($("#nav-tree"), {
-                select: function (e) {
-                    onNodeSelect(e, this);
-                }
-            });
             StartUp.Instance.equipTree = new OEEDemos.Navigations($("#equip-tree"), {
                 select: function (e) {
+                    StartUp.Instance.currentEquipmentId = this.dataItem(e.node).id;
                     if (typeof StartUp.Instance.equipNodeSelectListner === "undefined") {
                         return;
                     }
@@ -72,8 +69,30 @@ var OEEDemos;
                 }
             });
             StartUp.Instance.hideEquimentTree();
-            var onNodeSelect = function (e, sender) {
-                var dataItem = sender.dataItem(e.node);
+            $("#startTimeSelect").kendoDateTimePicker({
+                format: "yyyy-MM-dd HH:mm",
+                timeFormat: "HH:mm",
+                change: function () {
+                    StartUp.Instance.startTime = this.value();
+                }
+            });
+            $("#endTimeSelect").kendoDateTimePicker({
+                format: "yyyy-MM-dd HH:mm",
+                timeFormat: "HH:mm",
+                change: function () {
+                    StartUp.Instance.endTime = this.value();
+                }
+            });
+            setTimeout(function () {
+                $('#resetFunctionNav').addClass('right');
+                $('#confirmFunctionNav').addClass('right');
+            }, 10);
+            //kendo.bind($("body"), this.viewModel);
+        };
+        StartUp.prototype.initEventsBinding = function () {
+            var nav = StartUp.Instance.nav;
+            var onNodeSelect = function (e) {
+                var dataItem = OEEDemos.ModuleLoad.allModules[$(e.item).find('span.k-state-selected').text()];
                 var currentModule = dataItem.moduleName;
                 var baseUrl = dataItem.baseUrl;
                 if (baseUrl === "") {
@@ -114,18 +133,6 @@ var OEEDemos;
                     });
                 }
             };
-            $("#startTimeSelect").kendoDateTimePicker({
-                format: "yyyy-MM-dd HH:mm",
-                timeFormat: "HH:mm"
-            });
-            $("#endTimeSelect").kendoDateTimePicker({
-                format: "yyyy-MM-dd HH:mm",
-                timeFormat: "HH:mm"
-            });
-            //kendo.bind($("body"), this.viewModel);
-        };
-        StartUp.prototype.initEventsBinding = function () {
-            var nav = StartUp.Instance.nav;
             $('#loginConfirm').on("click", function (e) {
                 var serverAddress = $("#inputServerAddress").val();
                 var userName = $("#inputUserName").val();
@@ -142,6 +149,7 @@ var OEEDemos;
                         });
                         var roles = [];
                         var allPermissions = [];
+                        $('#page-content').css('height', '100%');
                         OEEDemos.AccountHelpUtils.roleServiceClient.getRolesForCurrentUserAsync().then(function (roless) {
                             roles = roless;
                         }, null).then(function () {
@@ -150,12 +158,17 @@ var OEEDemos;
                                     var data = [];
                                     for (var key in d) {
                                         data.push(d[key]);
+                                        OEEDemos.ModuleLoad.allModules[d[key].text] = d[key];
                                     }
-                                    StartUp.Instance.nav.setData(OEEDemos.AppUtils.getTree(data, 0));
+                                    //StartUp.Instance.nav.setData(AppUtils.getTree(data, 0));
+                                    $('#nav-tree').kendoPanelBar({
+                                        dataSource: OEEDemos.AppUtils.getTree(data, 0),
+                                        select: onNodeSelect
+                                    });
                                     StartUp.Instance.hideLoginModal();
-                                    $('#logBtn').removeClass('btn-primary').addClass('btn-danger').removeAttr("data-toggle").removeAttr("data-target");
+                                    $('#logBtn').removeAttr("data-toggle").removeAttr("data-target");
                                     $('#logBtn').html("登出");
-                                    $('#spanUserName').html(userName);
+                                    $('#spanUserName').html('欢迎  ' + userName + "!");
                                     $('#logBtn').on('click', function (e) {
                                         StartUp.Instance.logOut();
                                     });
@@ -174,13 +187,14 @@ var OEEDemos;
                                                 for (var key in d) {
                                                     if (allPermissions.indexOf("Page_" + d[key].moduleName) >= 0) {
                                                         data.push(d[key]);
+                                                        OEEDemos.ModuleLoad.allModules[d[key].text] = d[key];
                                                     }
                                                 }
                                                 StartUp.Instance.nav.setData(OEEDemos.AppUtils.getTree(data, 0));
                                                 StartUp.Instance.hideLoginModal();
-                                                $('#logBtn').removeClass('btn-primary').addClass('btn-danger').removeAttr("data-toggle").removeAttr("data-target");
+                                                $('#logBtn').removeAttr("data-toggle").removeAttr("data-target");
                                                 $('#logBtn').html("登出");
-                                                $('#spanUserName').html(userName);
+                                                $('#spanUserName').html('欢迎  ' + userName + "!");
                                                 $('#logBtn').on('click', function (e) {
                                                     StartUp.Instance.logOut();
                                                 });
@@ -212,7 +226,7 @@ var OEEDemos;
                     }
                 }, null);
             });
-            $('#comfirmFunctionNav').on('click', function (e) {
+            $('#confirmFunctionNav').on('click', function (e) {
                 if (typeof StartUp.Instance.timeRangeListner === "undefined") {
                     return;
                 }
@@ -231,9 +245,22 @@ var OEEDemos;
                     $('#loginConfirm').trigger('click');
                 }
             });
-            this.showLoginModal();
             $('#loginModal').on('shown.bs.modal', function (e) {
                 kendo.ui.progress($('html'), false);
+            });
+            $('#hover-nav').on('click', function (e) {
+                if ($('#navigation').data('state') === "showed") {
+                    $('#navigation').css('width', '0');
+                    $('#content').css('margin-left', '10px');
+                    $('#hover-nav').find('img').attr('src', 'images/icons/8_8/arrow_right.png');
+                    $('#navigation').data('state', 'hidden');
+                }
+                else {
+                    $('#navigation').css('width', '236px');
+                    $('#content').css('margin-left', '246px');
+                    $('#hover-nav').find('img').attr('src', 'images/icons/8_8/arrow_left.png');
+                    $('#navigation').data('state', 'showed');
+                }
             });
         };
         StartUp.prototype.logOut = function () {
@@ -246,11 +273,16 @@ var OEEDemos;
             $("#viewport").empty();
             $('#logBtn').html('登录');
             $('#logBtn').unbind('click');
-            $('#logBtn').removeClass('btn-danger').addClass('btn-primary').attr("data-toggle", "modal").attr("data-target", "#loginModal");
-            $('#spanUserName').html("");
+            $('#logBtn').attr("data-toggle", "modal").attr("data-target", "#loginModal");
+            $('#spanUserName').html("欢迎，请登录!");
             $('#startTimeSelect').val("");
             $('#endTimeSelect').val("");
-            StartUp.Instance.nav.setData([{ text: "Please Login!" }]);
+            $('#page-content').css('height', '0');
+            //StartUp.Instance.nav.setData([{ text: "Please Login!" }]);
+            var nav = $('#nav-tree').data('kendoPanelBar');
+            nav.destroy();
+            $('#nav-tree').empty();
+            OEEDemos.ModuleLoad.allModules = [];
             StartUp.Instance.equipTree.setData([{ text: "Please Login!" }]);
             StartUp.Instance.hideEquimentTree();
             this.hideLoginModal();

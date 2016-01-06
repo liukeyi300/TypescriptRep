@@ -28,17 +28,18 @@
     color:white;
     background-color:rgb(203,0,51);
     border-color:rgb(203,0,51);
-    cursor: pointer;
 }
 .vis-item-cause2 {
     color:white;
     background-color:rgb(51,254,51);
     border-color:rgb(51,254,51);
-    cursor: pointer;
 }
 .vis-item-cause3 {
     color:white;
     background-color:blue;
     border-color:blue;
-    cursor: pointer;
+}
+
+.aic-vis-item {
+    cursor:pointer;
 }

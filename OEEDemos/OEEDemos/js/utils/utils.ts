@@ -25,7 +25,6 @@ module OEEDemos {
                 var item = data[i];
                 var id = item["id"];
                 var parentId = item["parent"];
-
                 hash[id] = hash[id] || [];
                 hash[parentId] = hash[parentId] || [];
 
