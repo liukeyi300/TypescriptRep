@@ -8,6 +8,7 @@ module OEEDemos {
         public nav: Navigations;
         public equipTree: Navigations;
         public currentEquipmentId: string = "";
+        public currentEquipmentName: string = "";
         public startTime: Date;
         public endTime: Date;
         private timeRangeListner: ((startTime: Date, endTime: Date) => void)[];
@@ -57,6 +58,7 @@ module OEEDemos {
                 {
                     select: function (e) {
                         StartUp.Instance.currentEquipmentId = this.dataItem(e.node).id;
+                        StartUp.Instance.currentEquipmentName = this.dataItem(e.node).text;
                         if (typeof StartUp.Instance.equipNodeSelectListner === "undefined") {
                             return;
                         }
@@ -289,11 +291,13 @@ module OEEDemos {
                     $('#content').css('margin-left', '10px');
                     $('#hover-nav').find('img').attr('src', 'images/icons/8_8/arrow_right.png');
                     $('#navigation').data('state', 'hidden');
+                    $('#hover-nav').prop('title', '打开菜单栏');
                 } else {
                     $('#navigation').css('width', '236px');
                     $('#content').css('margin-left', '246px');
                     $('#hover-nav').find('img').attr('src', 'images/icons/8_8/arrow_left.png');
                     $('#navigation').data('state', 'showed');
+                    $('#hover-nav').prop('title', '隐藏菜单栏');
                 }
             });
         }
@@ -303,7 +307,7 @@ module OEEDemos {
             if (StartUp.currentInstanceName !== "" && typeof ModuleLoad.getModuleInstance(StartUp.currentInstanceName) !== "undefined") {
                 ModuleLoad.getModuleInstance(StartUp.currentInstanceName).destory();
                 StartUp.currentInstanceName = "";
-                ModuleLoad.clearAllModules();
+                //ModuleLoad.clearAllModules();
             }
             $("#viewport").empty();
             $('#logBtn').html('登录');
@@ -321,6 +325,9 @@ module OEEDemos {
             ModuleLoad.allModules = [];
             StartUp.Instance.equipTree.setData([{ text: "Please Login!" }]);
             StartUp.Instance.hideEquimentTree();
+            StartUp.Instance.startTime = null;
+            StartUp.Instance.endTime = null;
+            StartUp.Instance.currentEquipmentId = "";
             this.hideLoginModal();
         }
 

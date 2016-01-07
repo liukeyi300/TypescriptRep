@@ -1,15 +1,21 @@
-﻿.downtimeTimelineChartsContainer {
-    padding:70px 0 60px;
+﻿.downtime-timeline-container {
+     padding:61px 0 50px;
 }
-
-#downtimeTimelineCharts {
+    .downtime-timeline-container hr {
+        margin:0;
+    }
+#downtime-timeline-chart {
     width:95%;
     overflow:auto;
-    margin:25px 20px 0 20px;
+    margin:0 20px;
     border:1px solid #C0C0C0;
 }
 
-.downtimeTimelineChartsContainer  ul {
+    #downtime-timeline-chart > .vis-timeline {
+        border-width:0 0 1px;
+    }
+
+.downtime-timeline-container  ul {
     margin:-15px 20px 0;
     width:95%;
     overflow:hidden;
@@ -18,7 +24,7 @@
     height:60px;
 }
 
-.downtimeTimelineChartsContainer  ul  li {
+.downtime-timeline-container  ul  li {
        margin-top:10px;
        padding:5px;
        float:left;

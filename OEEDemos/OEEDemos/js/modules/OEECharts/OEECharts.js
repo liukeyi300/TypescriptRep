@@ -88,12 +88,11 @@ var OEEDemos;
         };
         OEECharts.prototype.refreshData = function () {
             try {
-                var startDate = this.startTime, endDate = this.endTime, currentEquipment = this.currentEquipment || "", oeeCharts = OEEDemos.ModuleLoad.getModuleInstance("OEECharts");
+                var currentEquipment = this.currentEquipment || "", oeeCharts = OEEDemos.ModuleLoad.getModuleInstance("OEECharts"), start, end, day = new Date();
+                day.setDate(day.getDate() - 1);
+                start = oeeCharts.startTime || day;
+                end = oeeCharts.endTime || new Date();
                 if (currentEquipment !== "") {
-                    var day = new Date();
-                    day.setDate(day.getDate() - 1);
-                    var start = this.startTime || day;
-                    var end = this.endTime || new Date();
                     kendo.ui.progress($("#oee-chart"), true);
                     this.ppaServiceContext.PPA_OEE_SUMMARY
                         .filter(function (items) {
@@ -114,21 +113,21 @@ var OEEDemos;
                     })
                         .toArray(function (result) {
                         if (result.length === 0) {
-                            $('.oeeChartsContainer .aic-overlay').removeClass('hide').addClass('show');
+                            $('.oee-chart-container .aic-overlay').removeClass('hide').addClass('show');
                         }
                         else {
-                            $('.oeeChartsContainer .aic-overlay').removeClass('show').addClass('hide');
+                            $('.oee-chart-container .aic-overlay').removeClass('show').addClass('hide');
                         }
                         oeeCharts.viewModel.set("series", result);
                         kendo.ui.progress($("#oee-chart"), false);
                     }).fail(function (e) {
-                        $('.oeeChartsContainer .aic-overlay').removeClass('hide').addClass('show');
+                        $('.oee-chart-container .aic-overlay').removeClass('hide').addClass('show');
                         kendo.ui.progress($("#oee-chart"), false);
                         alert(e.message);
                     });
                 }
                 else {
-                    $('.oeeChartsContainer .aic-overlay').removeClass('hide').addClass('show');
+                    $('.oee-chart-container .aic-overlay').removeClass('hide').addClass('show');
                     return;
                 }
             }
@@ -163,6 +162,9 @@ var OEEDemos;
             var chart = $("#oee-chart").data("kendoChart");
             kendo.unbind(this.view);
             chart.destroy();
+            this.currentEquipment = "";
+            this.startTime = null;
+            this.endTime = null;
             OEEDemos.StartUp.Instance.deleteTimeRangeListner(this.timeRangeListner);
             OEEDemos.StartUp.Instance.deleteEquipNodeSelectListner(this.equipNodeSelect);
         };

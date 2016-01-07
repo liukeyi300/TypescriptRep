@@ -1,17 +1,17 @@
-﻿.down-time-pie-charts-container {
+﻿.downtime-pie-charts-container {
     padding:61px 0 50px;
 }
 
-    .down-time-pie-charts-container hr {
+    .downtime-pie-charts-container hr {
         margin:0;
     }
 
-#down-time-pie-charts {
+#downtime-pie-charts {
     width:50%;
     float:left;
 }
 
-#down-time-pie-charts-2 {
+#downtime-pie-charts-2 {
     width:50%;
      float:left;
 }

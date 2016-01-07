@@ -5,7 +5,7 @@ var OEEDemos;
         function UserConfiguration() {
             this.ppaServiceContext = new AicTech.PPA.DataModel.PPAEntities({
                 name: 'oData',
-                oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
+                oDataServiceHost: OEEDemos.AccountHelpUtils.serviceAddress + OEEDemos.AccountHelpUtils.ppaEntitiesDataRoot
             });
             this.needEquiptree = false;
             this.viewModel = kendo.observable({

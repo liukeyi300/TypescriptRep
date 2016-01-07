@@ -3,13 +3,15 @@ module OEEDemos {
     export class DowntimeTimelineCharts implements ModuleBase {
         ppaServiceContext = new AicTech.PPA.DataModel.PPAEntities({
             name: 'oData',
-            oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
+            oDataServiceHost: AccountHelpUtils.serviceAddress + AccountHelpUtils.ppaEntitiesDataRoot
         });
         needEquiptree = true;
         view: JQuery;
         viewModel = kendo.observable({});
-        startTime: Date;
-        endTime: Date;
+        private startTime: Date;
+        private endTime: Date;
+        private currentEquipmentId: string;
+        private currentEquipmentName: string;
       
         private dataItems = new vis.DataSet();
         private dataGroups = new vis.DataSet();
@@ -30,7 +32,7 @@ module OEEDemos {
         }
 
         private initChart(): void {
-            var container = $('#downtimeTimelineCharts')[0];
+            var container = $('#downtime-timeline-chart')[0];
             var options = {
                 orientation: 'top',
                 selectable: false
@@ -40,8 +42,16 @@ module OEEDemos {
 
         private refreshData(eqId?, eqName?): void {
             try {
-                var allEqu = [];
-                var dtInstance = ModuleLoad.getModuleInstance("DowntimeTimelineCharts");
+                var allEqu = [],
+                    dtInstance = ModuleLoad.getModuleInstance("DowntimeTimelineCharts"),
+                    day = new Date(),
+                    start: Date,
+                    end: Date;
+
+                day.setDate(day.getDate() - 1);
+                start = this.startTime || day
+                end = this.endTime || new Date();
+
                 if (typeof eqId !== "undefined") {
                     allEqu.push({ id: eqId, content: eqName });
                     this.dataGroups.update({ id: eqId, content: eqName });
@@ -50,10 +60,6 @@ module OEEDemos {
                     this.dataItems.clear();
                 }
                 if (allEqu.length > 0) {
-                    var day = new Date();
-                    day.setDate(day.getDate() - 1);
-                    var start = this.startTime || day
-                    var end = this.endTime || new Date();
                     for (var i = 0, max = allEqu.length; i < max; i++) {
                         this.ppaServiceContext.PPA_DT_RECORD.filter(function (it) {
                             return it.EQP_NO == this.eqid && it.DT_START_TIME >= this.startDate && it.DT_END_TIME < this.endDate;
@@ -93,17 +99,32 @@ module OEEDemos {
 
         init(view: JQuery) {
             this.view = view;
+            this.currentEquipmentId = StartUp.Instance.currentEquipmentId;
+            this.currentEquipmentName = StartUp.Instance.currentEquipmentName;
+            this.startTime = StartUp.Instance.startTime;
+            this.endTime = StartUp.Instance.endTime;
             $('#viewport').append(this.view);
             this.initChart();
             kendo.bind(this.view, this.viewModel);
+            if (this.currentEquipmentId !== "" && this.currentEquipmentName !== "") {
+                this.refreshData(this.currentEquipmentId, this.currentEquipmentName);
+            }
             StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
             StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
         }
 
         update() {
+            this.currentEquipmentId = StartUp.Instance.currentEquipmentId;
+            this.currentEquipmentName = StartUp.Instance.currentEquipmentName;
+            this.startTime = StartUp.Instance.startTime;
+            this.endTime = StartUp.Instance.endTime;
             $('#viewport').append(this.view);
             this.initChart();
             kendo.bind(this.view, this.viewModel);
+            
+            if (this.currentEquipmentId !== "" && this.currentEquipmentName !== "") {
+                this.refreshData(this.currentEquipmentId, this.currentEquipmentName);
+            }
             StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
             StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
         }
@@ -112,6 +133,10 @@ module OEEDemos {
             this.timeline.destroy();
             this.dataItems.clear();
             this.dataGroups.clear();
+            this.currentEquipmentId = "";
+            this.currentEquipmentName = "";
+            this.startTime = null;
+            this.endTime = null;
             kendo.unbind(this.view);
             StartUp.Instance.deleteEquipNodeSelectListner(this.equipNodeSelect);
             StartUp.Instance.deleteTimeRangeListner(this.timeRangeListner);

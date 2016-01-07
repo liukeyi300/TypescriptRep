@@ -4,7 +4,7 @@ module OEEDemos {
     export class PermissionManagement implements ModuleBase {
         ppaServiceContext = new AicTech.PPA.DataModel.PPAEntities({
             name: 'oData',
-            oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
+            oDataServiceHost: AccountHelpUtils.serviceAddress + AccountHelpUtils.ppaEntitiesDataRoot
         });
         needEquiptree = false;
         view: JQuery;
@@ -40,8 +40,8 @@ module OEEDemos {
                     return;
                 }
 
-                var checkText = [];
-                var treeview = $('#permission-list').data('kendoTreeView');
+                var checkText = [],
+                    treeview = $('#permission-list').data('kendoTreeView');
                 $('#permission-list input[type=checkbox]').each((index: number, elem: HTMLElement) => {
                     checkText.push($(elem).attr('name'))
                 });
@@ -55,8 +55,8 @@ module OEEDemos {
                     return;
                 }
 
-                var checkText = [];
-                var treeview = $('#permission-list').data('kendoTreeView');
+                var checkText = [],
+                    treeview = $('#permission-list').data('kendoTreeView');
                 $('#permission-list input[type=checkbox]:not(.system-permission)').each((index: number, elem: HTMLElement) => {
                     checkText.push($(elem).attr('name'))
                 });
@@ -106,9 +106,9 @@ module OEEDemos {
             
             AccountHelpUtils.credServiceClient.getAllRolesAsync().then((roles: string[]) => {
                 roles.forEach((role) => {
-                    var center = $("<center></center>");
-                    var li = $('<li data-role-name="' + role + '" ></li>');
-                    var b = $('<b>' + role + '</b>');
+                    var center = $("<center></center>"),
+                        li = $('<li data-role-name="' + role + '" ></li>'),
+                        b = $('<b>' + role + '</b>');
                     b.appendTo(li);
                     li.appendTo(center);
                     center.appendTo(ul);

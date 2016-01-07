@@ -16,7 +16,7 @@ module OEEDemos {
             }]
         });
         equipmentTree: Navigations;
-        private currentNode;
+        private currentEquipment: string;
         private startTime: Date;
         private endTime: Date;
 
@@ -31,7 +31,7 @@ module OEEDemos {
 
         private equipNodeSelectListner(e: kendo.ui.TreeViewSelectEvent, sender): void {
             var dtInstance: DowntimeColumnCharts = ModuleLoad.getModuleInstance("DowntimeColumnCharts");
-            dtInstance.currentNode = sender.dataItem(e.node).id;
+            dtInstance.currentEquipment = sender.dataItem(e.node).id;
             dtInstance.refreshData();
         }
 
@@ -91,7 +91,7 @@ module OEEDemos {
             var startTime: Date,
                 endTime: Date,
                 dtInstance: DowntimeColumnCharts = ModuleLoad.getModuleInstance("DowntimeColumnCharts"),
-                equId = dtInstance.currentNode,
+                equId = dtInstance.currentEquipment,
                 day = new Date();
 
             day.setDate(day.getDate() - 1);
@@ -203,7 +203,7 @@ module OEEDemos {
             $('#viewport').append(this.view);
             this.initCharts();
             kendo.bind(this.view, this.viewModel);
-            this.currentNode = StartUp.Instance.currentEquipmentId;
+            this.currentEquipment = StartUp.Instance.currentEquipmentId;
             this.startTime = StartUp.Instance.startTime;
             this.endTime = StartUp.Instance.endTime;
             this.refreshData();
@@ -215,7 +215,7 @@ module OEEDemos {
             $('#viewport').append(this.view);
             this.initCharts();
             kendo.bind(this.view, this.viewModel);
-            this.currentNode = StartUp.Instance.currentEquipmentId;
+            this.currentEquipment = StartUp.Instance.currentEquipmentId;
             this.startTime = StartUp.Instance.startTime;
             this.endTime = StartUp.Instance.endTime;
             this.refreshData();
@@ -227,6 +227,9 @@ module OEEDemos {
             var chart = $("#columnCharts").data("kendoChart");
             kendo.unbind(this.view);
             chart.destroy();
+            this.currentEquipment = "";
+            this.startTime = null;
+            this.endTime = null;
             StartUp.Instance.deleteTimeRangeListner(this.timeRangeListner);
             StartUp.Instance.deleteEquipNodeSelectListner(this.equipNodeSelectListner);
         }

@@ -4,6 +4,7 @@ var OEEDemos;
     var StartUp = (function () {
         function StartUp() {
             this.currentEquipmentId = "";
+            this.currentEquipmentName = "";
             this.viewModel = kendo.observable({});
         }
         StartUp.prototype.startUp = function () {
@@ -35,6 +36,7 @@ var OEEDemos;
             StartUp.Instance.equipTree = new OEEDemos.Navigations($("#equip-tree"), {
                 select: function (e) {
                     StartUp.Instance.currentEquipmentId = this.dataItem(e.node).id;
+                    StartUp.Instance.currentEquipmentName = this.dataItem(e.node).text;
                     if (typeof StartUp.Instance.equipNodeSelectListner === "undefined") {
                         return;
                     }
@@ -254,12 +256,14 @@ var OEEDemos;
                     $('#content').css('margin-left', '10px');
                     $('#hover-nav').find('img').attr('src', 'images/icons/8_8/arrow_right.png');
                     $('#navigation').data('state', 'hidden');
+                    $('#hover-nav').prop('title', '打开菜单栏');
                 }
                 else {
                     $('#navigation').css('width', '236px');
                     $('#content').css('margin-left', '246px');
                     $('#hover-nav').find('img').attr('src', 'images/icons/8_8/arrow_left.png');
                     $('#navigation').data('state', 'showed');
+                    $('#hover-nav').prop('title', '隐藏菜单栏');
                 }
             });
         };
@@ -268,7 +272,6 @@ var OEEDemos;
             if (StartUp.currentInstanceName !== "" && typeof OEEDemos.ModuleLoad.getModuleInstance(StartUp.currentInstanceName) !== "undefined") {
                 OEEDemos.ModuleLoad.getModuleInstance(StartUp.currentInstanceName).destory();
                 StartUp.currentInstanceName = "";
-                OEEDemos.ModuleLoad.clearAllModules();
             }
             $("#viewport").empty();
             $('#logBtn').html('登录');
@@ -285,6 +288,9 @@ var OEEDemos;
             OEEDemos.ModuleLoad.allModules = [];
             StartUp.Instance.equipTree.setData([{ text: "Please Login!" }]);
             StartUp.Instance.hideEquimentTree();
+            StartUp.Instance.startTime = null;
+            StartUp.Instance.endTime = null;
+            StartUp.Instance.currentEquipmentId = "";
             this.hideLoginModal();
         };
         StartUp.prototype.showLoginModal = function () {

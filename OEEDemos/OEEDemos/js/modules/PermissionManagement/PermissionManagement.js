@@ -5,7 +5,7 @@ var OEEDemos;
         function PermissionManagement() {
             this.ppaServiceContext = new AicTech.PPA.DataModel.PPAEntities({
                 name: 'oData',
-                oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
+                oDataServiceHost: OEEDemos.AccountHelpUtils.serviceAddress + OEEDemos.AccountHelpUtils.ppaEntitiesDataRoot
             });
             this.needEquiptree = false;
             this.viewModel = kendo.observable({
@@ -37,8 +37,7 @@ var OEEDemos;
                     if ($('.role-table .li-selected-active').data('role-name') === "Administrator") {
                         return;
                     }
-                    var checkText = [];
-                    var treeview = $('#permission-list').data('kendoTreeView');
+                    var checkText = [], treeview = $('#permission-list').data('kendoTreeView');
                     $('#permission-list input[type=checkbox]').each(function (index, elem) {
                         checkText.push($(elem).attr('name'));
                     });
@@ -50,8 +49,7 @@ var OEEDemos;
                     if ($('.role-table .li-selected-active').data('role-name') === "Administrator") {
                         return;
                     }
-                    var checkText = [];
-                    var treeview = $('#permission-list').data('kendoTreeView');
+                    var checkText = [], treeview = $('#permission-list').data('kendoTreeView');
                     $('#permission-list input[type=checkbox]:not(.system-permission)').each(function (index, elem) {
                         checkText.push($(elem).attr('name'));
                     });
@@ -95,9 +93,7 @@ var OEEDemos;
             kendo.ui.progress($('.permission-container'), true);
             OEEDemos.AccountHelpUtils.credServiceClient.getAllRolesAsync().then(function (roles) {
                 roles.forEach(function (role) {
-                    var center = $("<center></center>");
-                    var li = $('<li data-role-name="' + role + '" ></li>');
-                    var b = $('<b>' + role + '</b>');
+                    var center = $("<center></center>"), li = $('<li data-role-name="' + role + '" ></li>'), b = $('<b>' + role + '</b>');
                     b.appendTo(li);
                     li.appendTo(center);
                     center.appendTo(ul);

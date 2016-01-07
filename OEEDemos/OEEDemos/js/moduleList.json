@@ -57,7 +57,7 @@
     "moduleName": "PermissionManagement"
   },
   "DownTimePieCharts": {
-    "text": "设备停机分析饼状图",
+    "text": "设备停机时间饼状图",
     "id": 9,
     "parent": 1,
     "baseUrl": "js/modules/DownTimePieCharts/",

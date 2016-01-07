@@ -5,7 +5,7 @@ var OEEDemos;
         function DowntimeTimelineCharts() {
             this.ppaServiceContext = new AicTech.PPA.DataModel.PPAEntities({
                 name: 'oData',
-                oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
+                oDataServiceHost: OEEDemos.AccountHelpUtils.serviceAddress + OEEDemos.AccountHelpUtils.ppaEntitiesDataRoot
             });
             this.needEquiptree = true;
             this.viewModel = kendo.observable({});
@@ -25,7 +25,7 @@ var OEEDemos;
             dtInstance.refreshData();
         };
         DowntimeTimelineCharts.prototype.initChart = function () {
-            var container = $('#downtimeTimelineCharts')[0];
+            var container = $('#downtime-timeline-chart')[0];
             var options = {
                 orientation: 'top',
                 selectable: false
@@ -34,8 +34,10 @@ var OEEDemos;
         };
         DowntimeTimelineCharts.prototype.refreshData = function (eqId, eqName) {
             try {
-                var allEqu = [];
-                var dtInstance = OEEDemos.ModuleLoad.getModuleInstance("DowntimeTimelineCharts");
+                var allEqu = [], dtInstance = OEEDemos.ModuleLoad.getModuleInstance("DowntimeTimelineCharts"), day = new Date(), start, end;
+                day.setDate(day.getDate() - 1);
+                start = this.startTime || day;
+                end = this.endTime || new Date();
                 if (typeof eqId !== "undefined") {
                     allEqu.push({ id: eqId, content: eqName });
                     this.dataGroups.update({ id: eqId, content: eqName });
@@ -45,10 +47,6 @@ var OEEDemos;
                     this.dataItems.clear();
                 }
                 if (allEqu.length > 0) {
-                    var day = new Date();
-                    day.setDate(day.getDate() - 1);
-                    var start = this.startTime || day;
-                    var end = this.endTime || new Date();
                     for (var i = 0, max = allEqu.length; i < max; i++) {
                         this.ppaServiceContext.PPA_DT_RECORD.filter(function (it) {
                             return it.EQP_NO == this.eqid && it.DT_START_TIME >= this.startDate && it.DT_END_TIME < this.endDate;
@@ -87,16 +85,30 @@ var OEEDemos;
         };
         DowntimeTimelineCharts.prototype.init = function (view) {
             this.view = view;
+            this.currentEquipmentId = OEEDemos.StartUp.Instance.currentEquipmentId;
+            this.currentEquipmentName = OEEDemos.StartUp.Instance.currentEquipmentName;
+            this.startTime = OEEDemos.StartUp.Instance.startTime;
+            this.endTime = OEEDemos.StartUp.Instance.endTime;
             $('#viewport').append(this.view);
             this.initChart();
             kendo.bind(this.view, this.viewModel);
+            if (this.currentEquipmentId !== "" && this.currentEquipmentName !== "") {
+                this.refreshData(this.currentEquipmentId, this.currentEquipmentName);
+            }
             OEEDemos.StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
             OEEDemos.StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
         };
         DowntimeTimelineCharts.prototype.update = function () {
+            this.currentEquipmentId = OEEDemos.StartUp.Instance.currentEquipmentId;
+            this.currentEquipmentName = OEEDemos.StartUp.Instance.currentEquipmentName;
+            this.startTime = OEEDemos.StartUp.Instance.startTime;
+            this.endTime = OEEDemos.StartUp.Instance.endTime;
             $('#viewport').append(this.view);
             this.initChart();
             kendo.bind(this.view, this.viewModel);
+            if (this.currentEquipmentId !== "" && this.currentEquipmentName !== "") {
+                this.refreshData(this.currentEquipmentId, this.currentEquipmentName);
+            }
             OEEDemos.StartUp.Instance.registerEquipNodeSelectListner(this.equipNodeSelect);
             OEEDemos.StartUp.Instance.registerTimeRangeListner(this.timeRangeListner);
         };
@@ -104,6 +116,10 @@ var OEEDemos;
             this.timeline.destroy();
             this.dataItems.clear();
             this.dataGroups.clear();
+            this.currentEquipmentId = "";
+            this.currentEquipmentName = "";
+            this.startTime = null;
+            this.endTime = null;
             kendo.unbind(this.view);
             OEEDemos.StartUp.Instance.deleteEquipNodeSelectListner(this.equipNodeSelect);
             OEEDemos.StartUp.Instance.deleteTimeRangeListner(this.timeRangeListner);

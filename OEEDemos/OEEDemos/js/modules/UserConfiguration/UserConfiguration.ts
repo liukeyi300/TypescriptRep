@@ -4,7 +4,7 @@ module OEEDemos {
     export class UserConfiguration implements ModuleBase {
         ppaServiceContext = new AicTech.PPA.DataModel.PPAEntities({
             name: 'oData',
-            oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
+            oDataServiceHost: AccountHelpUtils.serviceAddress + AccountHelpUtils.ppaEntitiesDataRoot
         });
         needEquiptree = false;
         view: JQuery;

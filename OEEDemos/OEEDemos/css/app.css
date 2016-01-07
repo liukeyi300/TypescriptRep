@@ -73,7 +73,7 @@ nav {
 .func-btn {
     width:70px;
     display:inline;
-    margin:10px 10px 10px 0;
+    margin:9.5px 10px 9.5px 0;
 }
 
 .clear-float {
@@ -192,9 +192,14 @@ footer p {
     margin:-50px 0 0;
     line-height:50px;
     font-size:0;
-    min-width:720px;
-    overflow-x:auto;
-    overflow-y:hidden;
+    /*min-width:720px;*/
+    overflow:auto;
+}
+
+.func-nav-container {
+    height:100%;
+    min-width:630px;
+    min-height:49px;
 }
 
     .function-nav label {
@@ -226,6 +231,10 @@ footer p {
 
 #equip-viewport {
     padding-top:1px;
+}
+
+#viewport {
+    padding:0;
 }
 
 .login-form-item {
