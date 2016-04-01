@@ -1,0 +1,46 @@
+﻿.aic-chart {
+	padding:0 10px;
+}
+
+.aic-chart-container hr {
+    margin:0;
+}
+
+.aic-chart-container  h2 {
+    padding:0 10px 0 15px;
+    text-align:left;
+}
+
+.border-box > center {
+    margin:-67px 0 0;
+}
+
+.border-box>h1 {
+    margin:-50px 0 0 !important;
+}
+
+.aic-chart-container .chart-nav-btn {
+    width:30px;
+    height:30px;
+    border-radius:15px;
+    position:relative;
+    top:8px;
+    margin:0 5px;
+    border: 1px solid #e9e9e9;
+    box-shadow: 3px 3px 5px #8e8e8e;
+}
+
+.aic-chart-container .advance {
+    background:url(./images/aic-chart/advance_default.png) no-repeat;
+}
+
+.aic-chart-container .backoff {
+    background:url(./images/aic-chart/backoff_default.png) no-repeat;
+}
+
+.aic-chart-container .time-tips {
+    position:relative;
+    top:14px;
+    margin:0 5px;
+    font-size:20px;
+}

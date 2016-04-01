@@ -1,0 +1,6 @@
+D:\githubdir\TypescriptRep\AicTechWeb\AicTechWeb\bin\AicTechWeb.dll.config
+D:\githubdir\TypescriptRep\AicTechWeb\AicTechWeb\bin\AicTechWeb.dll
+D:\githubdir\TypescriptRep\AicTechWeb\AicTechWeb\bin\AicTechWeb.pdb
+D:\githubdir\TypescriptRep\AicTechWeb\AicTechWeb\obj\Debug\AicTechWeb.dll
+D:\githubdir\TypescriptRep\AicTechWeb\AicTechWeb\obj\Debug\AicTechWeb.pdb
+D:\githubdir\TypescriptRep\AicTechWeb\AicTechWeb\obj\Debug\AicTechWeb.csprojResolveAssemblyReference.cache

@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{9EEE0776-5B37-40EB-98C8-95A16F080956}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TypeScriptToolsVersion>1.5</TypeScriptToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="css\aic-tech\aic.common.chart.options.css" />
+    <Content Include="css\aic-tech\aic.common.css" />
+    <Content Include="css\aic-tech\aic.common.chart.css" />
+    <Content Include="css\aic-tech\images\aic-chart\add_item.png" />
+    <Content Include="css\aic-tech\images\aic-chart\advance_default.png" />
+    <Content Include="css\aic-tech\images\aic-chart\backoff_default.png" />
+    <Content Include="css\aic-tech\images\aic-chart\clear_item.png" />
+    <Content Include="css\aic-tech\images\aic-chart\filter_data.png" />
+    <Content Include="css\app.css" />
+    <Content Include="css\kendo\Default\editor.png" />
+    <Content Include="css\kendo\Default\imagebrowser.png" />
+    <Content Include="css\kendo\Default\indeterminate.gif" />
+    <Content Include="css\kendo\Default\loading-image.gif" />
+    <Content Include="css\kendo\Default\loading.gif" />
+    <Content Include="css\kendo\Default\loading_2x.gif" />
+    <Content Include="css\kendo\Default\markers.png" />
+    <Content Include="css\kendo\Default\markers_2x.png" />
+    <Content Include="css\kendo\Default\slider-h.gif" />
+    <Content Include="css\kendo\Default\slider-v.gif" />
+    <Content Include="css\kendo\Default\sprite.png" />
+    <Content Include="css\kendo\Default\sprite_2x.png" />
+    <Content Include="css\kendo\Default\sprite_kpi.png" />
+    <Content Include="css\kendo\Default\sprite_kpi_2x.png" />
+    <Content Include="css\kendo\images\back.png" />
+    <Content Include="css\kendo\images\kendoui.svg" />
+    <Content Include="css\kendo\images\wp8_icons.png" />
+    <Content Include="css\kendo\images\wp8_inverseicons.png" />
+    <Content Include="css\kendo\kendo.common.core.min.css" />
+    <Content Include="css\kendo\kendo.common.min.css" />
+    <Content Include="css\kendo\kendo.dataviz.default.min.css" />
+    <Content Include="css\kendo\kendo.dataviz.min.css" />
+    <Content Include="css\kendo\kendo.default.min.css" />
+    <Content Include="css\kendo\kendo.mobile.all.min.css" />
+    <Content Include="css\kendo\kendo.rtl.min.css" />
+    <Content Include="css\kendo\textures\brushed-metal.png" />
+    <Content Include="css\kendo\textures\dots1.png" />
+    <Content Include="css\kendo\textures\dots10.png" />
+    <Content Include="css\kendo\textures\dots11.png" />
+    <Content Include="css\kendo\textures\dots12.png" />
+    <Content Include="css\kendo\textures\dots13.png" />
+    <Content Include="css\kendo\textures\dots2.png" />
+    <Content Include="css\kendo\textures\dots3.png" />
+    <Content Include="css\kendo\textures\dots4.png" />
+    <Content Include="css\kendo\textures\dots5.png" />
+    <Content Include="css\kendo\textures\dots6.png" />
+    <Content Include="css\kendo\textures\dots7.png" />
+    <Content Include="css\kendo\textures\dots8.png" />
+    <Content Include="css\kendo\textures\dots9.png" />
+    <Content Include="css\kendo\textures\glass-lighter.png" />
+    <Content Include="css\kendo\textures\glass.png" />
+    <Content Include="css\kendo\textures\highlight.png" />
+    <Content Include="css\kendo\textures\hsv-gradient.png" />
+    <Content Include="css\kendo\textures\hue.png" />
+    <Content Include="css\kendo\textures\leather1.png" />
+    <Content Include="css\kendo\textures\leather2.png" />
+    <Content Include="css\kendo\textures\noise.png" />
+    <Content Include="css\kendo\textures\stripe1.png" />
+    <Content Include="css\kendo\textures\stripe2.png" />
+    <Content Include="css\kendo\textures\stripe3.png" />
+    <Content Include="css\kendo\textures\stripe4.png" />
+    <Content Include="css\kendo\textures\stripe5.png" />
+    <Content Include="css\kendo\textures\stripe6.png" />
+    <Content Include="css\kendo\textures\transparency.png" />
+    <Content Include="css\kendo\textures\transtexture.png" />
+    <Content Include="images\icons\8_8\arrow_left.png" />
+    <Content Include="images\icons\8_8\arrow_right.png" />
+    <Content Include="images\icons\login\icons.png" />
+    <Content Include="images\icons\login\server.png" />
+    <Content Include="images\logo.png" />
+    <Content Include="index.html" />
+    <Content Include="js\modules\ManufacturePlan\ManufacturePlanChart\ManufacturePlanChart.css" />
+    <Content Include="js\modules\ManufacturePlan\ManufacturePlanChart\ManufacturePlanChart.html" />
+    <Content Include="js\modules\OEEDisplay\DowntimeAnalyst\DowntimeColumnChart\DowntimeColumnChart.css" />
+    <Content Include="js\modules\OEEDisplay\DowntimeAnalyst\DowntimeColumnChart\DowntimeColumnChart.html" />
+    <Content Include="js\modules\OEEDisplay\DowntimeAnalyst\DownTimePieChart\DownTimePieChart.css" />
+    <Content Include="js\modules\OEEDisplay\DowntimeAnalyst\DownTimePieChart\DownTimePieChart.html" />
+    <Content Include="js\modules\OEEDisplay\DowntimeAnalyst\DowntimeTimelineChart\DowntimeTimelineChart.css" />
+    <Content Include="js\modules\OEEDisplay\DowntimeAnalyst\DowntimeTimelineChart\DowntimeTimelineChart.html" />
+    <Content Include="js\modules\OEEDisplay\DowntimeAnalyst\EquipmentDTPercent\EquipmentDTPercent.css" />
+    <Content Include="js\modules\OEEDisplay\DowntimeAnalyst\EquipmentDTPercent\EquipmentDTPercent.html" />
+    <Content Include="js\modules\OEEDisplay\DowntimeAnalyst\MTBFChart\MTBFChart.css" />
+    <Content Include="js\modules\OEEDisplay\DowntimeAnalyst\MTBFChart\MTBFChart.html" />
+    <Content Include="js\modules\OEEDisplay\OEEChart\OEEChart.css" />
+    <Content Include="js\modules\OEEDisplay\OEEChart\OEEChart.html" />
+    <Content Include="js\modules\OEEDisplay\YieldAnalyst\YieldChart\YieldChart.css" />
+    <Content Include="js\modules\OEEDisplay\YieldAnalyst\YieldChart\YieldChart.html" />
+    <Content Include="libs\application-service\ApplicationServices.js" />
+    <Content Include="libs\application-service\ApplicationServices.min.js" />
+    <Content Include="css\bootstrap-3.3.5\bootstrap-theme.css" />
+    <Content Include="css\bootstrap-3.3.5\bootstrap-theme.min.css" />
+    <Content Include="css\bootstrap-3.3.5\bootstrap.css" />
+    <Content Include="css\bootstrap-3.3.5\bootstrap.min.css" />
+    <Content Include="libs\bootstrap-3.3.5\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="libs\bootstrap-3.3.5\js\bootstrap.js" />
+    <Content Include="libs\bootstrap-3.3.5\js\bootstrap.min.js" />
+    <Content Include="libs\bootstrap-3.3.5\js\npm.js" />
+    <Content Include="libs\jay-data\datajs-1.0.3.js" />
+    <Content Include="libs\jay-data\datajs-1.0.3.min.js" />
+    <Content Include="libs\jay-data\jaydata.js" />
+    <Content Include="libs\jay-data\jaydata.min.js" />
+    <Content Include="libs\jay-data\oDataProvider.js" />
+    <Content Include="libs\jay-data\oDataProvider.min.js" />
+    <Content Include="libs\jquery\jquery-2.1.4.js" />
+    <Content Include="libs\jquery\jquery-2.1.4.min.js" />
+    <Content Include="libs\kendo\kendo.all.js" />
+    <Content Include="libs\kendo\kendo.all.min.js" />
+    <Content Include="libs\ppa-entities\PPAEntities.js" />
+    <Content Include="libs\vis\vis.js" />
+    <Content Include="libs\vis\vis.min.css" />
+    <Content Include="libs\vis\vis.min.js" />
+    <Content Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="css\bootstrap-3.3.5\bootstrap-theme.css.map" />
+    <Content Include="css\bootstrap-3.3.5\bootstrap.css.map" />
+    <Content Include="libs\bootstrap-3.3.5\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="libs\bootstrap-3.3.5\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="libs\bootstrap-3.3.5\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="libs\bootstrap-3.3.5\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="css\kendo\images\kendoui.ttf" />
+    <Content Include="css\kendo\images\kendoui.woff" />
+    <Content Include="js\core\module\ModuleList.json" />
+    <Content Include="css\aic-tech\aic.common.overlay.css" />
+    <Content Include="libs\vis\CONTRIBUTING.md" />
+    <Content Include="libs\vis\HISTORY.md" />
+    <Content Include="libs\vis\LICENSE-APACHE-2.0" />
+    <Content Include="libs\vis\LICENSE-MIT" />
+    <Content Include="libs\vis\NOTICE" />
+    <Content Include="libs\vis\README.md" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="js\core\interface\" />
+    <Folder Include="libs\vis\img\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="js\app.ts" />
+    <TypeScriptCompile Include="js\controls\TreeView.ts" />
+    <TypeScriptCompile Include="js\core\module\ModuleBase.ts" />
+    <TypeScriptCompile Include="js\core\module\ModuleInterface.ts" />
+    <TypeScriptCompile Include="js\core\module\ModuleLoad.ts" />
+    <TypeScriptCompile Include="js\core\service\AuthenticationService.ts" />
+    <TypeScriptCompile Include="js\core\service\DataContextService.ts" />
+    <TypeScriptCompile Include="js\modules\CommonInterface.ts" />
+    <TypeScriptCompile Include="js\modules\DataModelSeasoned.ts" />
+    <TypeScriptCompile Include="js\modules\ManufacturePlan\ManufacturePlanChart\ManufacturePlanChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\DowntimeAnalyst\DowntimeColumnChart\DowntimeColumnChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\DowntimeAnalyst\DownTimePieChart\DownTimePieChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\DowntimeAnalyst\DowntimeTimelineChart\DowntimeTimelineChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\DowntimeAnalyst\EquipmentDTPercent\EquipmentDTPercent.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\DowntimeAnalyst\MTBFChart\MTBFChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\OEEChart\OEEChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\YieldAnalyst\YieldChart\YieldChart.ts" />
+    <TypeScriptCompile Include="js\reference.ts" />
+    <TypeScriptCompile Include="js\utils\ArrayUtils.ts" />
+    <TypeScriptCompile Include="js\utils\AsyncUtils.ts" />
+    <TypeScriptCompile Include="js\utils\DateUtils.ts" />
+    <TypeScriptCompile Include="js\utils\StringUtils.ts" />
+    <TypeScriptCompile Include="js\utils\TreeUtils.ts" />
+    <TypeScriptCompile Include="libs\application-service\ApplicationServices.d.ts" />
+    <TypeScriptCompile Include="libs\jay-data\jaydata.d.ts" />
+    <TypeScriptCompile Include="libs\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="libs\kendo\kendo.all.d.ts" />
+    <TypeScriptCompile Include="libs\ppa-entities\PPAEntities.d.ts" />
+    <TypeScriptCompile Include="libs\vis\vis.d.ts" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>AicTechWeb</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>9479</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:9479/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptModuleKind>None</TypeScriptModuleKind>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+</Project>

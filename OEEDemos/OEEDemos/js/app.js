@@ -10,6 +10,7 @@ var OEEDemos;
         StartUp.prototype.startUp = function () {
             this.initWidgets();
             this.initEventsBinding();
+            this.showLoginModal();
         };
         StartUp.prototype.registerTimeRangeListner = function (listner) {
             StartUp.Instance.timeRangeListner = StartUp.Instance.timeRangeListner || [];
@@ -147,7 +148,7 @@ var OEEDemos;
                     if (value) {
                         var serviceContext = new AicTech.PPA.DataModel.PPAEntities({
                             name: 'oData',
-                            oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
+                            oDataServiceHost: OEEDemos.AccountHelpUtils.serviceAddress + OEEDemos.AccountHelpUtils.ppaEntitiesDataRoot
                         });
                         var roles = [];
                         var allPermissions = [];
@@ -216,17 +217,20 @@ var OEEDemos;
                         OEEDemos.AppUtils.expandTreeNode("null", function (data) {
                             StartUp.Instance.equipTree.setData(OEEDemos.AppUtils.getTree(data, 'null', true));
                             StartUp.Instance.hideEquimentTree();
-                            kendo.ui.progress($('loginModal'), false);
+                            kendo.ui.progress($('#loginModal'), false);
                         }, function (e) {
                             alert(e.message);
-                            kendo.ui.progress($("loginModal"), false);
+                            kendo.ui.progress($("#loginModal"), false);
                         });
                     }
                     else {
                         alert("登录失败！");
                         kendo.ui.progress($('#loginModal'), false);
                     }
-                }, null);
+                }, function (e) {
+                    alert(e.message);
+                    kendo.ui.progress($("#loginModal"), false);
+                });
             });
             $('#confirmFunctionNav').on('click', function (e) {
                 if (typeof StartUp.Instance.timeRangeListner === "undefined") {
@@ -256,14 +260,14 @@ var OEEDemos;
                     $('#content').css('margin-left', '10px');
                     $('#hover-nav').find('img').attr('src', 'images/icons/8_8/arrow_right.png');
                     $('#navigation').data('state', 'hidden');
-                    $('#hover-nav').prop('title', '打开菜单栏');
+                    $('#hover-nav').attr('title', '打开菜单栏');
                 }
                 else {
                     $('#navigation').css('width', '236px');
                     $('#content').css('margin-left', '246px');
                     $('#hover-nav').find('img').attr('src', 'images/icons/8_8/arrow_left.png');
                     $('#navigation').data('state', 'showed');
-                    $('#hover-nav').prop('title', '隐藏菜单栏');
+                    $('#hover-nav').attr('title', '隐藏菜单栏');
                 }
             });
         };
@@ -301,11 +305,11 @@ var OEEDemos;
         };
         StartUp.prototype.hideEquimentTree = function () {
             $('#equip-container').css("display", "none");
-            $('#viewport').removeClass("col-md-9").addClass('col-md-12');
+            $('#viewport').removeClass("col-md-10").addClass('col-md-12');
         };
         StartUp.prototype.showEquipmentTree = function () {
             $('#equip-container').css("display", "block");
-            $('#viewport').removeClass("col-md-12").addClass('col-md-9');
+            $('#viewport').removeClass("col-md-12").addClass('col-md-10');
         };
         StartUp.Instance = new StartUp();
         return StartUp;

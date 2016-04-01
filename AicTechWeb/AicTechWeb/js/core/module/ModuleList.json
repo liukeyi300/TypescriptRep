@@ -1,0 +1,282 @@
+﻿{
+  "ManufacturePlan": {
+    "text": "生产计划",
+    "id": 1,
+    "parent": 0,
+    "baseUrl": "",
+    "moduleName": "ManufacturePlan"
+  },
+  "OEEDisplay": {
+    "text": "绩效管理",
+    "id": 2,
+    "parent": 0,
+    "baseUrl": "",
+    "moduleName": "OEEDisplay"
+  },
+  "FactoryMonitor": {
+    "text": "工厂监控",
+    "id": 3,
+    "parent": 0,
+    "baseUrl": "",
+    "moduleName": "FactoryMonitor"
+  },
+  "DataRecorder": {
+    "text": "数据录入",
+    "id": 4,
+    "parent": 0,
+    "baseUrl": "",
+    "moduleName": "DataRecorder"
+  },
+  "ReportForms": {
+    "text": "报表",
+    "id": 5,
+    "parent": 0,
+    "baseUrl": "",
+    "moduleName": "ReportForms"
+  },
+  "MainData": {
+    "text": "主数据",
+    "id": 33,
+    "parent": 0,
+    "baseUrl": "",
+    "moduleName": "MainData"
+  },
+  "SystemConfiguration": {
+    "text": "系统管理",
+    "id": 6,
+    "parent": 0,
+    "baseUrl": "",
+    "moduleName": "SystemConfiguration"
+  },
+  "ManufacturePlanChart": {
+    "text": "生产计划管理",
+    "id": 7,
+    "parent": 1,
+    "baseUrl": "js/modules/ManufacturePlan/ManufacturePlanChart/",
+    "moduleName": "ManufacturePlanChart"
+  },
+  "OEECharts": {
+    "text": "设备综合效率",
+    "id": 8,
+    "parent": 2,
+    "baseUrl": "js/modules/OEEDisplay/OEEChart/",
+    "moduleName": "OEEChart"
+  },
+  "Downtime": {
+    "text": "停机分析",
+    "id": 9,
+    "parent": 2,
+    "baseUrl": "",
+    "moduleName": "Downtime"
+  },
+  "YieldAnalyst": {
+    "text": "产量分析",
+    "id": 10,
+    "parent": 2,
+    "baseUrl": "",
+    "moduleName": "YieldAnalyst"
+  },
+  "Quality": {
+    "text": "质量分析",
+    "id": 11,
+    "parent": 2,
+    "baseUrl": "",
+    "moduleName": "Quality"
+  },
+  "Material": {
+    "text": "物料消耗",
+    "id": 12,
+    "parent": 2,
+    "baseUrl": "",
+    "moduleName": "Material"
+  },
+  "Energy": {
+    "text": "能源消耗",
+    "id": 13,
+    "parent": 2,
+    "baseUrl": "",
+    "moduleName": "Energy"
+  },
+  "DowntimeColumnChart": {
+    "text": "设备停机时间柏拉图",
+    "id": 14,
+    "parent": 9,
+    "baseUrl": "js/modules/OEEDisplay/DowntimeAnalyst/DowntimeColumnChart/",
+    "moduleName": "DowntimeColumnChart"
+  },
+  "DownTimePieChart": {
+    "text": "设备停机时间饼状图",
+    "id": 15,
+    "parent": 9,
+    "baseUrl": "js/modules/OEEDisplay/DowntimeAnalyst/DownTimePieChart/",
+    "moduleName": "DownTimePieChart"
+  },
+  "MTBFChart": {
+    "text": "MTBF/MTTR",
+    "id": 16,
+    "parent": 9,
+    "baseUrl": "js/modules/OEEDisplay/DowntimeAnalyst/MTBFChart/",
+    "moduleName": "MTBFChart"
+  },
+  "DowntimeTimelineChart": {
+    "text": "设备停机时间甘特图",
+    "id": 17,
+    "parent": 9,
+    "baseUrl": "js/modules/OEEDisplay/DowntimeAnalyst/DowntimeTimelineChart/",
+    "moduleName": "DowntimeTimelineChart"
+  },
+  "YieldChart": {
+    "text": "产量柱状图",
+    "id": 18,
+    "parent": 10,
+    "baseUrl": "js/modules/OEEDisplay/YieldAnalyst/YieldChart/",
+    "moduleName": "YieldChart"
+  },
+  "AccomplishRateByTime": {
+    "text": "时间达成率",
+    "id": 19,
+    "parent": 10,
+    "baseUrl": "js/modules/AccomplishRateByTime/",
+    "moduleName": "AccomplishRateByTime"
+  },
+  "AccomplishRateByOffer": {
+    "text": "工单达成率",
+    "id": 20,
+    "parent": 10,
+    "baseUrl": "js/modules/AccomplishRateByOffer/",
+    "moduleName": "AccomplishRateByOffer"
+  },
+  "AccomplishRateByVariety": {
+    "text": "品种达成率",
+    "id": 21,
+    "parent": 10,
+    "baseUrl": "js/modules/AccomplishRateByVariety/",
+    "moduleName": "AccomplishRateByVariety"
+  },
+  "QualifyRateCharts": {
+    "text": "良率折线图",
+    "id": 22,
+    "parent": 11,
+    "baseUrl": "js/modules/QualifyRateCharts/",
+    "moduleName": "QualifyRateCharts"
+  },
+  "ScrapRateCharts": {
+    "text": "报废率折线图",
+    "id": 23,
+    "parent": 11,
+    "baseUrl": "js/modules/ScrapRateCharts/",
+    "moduleName": "ScrapRateCharts"
+  },
+  "ReworkRateCharts": {
+    "text": "返修率折线图",
+    "id": 24,
+    "parent": 11,
+    "baseUrl": "js/modules/ReworkRateCharts/",
+    "moduleName": "ReworkRateCharts"
+  },
+  "AverageRangeCharts": {
+    "text": "均值-极差",
+    "id": 25,
+    "parent": 11,
+    "baseUrl": "js/modules/AverageRangeCharts/",
+    "moduleName": "AverageRangeCharts"
+  },
+  "MaterialConsumptionCharts": {
+    "text": "单位物料消耗",
+    "id": 26,
+    "parent": 12,
+    "baseUrl": "js/modules/MaterialConsumptionCharts/",
+    "moduleName": "MaterialConsumptionCharts"
+  },
+  "EnergyConsumptionCharts": {
+    "text": "单位能源消耗",
+    "id": 27,
+    "parent": 13,
+    "baseUrl": "js/modules/EnergyConsumptionCharts/",
+    "moduleName": "EnergyConsumptionCharts"
+  },
+  "UserConfiguration": {
+    "text": "用户管理",
+    "id": 28,
+    "parent": 6,
+    "baseUrl": "js/modules/UserConfiguration/",
+    "moduleName": "UserConfiguration"
+  },
+  "RoleConfiguration": {
+    "text": "角色管理",
+    "id": 29,
+    "parent": 6,
+    "baseUrl": "js/modules/RoleConfiguration/",
+    "moduleName": "RoleConfiguration"
+  },
+  "PermissionManagement": {
+    "text": "页面权限管理",
+    "id": 30,
+    "parent": 6,
+    "baseUrl": "js/modules/PermissionManagement/",
+    "moduleName": "PermissionManagement"
+  },
+  "EquipmentDTPercent": {
+    "text": "各设备停机时间占比",
+    "id": 31,
+    "parent": 9,
+    "baseUrl": "js/modules/OEEDisplay/DowntimeAnalyst/EquipmentDTPercent/",
+    "moduleName": "EquipmentDTPercent"
+  },
+  "EquipmentEnergyConChart": {
+    "text": "各设备能源消耗统计",
+    "id": 32,
+    "parent": 13,
+    "baseUrl": "js/modules/EquipmentEnergyConChart/",
+    "moduleName": "EquipmentEnergyConChart"
+  },
+  "MaterialDefinition": {
+    "text": "物料定义",
+    "id": 34,
+    "parent": 33,
+    "baseUrl": "js/modules/MaterialDefinition/",
+    "moduleName": "MaterialDefinition"
+  },
+  "MaterialList": {
+    "text": "物料清单",
+    "id": 35,
+    "parent": 33,
+    "baseUrl": "js/modules/MaterialList/",
+    "moduleName": "MaterialList"
+  },
+  "MaterialEquipEffectMatrix": {
+    "text": "物料设备效能矩阵",
+    "id": 36,
+    "parent": 33,
+    "baseUrl": "js/modules/MaterialEquipEffectMatrix/",
+    "moduleName": "MaterialEquipEffectMatrix"
+  },
+  "MaterialYieldRate": {
+    "text": "物料收得率",
+    "id": 37,
+    "parent": 12,
+    "baseUrl": "js/modules/MaterialYieldRate/",
+    "moduleName": "MaterialYieldRate"
+  },
+  "EquAvaRate": {
+    "text": "设备可用率",
+    "id": 38,
+    "parent": 2,
+    "baseUrl": "js/modules/EquAvaRate/",
+    "moduleName": "EquAvaRate"
+  },
+    "DowntimeLoss": {
+    "text": "各项停机损失",
+    "id": 39,
+    "parent": 9,
+    "baseUrl": "js/modules/EquAvaRate/",
+    "moduleName": "EquAvaRate"
+  },
+  "MaterialRecord": {
+    "text": "物料记录录入",
+    "id": 40,
+    "parent": 4,
+    "baseUrl": "js/modules/MaterialRecord",
+    "moduleName": "MaterialRecord"
+  }
+}

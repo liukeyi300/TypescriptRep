@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="renderer" content="webkit | ie-comp | ie-stand" />
+    <meta name="author" content="Liob.Liu"/>
+
+    <title>PPA Plant</title>
+
+    <link rel="stylesheet" href="css/bootstrap-3.3.5/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/bootstrap-3.3.5/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/kendo/kendo.common.min.css" type="text/css"/>
+    <link rel="stylesheet" href="css/kendo/kendo.rtl.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/kendo/kendo.default.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/kendo/kendo.dataviz.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/kendo/kendo.dataviz.default.min.css" type="text/css" />
+    <link rel="stylesheet" href="libs/vis/vis.min.css" type="text/css" />
+
+    <!--<link rel="stylesheet" href="css/KendoUI/kendo.mobile.all.min.css" type="text/css" />-->
+
+    <link rel="stylesheet" href="css/aic-tech/aic.common.css" type="text/css" />
+    <link rel="stylesheet" href="css/aic-tech/aic.common.chart.css" type="text/css" />
+    <link rel="stylesheet" href="css/aic-tech/aic.common.overlay.css" type="text/css" />
+    <link rel="stylesheet" href="css/aic-tech/aic.common.chart.options.css" type="text/css" />
+    <link rel="stylesheet" href="css/app.css" type="text/css" />
+    <style id="cause-color"></style>
+</head>
+<body data-bind="events:{keydown:keydown}">
+    <nav>
+        <div class="full-width aic-page-title">
+            <img src="images/logo.png" alt="Siemens" />
+            <span>PPA Plant</span>
+            <span id="show-user-name" class="right">欢迎，请登录!</span>
+        </div>
+        <div class="full-width aic-page-menu">
+            <a id="btn-log" class="right "
+               data-toggle="modal" data-target="#login-modal">
+                登录
+            </a>
+        </div>
+    </nav>
+    <div id="page-content" class="full-width">
+        <div id="navigation" class="full-height left" data-state="showed">
+            <div id="aic-menu" class="inner full-height"></div>
+        </div>
+        <div id="hover-nav" data-bind="click:hoverNav" class="left full-height" title="隐藏菜单栏">
+            <table class="full-height">
+                <tr>
+                    <td>
+                        <img src="images/icons/8_8/arrow_left.png" alt="" width="8" height="8" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="content" class="full-height left">
+            <div class="inner full-height border-box">
+                <div class="function-nav full-width">
+                    <div class="func-nav-container">
+                        <label for="startTimeSelect">选择日期：</label>
+                        <input type="text" data-bind="value:startTime" id="startTimeSelect" class="form-control" />
+                        <label for="endTimeSelect">到</label>
+                        <input type="text" data-bind="value:endTime" id="endTimeSelect" class="form-control" />
+                        <button id="refresh-data" data-bind="click:refreshData" class="btn btn-primary btn-sm func-btn" type="button">刷新</button>
+                    </div>
+                </div>
+                <div id="equip-viewport" class="full-height full-width">
+                    <div id="equip-container" class="full-height left">
+                        <div id="equip-tree" class="full-height"></div>
+                    </div>
+                    <div id="viewport" class="full-height left"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="clear:both"></div>
+    <div class="modal fade" id="login-modal" data-bind="events:{shown.bs.modal:modalShow}" tabindex="-1" 
+         role="alertdialog" aria-labelledby="loginModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    <h3 class="modal-title" id="loginModalLabel">登录</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="login-form-item">
+                        <label class="login-label">
+                            <span class="login-icon1"></span>
+                        </label>
+                        <input type="url" class="login-input" data-bind="value:serverAddress" autocomplete="off" 
+                               maxlength="100" autofocus="autofocus" required="required" />
+                    </div>
+                    <div class="login-form-item">
+                        <label class="login-label">
+                            <span class="login-icon login-icon-user"></span>
+                        </label>
+                        <input type="text" class="login-input" data-bind="value:userName" autocomplete="off" 
+                               maxlength="100" placeholder="用户名" required="required" />
+                    </div>
+                    <div class="login-form-item">
+                        <label class="login-label">
+                            <span class="login-icon login-icon-pwd"></span>
+                        </label>
+                        <input type="password" class="login-input" data-bind="value:password" autocomplete="off" 
+                               maxlength="100" placeholder="密码" required="required" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="login-confirm" data-bind="click:login">登录</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div> <!--login modal div-->
+
+    <script src="libs/jquery/jquery-2.1.4.min.js"></script>
+    <script src="libs/kendo/kendo.all.js"></script>
+    <script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+    <script src="libs/jay-data/datajs-1.0.3.js"></script>
+    <script src="libs/application-service/ApplicationServices.js"></script>
+    <script src="libs/jay-data/jaydata.js"></script>
+    <script src="libs/jay-data/oDataProvider.js"></script>
+    <script src="libs/ppa-entities/PPAEntities.js"></script>
+    <script src="libs/vis/vis.min.js"></script>
+
+    <script src="js/utils/StringUtils.js"></script>
+    <script src="js/utils/TreeUtils.js"></script>
+    <script src="js/utils/DateUtils.js"></script>
+
+    <script src="js/core/service/AuthenticationService.js"></script>
+    <script src="js/core/service/DataContextService.js"></script>
+
+    <script src="js/core/module/ModuleInterface.js"></script>
+    <script src="js/core/module/ModuleLoad.js"></script>
+    <script src="js/core/module/ModuleBase.js"></script>
+
+    <script src="js/controls/TreeView.js"></script>
+
+    <script src="js/modules/CommonInterface.js"></script>
+    <script src="js/modules/DataModelSeasoned.js"></script>
+
+    <script src="js/app.js"></script>
+
+    <script id="chart-type-list" type="text/x-kendo-template">
+        <ul id="chart-type">
+            图表类型
+            # for(var i = 0; i < data.length; i ++) { #
+            <li>
+                <input type="radio" data-bind="checked:selectedChartType, events:{change:chartTypeChanged}" name="chartType" value="#= data[i].chartTypeValue #" />
+                <p>#=data[i].chartTypeName #</p>
+            </li>
+            # } #
+        </ul>
+    </script>
+
+    <script id="data-seg-list" type="text/x-kendo-template">
+        <ul id="data-seg">
+            数据字段
+            # for (var i = 0; i < data.length; i ++) { #
+            <li>
+                <input type="checkbox" data-bind="checked:selectedDataSeg, events:{change:dataSegChanged}" value="#= data[i] #" />
+                <p>#=data[i] #</p>
+            </li>
+            # } #
+        </ul>
+    </script>
+
+    <script id="count-circle-list" type="text/x-kendo-template">
+        <ul id="count-circle">
+            统计周期
+            # for (var i = 0; i < data.length; i ++) { #
+            <li>
+                <input type="radio" data-bind="checked:selectedCircle, events:{change:countCircleChanged}" name="countCircle" value="#= data[i].circleValue #" />
+                <p>#=data[i].circleName #</p>
+            </li>
+            # } #
+        </ul>
+    </script>
+
+    <script id="data-group-list" type="text/x-kendo-template">
+        <ul id="data-group">
+            数据分组
+            <li>
+                <input class="data-group-select" data-bind="source:dataGroupSeries, events:{change:dataGroupChanged}, value:selectedGroup" />
+            </li>
+        </ul>
+    </script>
+
+    <script id="data-filter-list" type="text/x-kendo-template">
+        <ul id="data-filter">
+            数据筛选
+            <button class="chart-nav-btn right filter-data" title="确定" data-bind="click:filterData"></button>
+            <!--<button class="chart-nav-btn right clear-filter" title="清除所有筛选" data-bind="click:clearAllFilter"></button>-->
+            # for (var i = 0; i < data.length; i ++) { #
+            # if (typeof data[i] !== 'undefined' && data[i] !== '') { #
+            <li>
+                <input type="checkbox" class="left" data-bind="checked:selectedDataFilter, events:{change:dataFilterChanged}" value="#= data[i] #" />
+                <p class="left filter-name" title="#= data[i] #">#= data[i] #</p>
+                <input type="text" id="#= data[i] #" class="right" value="" />
+                <p class="right">=&nbsp;&nbsp;</p>
+            </li>
+            # } #
+            # } #
+        </ul>
+    </script>
+
+    <script id="calc-method-list" type="text/x-kendo-template">
+        <ul id="calc-method">
+            统计方法
+            <li>
+                <input type="radio" data-bind="checked:selectedCalcMethod, events:{change:calcMethodSelectChanged}" name="calcMethod" value="0" />
+                <p>发生次数</p>
+            </li>
+            <li>
+                <input type="radio" data-bind="checked:selectedCalcMethod, events:{change:calcMethodSelectChanged}" name="calcMethod" value="1" />
+                <p>故障停机时间</p>
+            </li>
+        </ul>
+    </script>
+
+    <script id="data-seg-single-list" type="text/x-kendo-template">
+        <ul id="data-seg-single">
+            数据字段
+            # for (var i = 0; i < data.length; i ++) { #
+            <li>
+                <input type="radio" data-bind="checked:selectedDataSeg, events:{change:dataSegChanged}" name="selectedDataSeg" value="#=data[i]#" />
+                <p>#=data[i] #</p>
+            </li>
+            # } #
+        </ul>
+    </script>
+
+    <script id="legend-color-list" type="text/x-kendo-template">
+        <ul id="legend-color">
+            图例
+            # for (var i = 0; i < data.length; i ++) { #
+            <li>
+                <div class="legend-box #=data[i].className#"></div>
+                # if (data[i].showName.length > 14) { #
+                # var b = data[i].showName.slice(0,11) + "...";#
+                <p title="#=data[i].showName#">#=b#</p>
+                # } else { #
+                <p title="#=data[i].showName#">#=data[i].showName # </p>
+                # } #
+            </li>
+            # } #
+        </ul>
+    </script>
+
+</body>
+</html>

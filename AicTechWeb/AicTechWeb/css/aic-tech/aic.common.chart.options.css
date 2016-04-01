@@ -1,0 +1,121 @@
+﻿.aic-chart-options {
+    width:25%;
+    border-left:1px solid #ebecee;
+    padding:10px 5px 5px;
+	height:100%;
+	overflow:auto;
+}
+
+.chart-overlay-container {
+    width:74%;
+    padding:0 5px 5px;
+    position:relative;
+    overflow:auto;
+}
+
+
+    .aic-chart-options ul {
+        list-style:none;
+        font-size:20px;
+        font-weight:bold;
+        padding:2px 5px 10px 10px;
+        margin-top:10px;
+        border:1px solid #66CCFF;
+        width:100%;
+        border-radius:9px;
+        box-shadow: 3px 3px 3px #a0a0a0;
+        /*min-width:200px;*/
+    }
+
+        .aic-chart-options ul:first-child {
+            margin-top:0;
+        }
+
+    .aic-chart-options li {
+        padding-left:15px;
+        margin-top:5px;
+    }
+
+    .aic-chart-options ul#data-filter li {
+        height:20px;
+    }
+
+    .aic-chart-options input[type=checkbox] {
+        width:13px;
+        height:13px;
+        cursor:pointer;
+    }
+
+    .aic-chart-options input[type=radio] {
+        cursor:pointer;
+    }
+
+    .aic-chart-options input[type=text] {
+        border-radius:4px;
+        font-size:12px;
+        width:30%;
+        text-align:center;
+    }
+
+    .aic-chart-options p {
+        margin:0 0 0 5px;
+        font-size:16px;
+        font-weight:100;
+        display:inline-block;
+    }
+
+    .aic-chart-options .data-group-select {
+        width:100%;
+        font-size:12px;
+    }
+
+    .aic-chart-options .chart-nav-btn {
+        top:0;
+        width:24px;
+        height:24px;
+        border-radius:12px;
+    }
+
+    .aic-chart-options .add-filter {
+        background:url(./images/aic-chart/add_item.png) no-repeat;
+    }
+
+    .aic-chart-options .clear-filter {
+        background:url(./images/aic-chart/clear_item.png) no-repeat;
+    }
+
+    .aic-chart-options .filter-data {
+        background:url(images/aic-chart/filter_data.png) no-repeat;
+    }
+
+.aic-chart-options .filter-name {
+    width: 45%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: copy;
+}
+
+.aic-chart-options .legend-box {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+}
+
+.aic-chart-options .legend-box + p {
+    margin-left:0;
+}
+
+.aic-chart-options #legend-color .legend-box + p {
+    width:105px;
+}
+
+.aic-chart-options #legend-color li {
+    height:25px;
+    line-height:25px;
+}
+
+.aic-chart-options #legend-color p {
+    cursor:pointer;
+}
+

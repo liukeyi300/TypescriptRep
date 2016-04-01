@@ -1,0 +1,38 @@
+﻿<div class="downtime-chart-container full-height full-width border-box aic-chart-container">
+    <center>
+        <h2>
+            设备停机时间柏拉图
+        </h2>
+    </center>
+    <hr />
+    <div class="full-height full-width" style="overflow:auto;">
+        <div class="full-height left chart-overlay-container">
+            <div id="downtime-column-chart" class="aic-chart full-height full-width" data-bind="source:series"></div>
+            <div class="aic-overlay" data-bind="visible:isOverlayShow">
+                <div class="aic-overlay-content">
+                    <span>无数据</span>
+                </div>
+            </div>
+        </div>
+        <div class="aic-chart-options right">
+        </div>
+    </div>
+    <!--<div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#columnCharts" data-toggle="tab">
+                    <img src="images/icons/20_20/column.png" alt="柱状图" width="20" height="20" />
+                </a>
+            </li>
+            <li>
+                <a href="#timeLineCharts" data-toggle="tab">
+                    <img src="images/icons/16_16/search.png" alt="" width="20" height="20" />
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active dtCharts" id="columnCharts" data-bind="source:columnChartsSeries"></div>
+            <div class="tab-pane dtCharts" id="timeLineCharts" data-bind="source:timeLineChartsSeries"></div>
+        </div>
+    </div>-->
+</div>

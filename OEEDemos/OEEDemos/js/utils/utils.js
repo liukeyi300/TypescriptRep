@@ -188,7 +188,6 @@ var OEEDemos;
                     successCallback(value);
                 }, function () {
                     failCallback();
-                    alert("failed!");
                 })
                     .fail(failCallback)
                     .done(doneCallback);

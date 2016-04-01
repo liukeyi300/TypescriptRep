@@ -36,10 +36,10 @@ module OEEDemos {
         }
 
         private initCharts(): void {
-            $("#columnCharts").kendoChart({
-                title: {
-                    text:"DownTime Column Chart"
-                },
+            $("#downtime-column-charts").kendoChart({
+                //title: {
+                //    text:"DownTime Column Chart"
+                //},
                 legend: {
                     visible: true,
                     position:"top"
@@ -101,7 +101,7 @@ module OEEDemos {
                 if (equId !== "") {
                     if (startTime > endTime) {
                         alert("StartTime is bigger than entTime, please fix this problem!");
-                        $('.downtimeChartsContainer .aic-overlay').removeClass('hide').addClass('show');
+                        $('.downtime-charts-container .aic-overlay').removeClass('hide').addClass('show');
                         dtInstance.viewModel.set("columnChartsSeries", [{
                             id: "",
                             dtTime: 0,
@@ -123,7 +123,7 @@ module OEEDemos {
                         })
                         .toArray((re) => {
                             if (re.length === 0) {
-                                $('.downtimeChartsContainer .aic-overlay').removeClass('hide').addClass('show');
+                                $('.downtime-charts-container .aic-overlay').removeClass('hide').addClass('show');
                                 dtInstance.viewModel.set("columnChartsSeries", [{
                                     id: "",
                                     dtTime: 0,
@@ -132,7 +132,7 @@ module OEEDemos {
                                 }]);
                                 return;
                             }
-                            $('.downtimeChartsContainer .aic-overlay').removeClass('show').addClass('hide');
+                            $('.downtime-charts-container .aic-overlay').removeClass('show').addClass('hide');
                             var data = [];
                             var hash = [];
                             var totalTime = 0;
@@ -224,7 +224,7 @@ module OEEDemos {
         }
 
         destory(): void {
-            var chart = $("#columnCharts").data("kendoChart");
+            var chart = $("#downtime-column-charts").data("kendoChart");
             kendo.unbind(this.view);
             chart.destroy();
             this.currentEquipment = "";

@@ -1,0 +1,20 @@
+﻿.downtime-timeline-container {
+     padding:61px 0 0;
+}
+
+#downtime-timeline-chart {
+    overflow:auto;
+    border:1px solid #C0C0C0;
+}
+
+.aic-vis-item {
+    cursor:pointer;
+    color:white;
+    background-color:#97B0F8;
+    border-color:#97B0F8;
+}
+
+.vis-item-default {
+    background-color:#97B0F8;
+    border-color:#97B0F8;
+}

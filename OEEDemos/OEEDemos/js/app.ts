@@ -23,6 +23,7 @@ module OEEDemos {
         public startUp(): void {
             this.initWidgets();
             this.initEventsBinding();
+            this.showLoginModal();
         }
 
         public registerTimeRangeListner(listner: (startTime: Date, endTime: Date) => void): void {
@@ -178,7 +179,7 @@ module OEEDemos {
                         if (value) {
                             var serviceContext = new AicTech.PPA.DataModel.PPAEntities({
                                 name: 'oData',
-                                oDataServiceHost: 'http://192.168.0.3:6666/Services/PPAEntitiesDataService.svc'
+                                oDataServiceHost: AccountHelpUtils.serviceAddress + AccountHelpUtils.ppaEntitiesDataRoot
                             });
                             var roles = [];
                             var allPermissions = [];
@@ -247,17 +248,20 @@ module OEEDemos {
                                 (data: any[]) => {
                                     StartUp.Instance.equipTree.setData(AppUtils.getTree(data, 'null', true));
                                     StartUp.Instance.hideEquimentTree();
-                                    kendo.ui.progress($('loginModal'), false);
+                                    kendo.ui.progress($('#loginModal'), false);
                                 },
                                 (e: { message: string }) => {
                                     alert(e.message);
-                                    kendo.ui.progress($("loginModal"), false);
+                                    kendo.ui.progress($("#loginModal"), false);
                                 });
                         } else {
                             alert("登录失败！");
                             kendo.ui.progress($('#loginModal'), false);
                         }
-                    }, null);
+                }, (e: { message: string }) => {
+                    alert(e.message);
+                    kendo.ui.progress($("#loginModal"), false);
+                });
             });
 
             $('#confirmFunctionNav').on('click', function (e) {
@@ -291,13 +295,13 @@ module OEEDemos {
                     $('#content').css('margin-left', '10px');
                     $('#hover-nav').find('img').attr('src', 'images/icons/8_8/arrow_right.png');
                     $('#navigation').data('state', 'hidden');
-                    $('#hover-nav').prop('title', '打开菜单栏');
+                    $('#hover-nav').attr('title', '打开菜单栏');
                 } else {
                     $('#navigation').css('width', '236px');
                     $('#content').css('margin-left', '246px');
                     $('#hover-nav').find('img').attr('src', 'images/icons/8_8/arrow_left.png');
                     $('#navigation').data('state', 'showed');
-                    $('#hover-nav').prop('title', '隐藏菜单栏');
+                    $('#hover-nav').attr('title', '隐藏菜单栏');
                 }
             });
         }
@@ -341,12 +345,12 @@ module OEEDemos {
 
         private hideEquimentTree(): void {
             $('#equip-container').css("display", "none");
-            $('#viewport').removeClass("col-md-9").addClass('col-md-12')
+            $('#viewport').removeClass("col-md-10").addClass('col-md-12')
         }
 
         private showEquipmentTree(): void {
             $('#equip-container').css("display", "block");
-            $('#viewport').removeClass("col-md-12").addClass('col-md-9')
+            $('#viewport').removeClass("col-md-12").addClass('col-md-10')
         }
     }
     

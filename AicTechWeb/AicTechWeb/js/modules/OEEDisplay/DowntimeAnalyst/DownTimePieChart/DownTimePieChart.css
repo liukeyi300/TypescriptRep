@@ -1,0 +1,17 @@
+﻿.downtime-pie-chart-container {
+    padding:61px 0 0;
+}
+
+#downtime-pie-chart {
+    width:50%;
+    float:left;
+}
+
+#downtime-pie-chart-2 {
+    width:50%;
+     float:left;
+}
+
+.color-select {
+    height:50px;
+}

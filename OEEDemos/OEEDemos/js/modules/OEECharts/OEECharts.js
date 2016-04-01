@@ -31,9 +31,9 @@ var OEEDemos;
         };
         OEECharts.prototype.initChart = function () {
             $("#oee-chart").kendoChart({
-                title: {
-                    text: "OEEDemo Charts"
-                },
+                //title: {
+                //    text: "OEEDemo Charts"
+                //},
                 legend: {
                     position: "top"
                 },

@@ -37,6 +37,9 @@ module OEEDemos {
 
         private initWidget() {
             $('#downtime-pie-charts').kendoChart({
+                title: {
+                    text:"设备停机时间(次数)"
+                },
                 legend: {
                     position:'bottom'
                 },
@@ -45,9 +48,7 @@ module OEEDemos {
                 },
                 seriesDefaults: {
                     labels: {
-                        visible: true,
-                        background: "transparent",
-                        template:"#=dataItem.dtCauId# : \n #=dataItem.dtTimes#次"
+                        visible: false
                     }
                 },
                 series: [{
@@ -63,6 +64,9 @@ module OEEDemos {
             });
 
             $('#downtime-pie-charts-2').kendoChart({
+                title: {
+                    text: "设备停机时间(分钟)"
+                },
                 legend: {
                     position: 'bottom'
                 },
@@ -71,9 +75,7 @@ module OEEDemos {
                 },
                 seriesDefaults: {
                     labels: {
-                        visible: true,
-                        background: "transparent",
-                        template: "#=dataItem.dtCauId# : \n #=dataItem.dtTime#"
+                        visible: false
                     }
                 },
                 series: [{
@@ -84,7 +86,7 @@ module OEEDemos {
                 }],
                 tooltip: {
                     visible: true,
-                    template:"#=dataItem.dtCauId# : #=dataItem.dtTime #次"
+                    template:"#=dataItem.dtCauId# : #=dataItem.dtTime #分钟"
                 }
             });
         }

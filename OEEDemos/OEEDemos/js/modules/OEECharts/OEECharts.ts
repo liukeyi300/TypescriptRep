@@ -37,9 +37,9 @@ module OEEDemos {
 
         private initChart() {
             $("#oee-chart").kendoChart({
-                title: {
-                    text: "OEEDemo Charts"
-                },
+                //title: {
+                //    text: "OEEDemo Charts"
+                //},
                 legend: {
                     position: "top"
                 },

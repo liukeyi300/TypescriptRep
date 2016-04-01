@@ -202,7 +202,7 @@ module OEEDemos {
             userName: string,
             pwd: string,
             successCallback: ((value: boolean) => void),
-            failCallback?: () => void,
+            failCallback?: (e?: any) => void,
             doneCallback?: () => void) {
 
             AccountHelpUtils.serviceAddress = serviceAddress;
@@ -220,7 +220,6 @@ module OEEDemos {
                     },
                         () => {
                             failCallback();
-                            alert("failed!");
                         })
                     .fail(failCallback)
                     .done(doneCallback);

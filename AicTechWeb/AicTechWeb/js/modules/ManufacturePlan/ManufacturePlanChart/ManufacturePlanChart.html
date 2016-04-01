@@ -1,0 +1,58 @@
+﻿<div class="manu-plan-crud-container full-height full-width">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active" id="po-plan-act">
+            <a href="#po-plan-tab" role="tab" data-toggle="tab">工单排程</a>
+        </li>
+        <li role="presentation" id="po-detail-act">
+            <a href="#po-detail-tab" role="tab" data-toggle="tab">排程明细</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content full-height full-width">
+        <div role="tabpanel" class="tab-pane active full-width full-height po-tab" id="po-plan-tab">
+            <div>
+                <div id="po-plan"
+                     data-bind="source:poPlanSource, events:{saveChanges: poSaveData, save:poDataDirtyBySave,remove:poDataDirtyByDelete}"></div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane full-width full-height po-tab" id="po-detail-tab">
+            <div>
+                <div id="po-detail" data-bind="source:poDetailSource"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="sh-selected-modal" class="modal fade" tabindex="-1" role="alertdialog" aria-labelledby="shSelectedLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"></button>
+                    <h4 id="shSelectedLabel" class="modal-title">选择班组</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="date-select-container">
+                        <label for="startTime">选择日期：</label>
+                        <input type="text" value="" id="startTime" class="date-select"/>
+                        <label for="endTime">到</label>
+                        <input type="text" value="" id="endTime" class="date-select" />
+                        <button class="btn btn-primary btn-sm func-btn" type="button" data-bind="click:queryShift">查询</button>
+                    </div>
+                    <div>
+                        <div id="sh-grid" data-bind="source:allSh, events:{change:selectedASh}"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bind="events:{click:shSelectCommit}">确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+

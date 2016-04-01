@@ -1,5 +1,12 @@
-﻿#columnCharts {
-    width:95%;
+﻿.downtime-charts-container {
+    padding:61px 0 0;
+}
+
+    .downtime-charts-container hr {
+        margin:0;
+    }
+
+#downtime-column-charts {
     padding:20px 0 5px 20px;
 }
 

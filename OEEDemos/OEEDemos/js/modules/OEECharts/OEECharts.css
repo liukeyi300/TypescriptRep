@@ -1,5 +1,12 @@
-﻿#oee-chart {
-    width:95%;
+﻿.oee-chart-container {
+    padding:61px 0 0;
+}
+
+   .oee-chart-container hr {
+        margin:0;
+    }
+
+#oee-chart {
     padding:20px 0 5px 20px;
 }
 

@@ -1,0 +1,39 @@
+﻿.manu-plan-crud-container {
+    padding:44px 0 0 0;
+}
+
+    .manu-plan-crud-container ul {
+        margin-top:-42px;
+        padding-left:5px;
+    }
+
+    .manu-plan-crud-container .po-tab > div {
+        height:100%;
+        width:100%;
+        padding:5px;
+    }
+
+.po-tab .grid-title {
+    font-size:18px;
+    font-weight:bold;
+    margin-right:20px;
+}
+
+.manu-plan-crud-container #sh-selected-modal .date-select-container {
+    margin:0 auto;
+    width:95%;
+    height:50px;
+}
+
+    .manu-plan-crud-container #sh-selected-modal .date-select-container + div {
+        height:400px;
+        width:95%;
+        margin:5px auto;
+    }
+
+.manu-plan-crud-container #sh-selected-modal .date-select {
+    width:160px;
+}
+.manu-plan-crud-container #sh-selected-modal .date-select-container button {
+    margin-left:10px;
+}
