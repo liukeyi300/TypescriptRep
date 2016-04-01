@@ -8,6 +8,9 @@ var AicTech;
             (function (Module) {
                 var ModuleBase = (function () {
                     function ModuleBase() {
+                        this.viewModel = kendo.observable({});
+                        this.equipId = "";
+                        this.equipName = "";
                         this.needEquiptree = true;
                     }
                     Object.defineProperty(ModuleBase.prototype, "serviceContext", {

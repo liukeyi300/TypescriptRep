@@ -1,5 +1,4 @@
-﻿
-module AicTech.Web.Utils {
+﻿module AicTech.Web.Utils {
     interface IPromise<T> extends JQueryPromise<T> { }
     /**
      * 未完成！！！！

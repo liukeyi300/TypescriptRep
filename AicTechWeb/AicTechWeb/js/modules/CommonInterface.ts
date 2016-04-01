@@ -59,6 +59,20 @@
         Time
     }
 
+    /**
+     * 定义对图表进行数据处理的选项
+     */
+    export enum ChartOptionsContent {
+        chartType = 0,
+        dataSeg,
+        dataSegSingle,
+        calcCircle,
+        dataGroup,
+        calcMethod,
+        dataFilter,
+        legend
+    }
+
     export interface IDowntimeCauseColor {
         causeId: string;
         causeColor: string;
@@ -80,5 +94,11 @@
         teamId?: string;
         shiftStartTime?: Date;
         shiftEndTime?: Date;
+    }
+
+    export interface IParameter {
+        parId: string;
+        parValue: string;
+        parHighValue?: string;
     }
 }

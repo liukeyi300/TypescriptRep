@@ -1,75 +1,23 @@
 ﻿/// <reference path="../../../../reference.ts" />
 module AicTech.Web.Html {
-    export class DowntimeTimelineChart extends Module.ModuleBase {
-        private allDtData: DowntimeWithEqp[];
-        private allParData;
+    export class DowntimeTimelineChart extends OEEChartBase<DowntimeWithEqp> {
         private allParValueList;
-
         private allRec: string[] = [];
-      
         private dataItems = new vis.DataSet();
         private dataGroups = new vis.DataSet();
         private timeline: vis.Timeline;
 
         constructor() {
-            super();
-            this.viewModel = kendo.observable({
-                selectedDataFilter: [],
-                dataFilterSeries: [],
-                dataFilterChanged: function (e) {
-                    var instance = <DowntimeTimelineChart>Module.ModuleLoad.getModuleInstance('DowntimeTimelineChart'),
-                        showRecList = [];
-                    showRecList = instance.filterData();
-                    instance._redraw(showRecList);
-                },
-                filterData: function (e) {
-                    var selectedFilter: any[] = this.get('selectedDataFilter'),
-                        instance = <DowntimeTimelineChart>Module.ModuleLoad.getModuleInstance("DowntimeTimelineChart"),
-                        showRecList = [];
-                    if (selectedFilter.length > 0) {
-                        showRecList = instance.filterData();
-                        instance._redraw(showRecList);
-                    }
-                }
-            });
+            super([ChartOptionsContent.dataFilter, ChartOptionsContent.legend]);
         }
 
         private initWidgets(): void {
-            var legendTemplate = kendo.template($('#legend-color-list').html()),
-                dataFilterTemplate = kendo.template($('#data-filter-list').html()),
-                legendRe,
-                dataFilterRe = dataFilterTemplate([]),
-                causeStyleArray = [];
-
-            StartUp.Instance.allCauseStyle.forEach((it) => {
-                if (it.causeColor !== null) {
-                    causeStyleArray.push({
-                        className: 'vis-item-' + it.causeId,
-                        showName: it.causeId
-                    });
-                } else {
-                    causeStyleArray.push({
-                        className: 'vis-item-default',
-                        showName: it.causeId
-                    });
-                }
-            });
-
-            if (causeStyleArray.length > 0) {
-                legendRe = legendTemplate(causeStyleArray);
-            }
-
-            $('.aic-chart-options').empty();
-
             var container = $('#downtime-timeline-chart')[0];
             var options = {
                 orientation: 'top',
                 selectable: false
             };
             this.timeline = new vis.Timeline(container, this.dataItems, this.dataGroups, options);
-
-            $(legendRe).appendTo($('.aic-chart-options'));
-            $(dataFilterRe).appendTo($('.aic-chart-options'));
         }
 
         refreshData(): void {
@@ -92,7 +40,7 @@ module AicTech.Web.Html {
                     allEquId.push(it.id);
                 });
                 if (allEquId.length > 0) {
-                    this.allDtData = [];
+                    this.allOrignalData = [];
                     this.allParData = {
                         length: 0
                     };
@@ -120,9 +68,9 @@ module AicTech.Web.Html {
                                 
                                 kendo.bind(instance.view, instance.viewModel);
 
-                                if (instance.allDtData.length > 0) {
+                                if (instance.allOrignalData.length > 0) {
                                     showRecList = instance.filterData();
-                                    instance._redraw(showRecList);
+                                    instance.pretreatData(showRecList);
                                     dtInstance.timeline.setOptions({
                                         start: start,
                                         end: end
@@ -171,7 +119,7 @@ module AicTech.Web.Html {
 
                             //根据DEF_ID对原始数据分组
                             if (instance.allRec.indexOf(recString) === -1) {
-                                instance.allDtData.push(currentData);
+                                instance.allOrignalData.push(currentData);
                                 instance.allRec.push(recString);
                             }
 
@@ -208,60 +156,7 @@ module AicTech.Web.Html {
                 });
         }
 
-        /**
-         * 根据参数条件对参数数组进行交叉对比，最后获取符合当前参数筛选的数据数组
-         */
-        private filterData(): DowntimeWithEqp[]{
-            var instance: DowntimeTimelineChart = <DowntimeTimelineChart>Module.ModuleLoad.getModuleInstance('DowntimeTimelineChart'),
-                parData = instance.allParData,
-                selectedPar: string[] = instance.viewModel.get('selectedDataFilter') || [],
-                parNums = selectedPar.length,
-                recList: string[] = [],
-                result: DowntimeWithEqp[] = [],
-                isBreak = false,
-                currentList = [],
-                i,
-                parValue = $('#' + selectedPar[0]).val();
-
-            if (selectedPar.length === 0) {
-                return instance.allDtData;
-            }
-
-            parData[selectedPar[0]] = parData[selectedPar[0]] || [];
-            parData[selectedPar[0]].filter(function (it: { recNo: string, parValue: string }) {
-                return it.parValue === parValue;
-            }).forEach((it) => {
-                recList.push(it.recNo);
-            });
-
-            for (i = 1; i < parNums && recList.length > 0; i++) {
-                currentList = [];
-                parValue = $('#' + selectedPar[i]).val();
-                parData[selectedPar[i]].filter(function (it: { recNo: string, parValue: string }) {
-                    return it.parValue === parValue;
-                }).forEach((it) => {
-                    currentList.push(it.recNo);
-                });
-                if (currentList.length === 0) {
-                    recList = [];
-                    break;
-                } else {
-                    recList = recList.filter(function (it) {
-                        return currentList.indexOf(it) > -1;
-                    });
-                    if (recList.length === 0) {
-                        break;
-                    }
-                }
-            }
-
-            result = instance.allDtData.filter(function (it: IRecord) {
-                return recList.indexOf(it.recNo) > - 1;
-            });
-            return result;
-        }
-
-        private _redraw(allFilterData: DowntimeWithEqp[]) {
+        protected pretreatData(allFilterData: DowntimeWithEqp[]) {
             var instance: DowntimeTimelineChart = <DowntimeTimelineChart>Module.ModuleLoad.getModuleInstance('DowntimeTimelineChart');
             instance.dataItems.clear();
             allFilterData.forEach((it) => {
@@ -274,7 +169,6 @@ module AicTech.Web.Html {
                     className: "vis-item-" + it.dtCause + " aic-vis-item"
                 });
             });
-           
         }
 
         init(view: JQuery) {

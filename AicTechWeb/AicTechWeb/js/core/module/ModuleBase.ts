@@ -1,10 +1,10 @@
 ﻿module AicTech.Web.Core.Module {
     export class ModuleBase implements IDispose {
-        protected viewModel: kendo.data.ObservableObject;
+        protected viewModel: kendo.data.ObservableObject = kendo.observable({}); 
         protected startTime: Date;
         protected endTime: Date;
-        protected equipId: string;
-        protected equipName: string;
+        protected equipId: string = "";
+        protected equipName: string = "";
 
         protected get serviceContext(): AicTech.PPA.DataModel.PPAEntities {
             return (new Service.DataContextService<AicTech.PPA.DataModel.PPAEntities>()).getServiceContext();
@@ -39,5 +39,5 @@
              this.equipId = "";
              this.equipName = "";
          }
-     }
+    }
 }

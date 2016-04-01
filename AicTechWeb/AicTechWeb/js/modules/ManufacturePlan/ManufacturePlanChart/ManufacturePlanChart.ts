@@ -33,7 +33,7 @@ module AicTech.Web.Html {
         constructor() {
             super();
             this.needEquiptree = false;
-            this.viewModel = kendo.observable({
+            $.extend(this.viewModel, kendo.observable({
                 poPlanSource: [],
                 poDetailSource: [],
                 allDefId: [],
@@ -157,7 +157,7 @@ module AicTech.Web.Html {
                         instance.currentDataItem.set('shEndTime', shGrid.dataItem(instance.selectedTr).get('END_TIME'));
                     }
                 }
-            });
+            }));
         }
 
         private initWidgets() {

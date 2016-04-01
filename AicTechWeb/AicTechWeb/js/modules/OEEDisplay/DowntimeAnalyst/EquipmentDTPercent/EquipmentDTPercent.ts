@@ -1,17 +1,7 @@
 ﻿/// <reference path="../../../../reference.ts" />
 
 module AicTech.Web.Html {
-    export class EquipmentDTPercent extends Module.ModuleBase {
-        private chartType = [{
-            chartTypeName: "柱状图",
-            chartTypeValue: ChartType.Column
-        }, {
-            chartTypeName: "饼图",
-            chartTypeValue: ChartType.Pie
-        }];
-
-        private allDtData: DowntimeWithEqp[] = [];
-        private allParData;
+    export class EquipmentDTPercent extends OEEChartBase<DowntimeWithEqp> {
         private allParValueList;
 
         private allSeriesData;
@@ -76,50 +66,19 @@ module AicTech.Web.Html {
         };
 
         constructor() {
-            super();
-            this.viewModel = kendo.observable({
-                series: [],
-                isOverlayShow: true,
-                selectedCalcMethod: 0,
-                calcMethodSelectChanged: function (e) {
-                    (<EquipmentDTPercent>Module.ModuleLoad.getModuleInstance('EquipmentDTPercent'))._redraw();
-                },
-                selectedChartType: ChartType.Column,
-                chartTypeChanged: function (e) {
-                    (<EquipmentDTPercent>Module.ModuleLoad.getModuleInstance('EquipmentDTPercent')).switchChartType();
-                },
-                selectedDataFilter: [],
-                dataFilterSeries: [],
-                dataFilterChanged: function (e) {
-                    var instance = <EquipmentDTPercent>Module.ModuleLoad.getModuleInstance('EquipmentDTPercent'),
-                        showRecList = [];
-                    showRecList = instance.filterData();
-                    instance.pretreatData(showRecList);
-                    instance._redraw();
-                },
-                filterData: function (e) {
-                    var selectedFilter: any[] = this.get('selectedDataFilter'),
-                        instance = <EquipmentDTPercent>Module.ModuleLoad.getModuleInstance("EquipmentDTPercent"),
-                        showRecList = [];
-                    if (selectedFilter.length > 0) {
-                        showRecList = instance.filterData();
-                        instance.pretreatData(showRecList);
-                        instance._redraw();
-                    }
-                }
-            });
+            super([ChartOptionsContent.chartType, ChartOptionsContent.calcMethod, ChartOptionsContent.dataFilter]);
+            this.chartType = [{
+                chartTypeName: "柱状图",
+                chartTypeValue: ChartType.Column
+            }, {
+                chartTypeName: "饼图",
+                chartTypeValue: ChartType.Pie
+            }];
+            this.viewModel.set('selectedCalcMethod', 0);
+            this.viewModel.set('selectedChartType', ChartType.Column);
         }
 
         private initWidgets() {
-            var chartTypeTemplate = kendo.template($('#chart-type-list').html()),
-                calcMethodTemplate = kendo.template($('#calc-method-list').html()),
-                dataFilterTemplate = kendo.template($('#data-filter-list').html()),
-                chartRe = chartTypeTemplate(this.chartType),
-                calcMethodRe = calcMethodTemplate([]),
-                dataFilterRe = dataFilterTemplate([]);
-
-            $('.aic-chart-options').empty();
-
             $('#equip-dtpercent-chart').kendoChart({
                 title: {
                     visible: false
@@ -129,10 +88,6 @@ module AicTech.Web.Html {
                     position:'top'
                 }
             });
-
-            $(chartRe).appendTo($('.aic-chart-options'));
-            $(calcMethodRe).appendTo($('.aic-chart-options'));
-            $(dataFilterRe).appendTo($('.aic-chart-options'));
         }
         
         private getAllData(start: Date, end: Date, equId: string, callback: Function): void {
@@ -168,7 +123,7 @@ module AicTech.Web.Html {
 
                         //根据DEF_ID对原始数据分组
                         if (instance.allRec.indexOf(recString) === -1) {
-                            instance.allDtData.push(currentData);
+                            instance.allOrignalData.push(currentData);
                             instance.allRec.push(recString);
                         }
 
@@ -202,65 +157,13 @@ module AicTech.Web.Html {
                     console.log(e);
                 });
         }
-
-        /**
-         * 根据参数条件对参数数组进行交叉对比，最后获取符合当前参数筛选的数据数组
-         */
-        private filterData(): DowntimeWithEqp[]{
-            var instance: EquipmentDTPercent = <EquipmentDTPercent>Module.ModuleLoad.getModuleInstance('EquipmentDTPercent'),
-                parData = instance.allParData,
-                selectedPar: string[] = instance.viewModel.get('selectedDataFilter') || [],
-                parNums = selectedPar.length,
-                recList: string[] = [],
-                result: DowntimeWithEqp[] = [],
-                isBreak = false,
-                currentList = [],
-                i,
-                parValue = $('#' + selectedPar[0]).val();
-
-            if (selectedPar.length === 0) {
-                return instance.allDtData;
-            }
-
-            parData[selectedPar[0]] = parData[selectedPar[0]] || [];
-            parData[selectedPar[0]].filter(function (it: { recNo: string, parValue: string }) {
-                return it.parValue === parValue;
-            }).forEach((it) => {
-                recList.push(it.recNo);
-            });
-
-            for (i = 1; i < parNums && recList.length > 0; i++) {
-                currentList = [];
-                parValue = $('#' + selectedPar[i]).val();
-                parData[selectedPar[i]].filter(function (it: { recNo: string, parValue: string }) {
-                    return it.parValue === parValue;
-                }).forEach((it) => {
-                    currentList.push(it.recNo);
-                });
-                if (currentList.length === 0) {
-                    recList = [];
-                    break;
-                } else {
-                    recList = recList.filter(function (it) {
-                        return currentList.indexOf(it) > -1;
-                    });
-                    if (recList.length === 0) {
-                        break;
-                    }
-                }
-            }
-
-            result = instance.allDtData.filter(function (it: IRecord) {
-                return recList.indexOf(it.recNo) > - 1;
-            });
-            return result;
-        }
+        
 
         /**
        * 数据预处理
        * 计算各个周期的数据
        */
-        private pretreatData(allData: DowntimeWithEqp[]) {
+        protected pretreatData(allData: DowntimeWithEqp[]) {
             var instance = <EquipmentDTPercent>Module.ModuleLoad.getModuleInstance('EquipmentDTPercent'),
                 dtTime: number;
 
@@ -305,7 +208,7 @@ module AicTech.Web.Html {
         /**
          * 重绘图表
          */
-        private _redraw() {
+        protected _redraw() {
             var showData = [],
                 currentTime = 0,
                 currentCalcMethod = parseInt(this.viewModel.get('selectedCalcMethod')),
@@ -362,7 +265,7 @@ module AicTech.Web.Html {
         /**
         * 切换图表类型
         */
-        private switchChartType() {
+        protected switchChartType() {
             var currentType = parseInt(this.viewModel.get('selectedChartType')),
                 chart = $('#equip-dtpercent-chart').data('kendoChart'),
                 instance: EquipmentDTPercent = <EquipmentDTPercent>Module.ModuleLoad.getModuleInstance('EquipmentDTPercent');
@@ -378,15 +281,7 @@ module AicTech.Web.Html {
             
             chart.refresh();
         }
-
-        private noData() {
-            this.viewModel.set('isOverlayShow', true);
-            this.viewModel.set('series', []);
-        }
-        private hadData() {
-            this.viewModel.set('isOverlayShow', false);
-        }
-
+        
         /**
          * 刷新图表数据
          */
@@ -401,7 +296,7 @@ module AicTech.Web.Html {
                 return;
             }
 
-            this.allDtData = [];
+            this.allOrignalData = [];
             this.allParData = {
                 length: 0
             };
@@ -428,7 +323,7 @@ module AicTech.Web.Html {
 
                         kendo.bind(instance.view, instance.viewModel);
 
-                        if (instance.allDtData.length > 0) {
+                        if (instance.allOrignalData.length > 0) {
                             showRecList = instance.filterData();
                             instance.pretreatData(showRecList);
                             instance._redraw();

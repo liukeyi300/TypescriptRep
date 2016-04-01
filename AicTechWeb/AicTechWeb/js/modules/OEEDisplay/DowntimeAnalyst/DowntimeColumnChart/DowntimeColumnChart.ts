@@ -1,11 +1,8 @@
 ﻿/// <reference path="../../../../reference.ts" />
 
 module AicTech.Web.Html {
-    export class DowntimeColumnChart extends Module.ModuleBase {
-        private allDtData: Downtime[] = [];
-        private allParData;
+    export class DowntimeColumnChart extends OEEChartBase<Downtime> {
         private allParValueList;
-
         private allSeriesData;
         private allKeys = [];
         private totalTime = 0;
@@ -13,48 +10,10 @@ module AicTech.Web.Html {
         private allRec = [];
 
         constructor() {
-            super();
-            this.viewModel = kendo.observable({
-                series: [],
-                isOverlayShow: true,
-                selectedCalcMethod: 0,
-                calcMethodSelectChanged: function (e) {
-                    (<DowntimeColumnChart>Module.ModuleLoad.getModuleInstance('DowntimeColumnChart'))._redraw();
-                },
-                selectedDataFilter: [],
-                dataFilterSeries: [],
-                dataFilterChanged: function (e) {
-                    var instance = <DowntimeColumnChart>Module.ModuleLoad.getModuleInstance('DowntimeColumnChart'),
-                        showRecList = [];
-                    showRecList = instance.filterData();
-                    instance.pretreatData(showRecList);
-                    instance._redraw();
-                },
-                filterData: function (e) {
-                    var selectedFilter: any[] = this.get('selectedDataFilter'),
-                        instance = <DowntimeColumnChart>Module.ModuleLoad.getModuleInstance("DowntimeColumnChart"),
-                        showRecList = [];
-                    if (selectedFilter.length > 0) {
-                        showRecList = instance.filterData();
-                        instance.pretreatData(showRecList);
-                        instance._redraw();
-                    }
-                }
-            });
+            super([ChartOptionsContent.calcMethod, ChartOptionsContent.dataFilter]);
         }
 
         private initWidgets(): void {
-            //add template
-            var calcMethodTemplate = kendo.template($('#calc-method-list').html()),
-                dataFilterTemplate = kendo.template($('#data-filter-list').html()),
-                calcMethodRe = calcMethodTemplate([]),
-                dataFilterRe = dataFilterTemplate([]);
-
-            $('.aic-chart-options').empty();
-
-            $(calcMethodRe).appendTo($('.aic-chart-options'));
-            $(dataFilterRe).appendTo($('.aic-chart-options'));
-
             $("#downtime-column-chart").kendoChart({
                 legend: {
                     visible: true,
@@ -136,7 +95,7 @@ module AicTech.Web.Html {
                                 recString = currentData.recNo;
 
                                 if (instance.allRec.indexOf(recString) === -1) {
-                                    instance.allDtData.push(currentData);
+                                    instance.allOrignalData.push(currentData);
                                     instance.allRec.push(recString);
                                 }
 
@@ -173,64 +132,11 @@ module AicTech.Web.Html {
                     });
         }
 
-        /**
-         * 根据参数条件对参数数组进行交叉对比，最后获取符合当前参数筛选的数据数组
-         */
-        private filterData(): Downtime[]{
-            var instance = <DowntimeColumnChart>Module.ModuleLoad.getModuleInstance('DowntimeColumnChart'),
-                parData = instance.allParData,
-                selectedPar: string[] = instance.viewModel.get('selectedDataFilter') || [],
-                parNums = selectedPar.length,
-                recList: string[] = [],
-                result: Downtime[] = [],
-                isBreak = false,
-                currentList = [],
-                i,
-                parValue = $('#' + selectedPar[0]).val();
-
-            if (selectedPar.length === 0) {
-                return instance.allDtData;
-            }
-
-            parData[selectedPar[0]] = parData[selectedPar[0]] || [];
-            parData[selectedPar[0]].filter(function (it: { recNo: string, parValue: string }) {
-                return it.parValue === parValue;
-            }).forEach((it) => {
-                recList.push(it.recNo);
-            });
-
-            for (i = 1; i < parNums && recList.length > 0; i++) {
-                currentList = [];
-                parValue = $('#' + selectedPar[i]).val();
-                parData[selectedPar[i]].filter(function (it: { recNo: string, parValue: string }) {
-                    return it.parValue === parValue;
-                }).forEach((it) => {
-                    currentList.push(it.recNo);
-                });
-                if (currentList.length === 0) {
-                    recList = [];
-                    break;
-                } else {
-                    recList = recList.filter(function (it) {
-                        return currentList.indexOf(it) > -1;
-                    });
-                    if (recList.length === 0) {
-                        break;
-                    }
-                }
-            }
-
-            result = instance.allDtData.filter(function (it: Downtime) {
-                return recList.indexOf(it.recNo) > - 1;
-            });
-            return result;
-        }
-
        /**
        * 数据预处理
        * 计算各个周期的数据
        */
-        private pretreatData(allData: Downtime[]) {
+        protected pretreatData(allData: Downtime[]) {
             var instance = <DowntimeColumnChart>Module.ModuleLoad.getModuleInstance('DowntimeColumnChart'),
                 dtTime: number;
 
@@ -240,10 +146,7 @@ module AicTech.Web.Html {
             this.allKeys = [];
             this.totalTime = 0;
             this.totalTimes = 0;
-            instance.allSeriesData = {
-                length: 0
-            };
-            instance.allKeys = [];
+            this.allKeys = [];
 
             allData.forEach((it: Downtime) => {
                 if (it.endTime !== null) {
@@ -276,7 +179,7 @@ module AicTech.Web.Html {
         /**
          * 重绘图表
          */
-        private _redraw() {
+        protected _redraw() {
             var showData = [],
                 currentTime = 0,
                 currentCalcMethod = parseInt(this.viewModel.get('selectedCalcMethod')),
@@ -329,14 +232,6 @@ module AicTech.Web.Html {
             }
         }
 
-        private noData() {
-            this.viewModel.set('isOverlayShow', true);
-            this.viewModel.set('series', []);
-        }
-        private hadData() {
-            this.viewModel.set('isOverlayShow', false);
-        }
-
         //#region override methods
         /**
          * 刷新图表数据
@@ -352,7 +247,7 @@ module AicTech.Web.Html {
                 return;
             }
 
-            this.allDtData = [];
+            this.allOrignalData = [];
             this.allParData = {
                 length: 0
             };
@@ -379,7 +274,7 @@ module AicTech.Web.Html {
 
                         kendo.bind(instance.view, instance.viewModel);
 
-                        if (instance.allDtData.length > 0) {
+                        if (instance.allOrignalData.length > 0) {
                             showRecList = instance.filterData();
                             instance.pretreatData(showRecList);
                             instance._redraw();

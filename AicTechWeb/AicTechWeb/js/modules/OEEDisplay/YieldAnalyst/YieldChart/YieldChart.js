@@ -14,7 +14,15 @@ var AicTech;
             var YieldChart = (function (_super) {
                 __extends(YieldChart, _super);
                 function YieldChart() {
-                    _super.call(this);
+                    _super.call(this, [Html.ChartOptionsContent.calcCircle, Html.ChartOptionsContent.dataFilter]);
+                    this.allYldDataForShow = {
+                        baseData: null,
+                        shiftData: null,
+                        dateData: null
+                    };
+                    this.allRec = [];
+                    this.allShift = [];
+                    this.allDate = [];
                     this.circlePickerSeries = [{
                             circleName: '原始数据',
                             circleValue: Html.CircleViews.Original
@@ -25,16 +33,7 @@ var AicTech;
                             circleName: '日',
                             circleValue: Html.CircleViews.Day
                         }];
-                    this.allYldData = [];
-                    this.allYldDataForShow = {
-                        baseData: null,
-                        shiftData: null,
-                        dateData: null
-                    };
-                    this.allRec = [];
-                    this.allShift = [];
-                    this.allDate = [];
-                    this.viewModel = kendo.observable({
+                    $.extend(this.viewModel, kendo.observable({
                         series: [],
                         isOverlayShow: true,
                         timeTipsStart: 'start',
@@ -44,36 +43,11 @@ var AicTech;
                         },
                         backoffData: function (e) {
                             Module.ModuleLoad.getModuleInstance('YieldChart').redrawChart(Html.RedrawStatu.Backoff);
-                        },
-                        selectedCircle: Html.CircleViews.Original,
-                        countCircleChanged: function (e) {
-                            Module.ModuleLoad.getModuleInstance('YieldChart').redrawChart();
-                        },
-                        selectedDataFilter: [],
-                        dataFilterSeries: [],
-                        dataFilterChanged: function (e) {
-                            var instance = Module.ModuleLoad.getModuleInstance('YieldChart'), showRecList = [], currentParValue = $('#' + $(e.target).val()).val();
-                            if (typeof currentParValue === 'undefined' || currentParValue === '') {
-                                return;
-                            }
-                            showRecList = instance.filterData();
-                            instance.pretreatData(showRecList);
-                            instance.redrawChart();
-                        },
-                        filterData: function (e) {
-                            var selectedFilter = this.get('selectedDataFilter'), instance = Module.ModuleLoad.getModuleInstance("YieldChart"), showRecList = [];
-                            if (selectedFilter.length > 0) {
-                                showRecList = instance.filterData();
-                                instance.pretreatData(showRecList);
-                                instance.redrawChart();
-                            }
                         }
-                    });
+                    }));
+                    this.viewModel.set('selectedCircle', Html.CircleViews.Original);
                 }
                 YieldChart.prototype.initWidgets = function () {
-                    //add template
-                    var countCircleTemplate = kendo.template($('#count-circle-list').html()), dataFilterTemplate = kendo.template($('#data-filter-list').html()), countRe = countCircleTemplate(this.circlePickerSeries), dataFilterRe = dataFilterTemplate([]);
-                    $('.aic-chart-options').empty();
                     $('#yield-chart').kendoChart({
                         title: {
                             visible: false
@@ -109,9 +83,6 @@ var AicTech;
                             template: "#:category# : #:value#"
                         }
                     });
-                    $(countRe).appendTo($('.aic-chart-options'));
-                    $(dataFilterRe).appendTo($('.aic-chart-options'));
-                    $('#data-group>li>input').kendoDropDownList();
                 };
                 YieldChart.prototype.getAllData = function (start, end, equId, callback) {
                     var instance = Module.ModuleLoad.getModuleInstance('YieldChart'), currentData, recString;
@@ -140,7 +111,7 @@ var AicTech;
                             currentData = new Html.YieldDataModel(it);
                             recString = currentData.recNo;
                             if (instance.allRec.indexOf(recString) === -1) {
-                                instance.allYldData.push(currentData);
+                                instance.allOrignalData.push(currentData);
                                 instance.allRec.push(recString);
                             }
                             var dataGroup = instance.viewModel.get('dataFilterSeries');
@@ -172,46 +143,6 @@ var AicTech;
                     }).fail(function (e) {
                         console.log(e);
                     });
-                };
-                /**
-                * 根据参数条件对参数数组进行交叉对比，最后获取符合当前参数筛选的数据数组
-                */
-                YieldChart.prototype.filterData = function () {
-                    var instance = Module.ModuleLoad.getModuleInstance('YieldChart'), parData = instance.allParData, selectedPar = instance.viewModel.get('selectedDataFilter') || [], parNums = selectedPar.length, recList = [], result = [], isBreak = false, currentList = [], i, parValue = $('#' + selectedPar[0]).val();
-                    if (selectedPar.length === 0) {
-                        return instance.allYldData;
-                    }
-                    parData[selectedPar[0]] = parData[selectedPar[0]] || [];
-                    parData[selectedPar[0]].filter(function (it) {
-                        return it.parValue === parValue;
-                    }).forEach(function (it) {
-                        recList.push(it.recNo);
-                    });
-                    for (i = 1; i < parNums && recList.length > 0; i++) {
-                        currentList = [];
-                        parValue = $('#' + selectedPar[i]).val();
-                        parData[selectedPar[i]].filter(function (it) {
-                            return it.parValue === parValue;
-                        }).forEach(function (it) {
-                            currentList.push(it.recNo);
-                        });
-                        if (currentList.length === 0) {
-                            recList = [];
-                            break;
-                        }
-                        else {
-                            recList = recList.filter(function (it) {
-                                return currentList.indexOf(it) > -1;
-                            });
-                            if (recList.length === 0) {
-                                break;
-                            }
-                        }
-                    }
-                    result = instance.allYldData.filter(function (it) {
-                        return recList.indexOf(it.recNo) > -1;
-                    });
-                    return result;
                 };
                 /**
                  * 数据预处理
@@ -375,22 +306,13 @@ var AicTech;
                         this.noData();
                     }
                 };
-                YieldChart.prototype.noData = function () {
-                    this.viewModel.set('isOverlayShow', true);
-                    this.viewModel.set('series', []);
-                    this.viewModel.set('timeTipsStart', 'start');
-                    this.viewModel.set('timeTipsEnd', 'end');
-                };
-                YieldChart.prototype.hadData = function () {
-                    this.viewModel.set('isOverlayShow', false);
-                };
                 YieldChart.prototype.refreshData = function () {
                     _super.prototype.refreshData.call(this);
                     var start = this.startTime || Web.Utils.DateUtils.lastDay(new Date()), end = this.endTime || new Date(), equId = this.equipId;
                     if (typeof equId === 'undefined' || equId === '') {
                         return;
                     }
-                    this.allYldData = [];
+                    this.allOrignalData = [];
                     this.allParData = {
                         length: 0
                     };
@@ -403,14 +325,13 @@ var AicTech;
                         (function (instance) {
                             instance.getAllData(start, end, equId, function () {
                                 var dataFilterTemplate, dataFilterRe, showRecList;
-                                $('#data-seg').remove();
                                 $('#data-filter').remove();
                                 instance.viewModel.set('selectedDataFilter', []);
                                 dataFilterTemplate = kendo.template($('#data-filter-list').html());
                                 dataFilterRe = dataFilterTemplate(instance.viewModel.get('dataFilterSeries'));
                                 $(dataFilterRe).appendTo($('.aic-chart-options'));
                                 kendo.bind(instance.view, instance.viewModel);
-                                if (instance.allYldData.length > 0) {
+                                if (instance.allOrignalData.length > 0) {
                                     showRecList = instance.filterData();
                                     instance.pretreatData(showRecList);
                                     instance.redrawChart();
@@ -449,7 +370,7 @@ var AicTech;
                     this.noData();
                 };
                 return YieldChart;
-            })(Module.ModuleBase);
+            })(Html.OEEChartBase);
             Html.YieldChart = YieldChart;
         })(Html = Web.Html || (Web.Html = {}));
     })(Web = AicTech.Web || (AicTech.Web = {}));

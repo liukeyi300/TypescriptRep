@@ -1,0 +1,19 @@
+﻿<div class="ar-time-chart-container full-width full-height border-box aic-chart-container">
+    <center>
+        <h2>
+            时间达成率
+            <button class="chart-nav-btn right advance" data-bind="click: advanceData"></button>
+            <button class="chart-nav-btn right backoff" data-bind="click:backoffData"></button>
+            <span class="right time-tips" data-bind="html:timeTipsEnd"></span>
+            <span class="right time-tips">至</span>
+            <span class="right time-tips" data-bind="html:timeTipsStart"></span>
+        </h2>
+    </center>
+    <hr />
+    <div id="ar-time-chart" class="full-height full-width aic-chart" data-bind="source: series"></div>
+    <div class="aic-overlay" data-bind="visible:isOverlayShow">
+        <div class="aic-overlay-content">
+            <span>无数据</span>
+        </div>
+    </div>
+</div>

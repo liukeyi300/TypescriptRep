@@ -14,7 +14,14 @@ var AicTech;
             var MTBFChart = (function (_super) {
                 __extends(MTBFChart, _super);
                 function MTBFChart() {
-                    _super.call(this);
+                    _super.call(this, [Html.ChartOptionsContent.chartType, Html.ChartOptionsContent.calcCircle, Html.ChartOptionsContent.dataFilter]);
+                    this.allDtDataForShow = {
+                        monthData: null,
+                        yearData: null
+                    };
+                    this.allRec = [];
+                    this.allMonth = [];
+                    this.allYear = [];
                     this.circlePickerSeries = [{
                             circleName: '月',
                             circleValue: Html.CircleViews.Month
@@ -29,55 +36,20 @@ var AicTech;
                             chartTypeName: "柱状图",
                             chartTypeValue: Html.ChartType.Column
                         }];
-                    this.allDtData = [];
-                    this.allDtDataForShow = {
-                        monthData: null,
-                        yearData: null
-                    };
-                    this.allRec = [];
-                    this.allMonth = [];
-                    this.allYear = [];
-                    this.needEquiptree = true;
-                    this.viewModel = kendo.observable({
-                        series: [],
+                    this.viewModel.set('selectedCircle', Html.CircleViews.Month);
+                    this.viewModel.set('selectedChartType', Html.ChartType.Line);
+                    $.extend(this.viewModel, kendo.observable({
                         timeTipsStart: 'start',
                         timeTipsEnd: 'end',
-                        isOverlayShow: true,
                         advanceData: function (e) {
                             Module.ModuleLoad.getModuleInstance('MTBFChart').redrawChart(Html.RedrawStatu.Advance);
                         },
                         backoffData: function (e) {
                             Module.ModuleLoad.getModuleInstance('MTBFChart').redrawChart(Html.RedrawStatu.Backoff);
-                        },
-                        selectedCircle: Html.CircleViews.Month,
-                        countCircleChanged: function (e) {
-                            Module.ModuleLoad.getModuleInstance('MTBFChart').redrawChart();
-                        },
-                        selectedChartType: Html.ChartType.Line,
-                        chartTypeChanged: function (e) {
-                            Module.ModuleLoad.getModuleInstance('MTBFChart').switchChartType();
-                        },
-                        selectedDataFilter: [],
-                        dataFilterSeries: [],
-                        dataFilterChanged: function (e) {
-                            var instance = Module.ModuleLoad.getModuleInstance('MTBFChart'), showRecList = [];
-                            showRecList = instance.filterData();
-                            instance.pretreatData(showRecList);
-                            instance.redrawChart();
-                        },
-                        filterData: function (e) {
-                            var selectedFilter = this.get('selectedDataFilter'), instance = Module.ModuleLoad.getModuleInstance("MTBFChart"), showRecList = [];
-                            if (selectedFilter.length > 0) {
-                                showRecList = instance.filterData();
-                                instance.pretreatData(showRecList);
-                                instance.redrawChart();
-                            }
                         }
-                    });
+                    }));
                 }
                 MTBFChart.prototype.initWidgets = function () {
-                    var chartTypeTemplate = kendo.template($('#chart-type-list').html()), countCircleTemplate = kendo.template($('#count-circle-list').html()), dataFilterTemplate = kendo.template($('#data-filter-list').html()), chartRe = chartTypeTemplate(this.chartType), countRe = countCircleTemplate(this.circlePickerSeries), dataFilterRe = dataFilterTemplate([]);
-                    $('.aic-chart-options').empty();
                     $('#mtbf-chart').kendoChart({
                         title: {
                             align: 'left',
@@ -124,96 +96,6 @@ var AicTech;
                                 field: 'circleName'
                             }]
                     });
-                    $(chartRe).appendTo($('.aic-chart-options'));
-                    $(countRe).appendTo($('.aic-chart-options'));
-                    $(dataFilterRe).appendTo($('.aic-chart-options'));
-                };
-                MTBFChart.prototype.noData = function () {
-                    this.viewModel.set('isOverlayShow', true);
-                    this.viewModel.set('series', []);
-                    this.viewModel.set('timeTipsStart', 'start');
-                    this.viewModel.set('timeTipsEnd', 'end');
-                };
-                MTBFChart.prototype.hadData = function () {
-                    this.viewModel.set('isOverlayShow', false);
-                };
-                /**
-                 * 刷新数据
-                 */
-                MTBFChart.prototype.refreshData = function () {
-                    _super.prototype.refreshData.call(this);
-                    var start = this.startTime || Web.Utils.DateUtils.lastDay(new Date()), end = this.endTime || new Date(), equId = this.equipId;
-                    if (typeof equId === "undefined" || equId === "") {
-                        this.noData();
-                        return;
-                    }
-                    this.allDtData = [];
-                    this.allParData = {
-                        length: 0
-                    };
-                    this.allParValueList = {
-                        length: 0
-                    };
-                    this.allRec = [];
-                    //月_年忽略原则：根据选定的日期，已经过去的时间全部进行计算，如果计算
-                    //周期包括未来的时间，则忽略该周期
-                    //eg：当前日期 2016-2-26
-                    //年-选定 2012-5-1 ~ 2016-2-1 则计算 2012-1-1 ~ 2015-12-31的数据
-                    //             2012-5-1 ~ 2015-5-1 则计算 2012-1-1 ~ 2015-12-31的数据
-                    //月-选定 2015-2-5 ~ 2016-2-26 则计算2015-2-1 ~ 2016-1-31的数据
-                    //             2015-2-5 ~ 2016-1-10 则计算2015-2-1 ~ 2016-1-31的数据
-                    end = end > (new Date()) ? (new Date()) : end;
-                    switch (this.viewModel.get('selectedCircle')) {
-                        case Html.CircleViews.Month:
-                            start = new Date(start.getFullYear(), start.getMonth());
-                            //由于当前测试数据量不够，所以统计最后一个不足月的数据
-                            //(function () {
-                            //    var today = new Date();
-                            //    if (DateUtils.format(end, 'yyyy-MM') === DateUtils.format(today, 'yyyy-MM')) {
-                            //        end = new Date((new Date(end.getFullYear(), end.getMonth())).getTime() - 1);
-                            //    } else {
-                            //        end = new Date((new Date(DateUtils.nextMonth(end).getFullYear(), DateUtils.nextMonth(end).getMonth())).getTime() - 1);
-                            //    }
-                            //})();
-                            break;
-                        case Html.CircleViews.Year:
-                            start = new Date(start.getFullYear(), 0);
-                            if (end.getFullYear() === (new Date()).getFullYear()) {
-                                end = new Date(end.getFullYear() - 1, 11, 31);
-                            }
-                            else {
-                                end = new Date(end.getFullYear(), 11, 31);
-                            }
-                            break;
-                        default: break;
-                    }
-                    kendo.ui.progress(this.view, true);
-                    try {
-                        (function (instance) {
-                            instance.getAllData(start, end, equId, function () {
-                                var dataFilterTemplate, dataFilterRe, showRecList;
-                                $('#data-seg').remove();
-                                $('#data-filter').remove();
-                                instance.viewModel.set('selectedDataFilter', []);
-                                dataFilterTemplate = kendo.template($('#data-filter-list').html());
-                                dataFilterRe = dataFilterTemplate(instance.viewModel.get('dataFilterSeries'));
-                                $(dataFilterRe).appendTo($('.aic-chart-options'));
-                                kendo.bind(instance.view, instance.viewModel);
-                                if (instance.allDtData.length > 0) {
-                                    showRecList = instance.filterData();
-                                    instance.pretreatData(showRecList);
-                                    instance.redrawChart();
-                                }
-                                else {
-                                    instance.noData();
-                                }
-                                kendo.ui.progress(instance.view, false);
-                            });
-                        })(this);
-                    }
-                    catch (e) {
-                        console.log(e);
-                    }
                 };
                 /**
                  * 获取所有数据
@@ -248,7 +130,7 @@ var AicTech;
                                 recString = currentData.recNo + ":" + it.defId;
                                 //原始数据去重
                                 if (instance.allRec.indexOf(recString) === -1) {
-                                    instance.allDtData.push(currentData);
+                                    instance.allOrignalData.push(currentData);
                                     instance.allRec.push(recString);
                                 }
                                 var dataGroup = instance.viewModel.get('dataFilterSeries');
@@ -281,46 +163,6 @@ var AicTech;
                     }).fail(function (e) {
                         console.log(e);
                     });
-                };
-                /**
-                 * 根据参数条件对参数数组进行交叉对比，最后获取符合当前参数筛选的数据数组
-                 */
-                MTBFChart.prototype.filterData = function () {
-                    var instance = Module.ModuleLoad.getModuleInstance('MTBFChart'), parData = instance.allParData, selectedPar = instance.viewModel.get('selectedDataFilter') || [], parNums = selectedPar.length, recList = [], result = [], isBreak = false, currentList = [], i, parValue = $('#' + selectedPar[0]).val();
-                    if (selectedPar.length === 0) {
-                        return instance.allDtData;
-                    }
-                    parData[selectedPar[0]] = parData[selectedPar[0]] || [];
-                    parData[selectedPar[0]].filter(function (it) {
-                        return it.parValue === parValue;
-                    }).forEach(function (it) {
-                        recList.push(it.recNo);
-                    });
-                    for (i = 1; i < parNums && recList.length > 0; i++) {
-                        currentList = [];
-                        parValue = $('#' + selectedPar[i]).val();
-                        parData[selectedPar[i]].filter(function (it) {
-                            return it.parValue === parValue;
-                        }).forEach(function (it) {
-                            currentList.push(it.recNo);
-                        });
-                        if (currentList.length === 0) {
-                            recList = [];
-                            break;
-                        }
-                        else {
-                            recList = recList.filter(function (it) {
-                                return currentList.indexOf(it) > -1;
-                            });
-                            if (recList.length === 0) {
-                                break;
-                            }
-                        }
-                    }
-                    result = instance.allDtData.filter(function (it) {
-                        return recList.indexOf(it.recNo) > -1;
-                    });
-                    return result;
                 };
                 /**
                * 数据预处理
@@ -482,6 +324,84 @@ var AicTech;
                     mtbfChart.refresh();
                     mttrChart.refresh();
                 };
+                /**
+                 * 刷新数据
+                 */
+                MTBFChart.prototype.refreshData = function () {
+                    _super.prototype.refreshData.call(this);
+                    var start = this.startTime || Web.Utils.DateUtils.lastDay(new Date()), end = this.endTime || new Date(), equId = this.equipId;
+                    if (typeof equId === "undefined" || equId === "") {
+                        this.noData();
+                        return;
+                    }
+                    this.allOrignalData = [];
+                    this.allParData = {
+                        length: 0
+                    };
+                    this.allParValueList = {
+                        length: 0
+                    };
+                    this.allRec = [];
+                    //月_年忽略原则：根据选定的日期，已经过去的时间全部进行计算，如果计算
+                    //周期包括未来的时间，则忽略该周期
+                    //eg：当前日期 2016-2-26
+                    //年-选定 2012-5-1 ~ 2016-2-1 则计算 2012-1-1 ~ 2015-12-31的数据
+                    //             2012-5-1 ~ 2015-5-1 则计算 2012-1-1 ~ 2015-12-31的数据
+                    //月-选定 2015-2-5 ~ 2016-2-26 则计算2015-2-1 ~ 2016-1-31的数据
+                    //             2015-2-5 ~ 2016-1-10 则计算2015-2-1 ~ 2016-1-31的数据
+                    end = end > (new Date()) ? (new Date()) : end;
+                    switch (this.viewModel.get('selectedCircle')) {
+                        case Html.CircleViews.Month:
+                            start = new Date(start.getFullYear(), start.getMonth());
+                            //由于当前测试数据量不够，所以统计最后一个不足月的数据
+                            //(function () {
+                            //    var today = new Date();
+                            //    if (DateUtils.format(end, 'yyyy-MM') === DateUtils.format(today, 'yyyy-MM')) {
+                            //        end = new Date((new Date(end.getFullYear(), end.getMonth())).getTime() - 1);
+                            //    } else {
+                            //        end = new Date((new Date(DateUtils.nextMonth(end).getFullYear(), DateUtils.nextMonth(end).getMonth())).getTime() - 1);
+                            //    }
+                            //})();
+                            break;
+                        case Html.CircleViews.Year:
+                            start = new Date(start.getFullYear(), 0);
+                            if (end.getFullYear() === (new Date()).getFullYear()) {
+                                end = new Date(end.getFullYear() - 1, 11, 31);
+                            }
+                            else {
+                                end = new Date(end.getFullYear(), 11, 31);
+                            }
+                            break;
+                        default: break;
+                    }
+                    kendo.ui.progress(this.view, true);
+                    try {
+                        (function (instance) {
+                            instance.getAllData(start, end, equId, function () {
+                                var dataFilterTemplate, dataFilterRe, showRecList;
+                                $('#data-seg').remove();
+                                $('#data-filter').remove();
+                                instance.viewModel.set('selectedDataFilter', []);
+                                dataFilterTemplate = kendo.template($('#data-filter-list').html());
+                                dataFilterRe = dataFilterTemplate(instance.viewModel.get('dataFilterSeries'));
+                                $(dataFilterRe).appendTo($('.aic-chart-options'));
+                                kendo.bind(instance.view, instance.viewModel);
+                                if (instance.allOrignalData.length > 0) {
+                                    showRecList = instance.filterData();
+                                    instance.pretreatData(showRecList);
+                                    instance.redrawChart();
+                                }
+                                else {
+                                    instance.noData();
+                                }
+                                kendo.ui.progress(instance.view, false);
+                            });
+                        })(this);
+                    }
+                    catch (e) {
+                        console.log(e);
+                    }
+                };
                 MTBFChart.prototype.init = function (view) {
                     _super.prototype.init.call(this, view);
                     this.initWidgets();
@@ -508,7 +428,7 @@ var AicTech;
                     this.viewModel.set('selectedCircle', Html.CircleViews.Month);
                 };
                 return MTBFChart;
-            })(Module.ModuleBase);
+            })(Html.OEEChartBase);
             Html.MTBFChart = MTBFChart;
         })(Html = Web.Html || (Web.Html = {}));
     })(Web = AicTech.Web || (AicTech.Web = {}));

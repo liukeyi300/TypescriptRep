@@ -3,15 +3,9 @@ module AicTech.Web.Html {
     export class DownTimePieChart extends Module.ModuleBase {
         constructor() {
             super();
-            this.viewModel = kendo.observable({
-                pieChartsSeries: [{
-                    id: "无",
-                    dtTime: 0,
-                    dtCauId: "无",
-                    currentPercent: 1,
-                    dtTimes: 0
-                }]
-            });
+            $.extend(this.viewModel, kendo.observable({
+                series:[]
+            }));
         }
 
         private initWidgets() {
@@ -99,7 +93,7 @@ module AicTech.Web.Html {
                         .toArray((re) => {
                             if (re.length === 0) {
                                 $('.downtime-pie-chart-container .aic-overlay').removeClass('hide').addClass('show');
-                                instance.viewModel.set("pieChartsSeries", [{
+                                instance.viewModel.set("series", [{
                                     id: "无",
                                     dtTime: 0,
                                     dtCauId: "无",
@@ -148,11 +142,11 @@ module AicTech.Web.Html {
                                 it.dtTime = it.dtTime.toFixed(2);
                             });
 
-                            instance.viewModel.set("pieChartsSeries", data);
+                            instance.viewModel.set("series", data);
                         })
                         .fail(function (e: { message: string }) {
                             $('.downtime-pie-chart-container .aic-overlay').removeClass('hide').addClass('show');
-                            instance.viewModel.set("pieChartsSeries", [{
+                            instance.viewModel.set("series", [{
                                 id: "无",
                                 dtTime: 0,
                                 dtCauId: "无",
@@ -162,7 +156,7 @@ module AicTech.Web.Html {
                             alert(e.message);
                         });
                 } else {
-                    instance.viewModel.set("pieChartsSeries", [{
+                    instance.viewModel.set("series", [{
                         id: "无",
                         dtTime: 0,
                         dtCauId: "无",

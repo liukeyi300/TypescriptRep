@@ -15,15 +15,9 @@ var AicTech;
                 __extends(DownTimePieChart, _super);
                 function DownTimePieChart() {
                     _super.call(this);
-                    this.viewModel = kendo.observable({
-                        pieChartsSeries: [{
-                                id: "无",
-                                dtTime: 0,
-                                dtCauId: "无",
-                                currentPercent: 1,
-                                dtTimes: 0
-                            }]
-                    });
+                    $.extend(this.viewModel, kendo.observable({
+                        series: []
+                    }));
                 }
                 DownTimePieChart.prototype.initWidgets = function () {
                     $('#downtime-pie-chart').kendoChart({
@@ -102,7 +96,7 @@ var AicTech;
                                 .toArray(function (re) {
                                 if (re.length === 0) {
                                     $('.downtime-pie-chart-container .aic-overlay').removeClass('hide').addClass('show');
-                                    instance.viewModel.set("pieChartsSeries", [{
+                                    instance.viewModel.set("series", [{
                                             id: "无",
                                             dtTime: 0,
                                             dtCauId: "无",
@@ -148,11 +142,11 @@ var AicTech;
                                     it.currentPercent = ((currentTime / totalTime) * 100).toFixed(2);
                                     it.dtTime = it.dtTime.toFixed(2);
                                 });
-                                instance.viewModel.set("pieChartsSeries", data);
+                                instance.viewModel.set("series", data);
                             })
                                 .fail(function (e) {
                                 $('.downtime-pie-chart-container .aic-overlay').removeClass('hide').addClass('show');
-                                instance.viewModel.set("pieChartsSeries", [{
+                                instance.viewModel.set("series", [{
                                         id: "无",
                                         dtTime: 0,
                                         dtCauId: "无",
@@ -163,7 +157,7 @@ var AicTech;
                             });
                         }
                         else {
-                            instance.viewModel.set("pieChartsSeries", [{
+                            instance.viewModel.set("series", [{
                                     id: "无",
                                     dtTime: 0,
                                     dtCauId: "无",

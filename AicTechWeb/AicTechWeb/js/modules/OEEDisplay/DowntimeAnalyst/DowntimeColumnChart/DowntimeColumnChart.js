@@ -14,43 +14,13 @@ var AicTech;
             var DowntimeColumnChart = (function (_super) {
                 __extends(DowntimeColumnChart, _super);
                 function DowntimeColumnChart() {
-                    _super.call(this);
-                    this.allDtData = [];
+                    _super.call(this, [Html.ChartOptionsContent.calcMethod, Html.ChartOptionsContent.dataFilter]);
                     this.allKeys = [];
                     this.totalTime = 0;
                     this.totalTimes = 0;
                     this.allRec = [];
-                    this.viewModel = kendo.observable({
-                        series: [],
-                        isOverlayShow: true,
-                        selectedCalcMethod: 0,
-                        calcMethodSelectChanged: function (e) {
-                            Module.ModuleLoad.getModuleInstance('DowntimeColumnChart')._redraw();
-                        },
-                        selectedDataFilter: [],
-                        dataFilterSeries: [],
-                        dataFilterChanged: function (e) {
-                            var instance = Module.ModuleLoad.getModuleInstance('DowntimeColumnChart'), showRecList = [];
-                            showRecList = instance.filterData();
-                            instance.pretreatData(showRecList);
-                            instance._redraw();
-                        },
-                        filterData: function (e) {
-                            var selectedFilter = this.get('selectedDataFilter'), instance = Module.ModuleLoad.getModuleInstance("DowntimeColumnChart"), showRecList = [];
-                            if (selectedFilter.length > 0) {
-                                showRecList = instance.filterData();
-                                instance.pretreatData(showRecList);
-                                instance._redraw();
-                            }
-                        }
-                    });
                 }
                 DowntimeColumnChart.prototype.initWidgets = function () {
-                    //add template
-                    var calcMethodTemplate = kendo.template($('#calc-method-list').html()), dataFilterTemplate = kendo.template($('#data-filter-list').html()), calcMethodRe = calcMethodTemplate([]), dataFilterRe = dataFilterTemplate([]);
-                    $('.aic-chart-options').empty();
-                    $(calcMethodRe).appendTo($('.aic-chart-options'));
-                    $(dataFilterRe).appendTo($('.aic-chart-options'));
                     $("#downtime-column-chart").kendoChart({
                         legend: {
                             visible: true,
@@ -130,7 +100,7 @@ var AicTech;
                                 currentData = new Html.Downtime(it);
                                 recString = currentData.recNo;
                                 if (instance.allRec.indexOf(recString) === -1) {
-                                    instance.allDtData.push(currentData);
+                                    instance.allOrignalData.push(currentData);
                                     instance.allRec.push(recString);
                                 }
                                 var dataGroup = instance.viewModel.get('dataFilterSeries');
@@ -166,46 +136,6 @@ var AicTech;
                     });
                 };
                 /**
-                 * 根据参数条件对参数数组进行交叉对比，最后获取符合当前参数筛选的数据数组
-                 */
-                DowntimeColumnChart.prototype.filterData = function () {
-                    var instance = Module.ModuleLoad.getModuleInstance('DowntimeColumnChart'), parData = instance.allParData, selectedPar = instance.viewModel.get('selectedDataFilter') || [], parNums = selectedPar.length, recList = [], result = [], isBreak = false, currentList = [], i, parValue = $('#' + selectedPar[0]).val();
-                    if (selectedPar.length === 0) {
-                        return instance.allDtData;
-                    }
-                    parData[selectedPar[0]] = parData[selectedPar[0]] || [];
-                    parData[selectedPar[0]].filter(function (it) {
-                        return it.parValue === parValue;
-                    }).forEach(function (it) {
-                        recList.push(it.recNo);
-                    });
-                    for (i = 1; i < parNums && recList.length > 0; i++) {
-                        currentList = [];
-                        parValue = $('#' + selectedPar[i]).val();
-                        parData[selectedPar[i]].filter(function (it) {
-                            return it.parValue === parValue;
-                        }).forEach(function (it) {
-                            currentList.push(it.recNo);
-                        });
-                        if (currentList.length === 0) {
-                            recList = [];
-                            break;
-                        }
-                        else {
-                            recList = recList.filter(function (it) {
-                                return currentList.indexOf(it) > -1;
-                            });
-                            if (recList.length === 0) {
-                                break;
-                            }
-                        }
-                    }
-                    result = instance.allDtData.filter(function (it) {
-                        return recList.indexOf(it.recNo) > -1;
-                    });
-                    return result;
-                };
-                /**
                 * 数据预处理
                 * 计算各个周期的数据
                 */
@@ -217,10 +147,7 @@ var AicTech;
                     this.allKeys = [];
                     this.totalTime = 0;
                     this.totalTimes = 0;
-                    instance.allSeriesData = {
-                        length: 0
-                    };
-                    instance.allKeys = [];
+                    this.allKeys = [];
                     allData.forEach(function (it) {
                         if (it.endTime !== null) {
                             dtTime = (it.endTime.getTime() - it.startTime.getTime()) / 60000;
@@ -297,13 +224,6 @@ var AicTech;
                         this.noData();
                     }
                 };
-                DowntimeColumnChart.prototype.noData = function () {
-                    this.viewModel.set('isOverlayShow', true);
-                    this.viewModel.set('series', []);
-                };
-                DowntimeColumnChart.prototype.hadData = function () {
-                    this.viewModel.set('isOverlayShow', false);
-                };
                 //#region override methods
                 /**
                  * 刷新图表数据
@@ -315,7 +235,7 @@ var AicTech;
                         this.viewModel.set('isOverlayShow', true);
                         return;
                     }
-                    this.allDtData = [];
+                    this.allOrignalData = [];
                     this.allParData = {
                         length: 0
                     };
@@ -334,7 +254,7 @@ var AicTech;
                                 dataFilterRe = dataFilterTemplate(instance.viewModel.get('dataFilterSeries'));
                                 $(dataFilterRe).appendTo($('.aic-chart-options'));
                                 kendo.bind(instance.view, instance.viewModel);
-                                if (instance.allDtData.length > 0) {
+                                if (instance.allOrignalData.length > 0) {
                                     showRecList = instance.filterData();
                                     instance.pretreatData(showRecList);
                                     instance._redraw();
@@ -373,7 +293,7 @@ var AicTech;
                     this.viewModel.set('selectedCalcMethod', 0);
                 };
                 return DowntimeColumnChart;
-            })(Module.ModuleBase);
+            })(Html.OEEChartBase);
             Html.DowntimeColumnChart = DowntimeColumnChart;
         })(Html = Web.Html || (Web.Html = {}));
     })(Web = AicTech.Web || (AicTech.Web = {}));

@@ -1,9 +1,5 @@
 ﻿/// <reference path="reference.ts" />
-import Service = AicTech.Web.Core.Service;
-import Module = AicTech.Web.Core.Module;
-import Utils = AicTech.Web.Utils;
-import Controls = AicTech.Web.Controls;
-
+import Html = AicTech.Web.Html;
 module AicTech.Web.Html {
     export class StartUp  {
 
@@ -65,7 +61,7 @@ module AicTech.Web.Html {
                 if (baseUrl === "" || currentModule === StartUp.currentInstanceName) {
                     return;
                 }
-                var lastInstance: Module.ModuleBase = Module.ModuleLoad.getModuleInstance(StartUp.currentInstanceName);
+                var lastInstance = Module.ModuleLoad.getModuleInstance(StartUp.currentInstanceName);
                 if (typeof lastInstance !== "undefined") {
                     lastInstance.dispose();
                 }
@@ -85,7 +81,7 @@ module AicTech.Web.Html {
                     StartUp.Instance.viewModel.set('endTime', Utils.DateUtils.lastDay(new Date()));
                 }
 
-                var instance: Module.ModuleBase = Module.ModuleLoad.getModuleInstance(currentModule);
+                var instance = Module.ModuleLoad.getModuleInstance(currentModule);
                 if (typeof instance !== "undefined") {
                     $('#viewport').append(instance.view);
                     instance.update();

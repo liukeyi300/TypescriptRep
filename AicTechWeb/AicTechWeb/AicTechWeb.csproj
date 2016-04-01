@@ -106,6 +106,8 @@
     <Content Include="js\modules\OEEDisplay\DowntimeAnalyst\MTBFChart\MTBFChart.html" />
     <Content Include="js\modules\OEEDisplay\OEEChart\OEEChart.css" />
     <Content Include="js\modules\OEEDisplay\OEEChart\OEEChart.html" />
+    <Content Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByTime\AccomplishRateByTime.css" />
+    <Content Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByTime\AccomplishRateByTime.html" />
     <Content Include="js\modules\OEEDisplay\YieldAnalyst\YieldChart\YieldChart.css" />
     <Content Include="js\modules\OEEDisplay\YieldAnalyst\YieldChart\YieldChart.html" />
     <Content Include="libs\application-service\ApplicationServices.js" />
@@ -160,6 +162,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\core\interface\" />
+    <Folder Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByOffer\" />
+    <Folder Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByVariety\" />
     <Folder Include="libs\vis\img\" />
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +174,7 @@
     <TypeScriptCompile Include="js\core\module\ModuleLoad.ts" />
     <TypeScriptCompile Include="js\core\service\AuthenticationService.ts" />
     <TypeScriptCompile Include="js\core\service\DataContextService.ts" />
+    <TypeScriptCompile Include="js\importModules.ts" />
     <TypeScriptCompile Include="js\modules\CommonInterface.ts" />
     <TypeScriptCompile Include="js\modules\DataModelSeasoned.ts" />
     <TypeScriptCompile Include="js\modules\ManufacturePlan\ManufacturePlanChart\ManufacturePlanChart.ts" />
@@ -178,7 +183,9 @@
     <TypeScriptCompile Include="js\modules\OEEDisplay\DowntimeAnalyst\DowntimeTimelineChart\DowntimeTimelineChart.ts" />
     <TypeScriptCompile Include="js\modules\OEEDisplay\DowntimeAnalyst\EquipmentDTPercent\EquipmentDTPercent.ts" />
     <TypeScriptCompile Include="js\modules\OEEDisplay\DowntimeAnalyst\MTBFChart\MTBFChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\OEEChartBase.ts" />
     <TypeScriptCompile Include="js\modules\OEEDisplay\OEEChart\OEEChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByTime\AccomplishRateByTime.ts" />
     <TypeScriptCompile Include="js\modules\OEEDisplay\YieldAnalyst\YieldChart\YieldChart.ts" />
     <TypeScriptCompile Include="js\reference.ts" />
     <TypeScriptCompile Include="js\utils\ArrayUtils.ts" />

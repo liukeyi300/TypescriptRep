@@ -1,8 +1,5 @@
 /// <reference path="reference.ts" />
-var Service = AicTech.Web.Core.Service;
-var Module = AicTech.Web.Core.Module;
-var Utils = AicTech.Web.Utils;
-var Controls = AicTech.Web.Controls;
+var Html = AicTech.Web.Html;
 var AicTech;
 (function (AicTech) {
     var Web;

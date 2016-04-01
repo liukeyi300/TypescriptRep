@@ -14,55 +14,18 @@ var AicTech;
             var DowntimeTimelineChart = (function (_super) {
                 __extends(DowntimeTimelineChart, _super);
                 function DowntimeTimelineChart() {
-                    _super.call(this);
+                    _super.call(this, [Html.ChartOptionsContent.dataFilter, Html.ChartOptionsContent.legend]);
                     this.allRec = [];
                     this.dataItems = new vis.DataSet();
                     this.dataGroups = new vis.DataSet();
-                    this.viewModel = kendo.observable({
-                        selectedDataFilter: [],
-                        dataFilterSeries: [],
-                        dataFilterChanged: function (e) {
-                            var instance = Module.ModuleLoad.getModuleInstance('DowntimeTimelineChart'), showRecList = [];
-                            showRecList = instance.filterData();
-                            instance._redraw(showRecList);
-                        },
-                        filterData: function (e) {
-                            var selectedFilter = this.get('selectedDataFilter'), instance = Module.ModuleLoad.getModuleInstance("DowntimeTimelineChart"), showRecList = [];
-                            if (selectedFilter.length > 0) {
-                                showRecList = instance.filterData();
-                                instance._redraw(showRecList);
-                            }
-                        }
-                    });
                 }
                 DowntimeTimelineChart.prototype.initWidgets = function () {
-                    var legendTemplate = kendo.template($('#legend-color-list').html()), dataFilterTemplate = kendo.template($('#data-filter-list').html()), legendRe, dataFilterRe = dataFilterTemplate([]), causeStyleArray = [];
-                    Html.StartUp.Instance.allCauseStyle.forEach(function (it) {
-                        if (it.causeColor !== null) {
-                            causeStyleArray.push({
-                                className: 'vis-item-' + it.causeId,
-                                showName: it.causeId
-                            });
-                        }
-                        else {
-                            causeStyleArray.push({
-                                className: 'vis-item-default',
-                                showName: it.causeId
-                            });
-                        }
-                    });
-                    if (causeStyleArray.length > 0) {
-                        legendRe = legendTemplate(causeStyleArray);
-                    }
-                    $('.aic-chart-options').empty();
                     var container = $('#downtime-timeline-chart')[0];
                     var options = {
                         orientation: 'top',
                         selectable: false
                     };
                     this.timeline = new vis.Timeline(container, this.dataItems, this.dataGroups, options);
-                    $(legendRe).appendTo($('.aic-chart-options'));
-                    $(dataFilterRe).appendTo($('.aic-chart-options'));
                 };
                 DowntimeTimelineChart.prototype.refreshData = function () {
                     _super.prototype.refreshData.call(this);
@@ -79,7 +42,7 @@ var AicTech;
                         allEquId.push(it.id);
                     });
                     if (allEquId.length > 0) {
-                        this.allDtData = [];
+                        this.allOrignalData = [];
                         this.allParData = {
                             length: 0
                         };
@@ -99,9 +62,9 @@ var AicTech;
                                     dataFilterRe = dataFilterTemplate(instance.viewModel.get('dataFilterSeries'));
                                     $(dataFilterRe).appendTo($('.aic-chart-options'));
                                     kendo.bind(instance.view, instance.viewModel);
-                                    if (instance.allDtData.length > 0) {
+                                    if (instance.allOrignalData.length > 0) {
                                         showRecList = instance.filterData();
-                                        instance._redraw(showRecList);
+                                        instance.pretreatData(showRecList);
                                         dtInstance.timeline.setOptions({
                                             start: start,
                                             end: end
@@ -148,7 +111,7 @@ var AicTech;
                                 recString = currentData.recNo;
                                 //根据DEF_ID对原始数据分组
                                 if (instance.allRec.indexOf(recString) === -1) {
-                                    instance.allDtData.push(currentData);
+                                    instance.allOrignalData.push(currentData);
                                     instance.allRec.push(recString);
                                 }
                                 var dataGroup = instance.viewModel.get('dataFilterSeries');
@@ -183,47 +146,7 @@ var AicTech;
                         return;
                     });
                 };
-                /**
-                 * 根据参数条件对参数数组进行交叉对比，最后获取符合当前参数筛选的数据数组
-                 */
-                DowntimeTimelineChart.prototype.filterData = function () {
-                    var instance = Module.ModuleLoad.getModuleInstance('DowntimeTimelineChart'), parData = instance.allParData, selectedPar = instance.viewModel.get('selectedDataFilter') || [], parNums = selectedPar.length, recList = [], result = [], isBreak = false, currentList = [], i, parValue = $('#' + selectedPar[0]).val();
-                    if (selectedPar.length === 0) {
-                        return instance.allDtData;
-                    }
-                    parData[selectedPar[0]] = parData[selectedPar[0]] || [];
-                    parData[selectedPar[0]].filter(function (it) {
-                        return it.parValue === parValue;
-                    }).forEach(function (it) {
-                        recList.push(it.recNo);
-                    });
-                    for (i = 1; i < parNums && recList.length > 0; i++) {
-                        currentList = [];
-                        parValue = $('#' + selectedPar[i]).val();
-                        parData[selectedPar[i]].filter(function (it) {
-                            return it.parValue === parValue;
-                        }).forEach(function (it) {
-                            currentList.push(it.recNo);
-                        });
-                        if (currentList.length === 0) {
-                            recList = [];
-                            break;
-                        }
-                        else {
-                            recList = recList.filter(function (it) {
-                                return currentList.indexOf(it) > -1;
-                            });
-                            if (recList.length === 0) {
-                                break;
-                            }
-                        }
-                    }
-                    result = instance.allDtData.filter(function (it) {
-                        return recList.indexOf(it.recNo) > -1;
-                    });
-                    return result;
-                };
-                DowntimeTimelineChart.prototype._redraw = function (allFilterData) {
+                DowntimeTimelineChart.prototype.pretreatData = function (allFilterData) {
                     var instance = Module.ModuleLoad.getModuleInstance('DowntimeTimelineChart');
                     instance.dataItems.clear();
                     allFilterData.forEach(function (it) {
@@ -257,7 +180,7 @@ var AicTech;
                     kendo.unbind(this.view);
                 };
                 return DowntimeTimelineChart;
-            })(Module.ModuleBase);
+            })(Html.OEEChartBase);
             Html.DowntimeTimelineChart = DowntimeTimelineChart;
         })(Html = Web.Html || (Web.Html = {}));
     })(Web = AicTech.Web || (AicTech.Web = {}));

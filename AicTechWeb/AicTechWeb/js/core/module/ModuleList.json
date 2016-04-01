@@ -136,21 +136,21 @@
     "text": "时间达成率",
     "id": 19,
     "parent": 10,
-    "baseUrl": "js/modules/AccomplishRateByTime/",
+    "baseUrl": "js/modules/OEEDisplay/YieldAnalyst/AccomplishRateByTime/",
     "moduleName": "AccomplishRateByTime"
   },
   "AccomplishRateByOffer": {
     "text": "工单达成率",
     "id": 20,
     "parent": 10,
-    "baseUrl": "js/modules/AccomplishRateByOffer/",
+    "baseUrl": "js/modules/OEEDisplay/YieldAnalyst/AccomplishRateByOffer/",
     "moduleName": "AccomplishRateByOffer"
   },
   "AccomplishRateByVariety": {
     "text": "品种达成率",
     "id": 21,
     "parent": 10,
-    "baseUrl": "js/modules/AccomplishRateByVariety/",
+    "baseUrl": "js/modules/OEEDisplay/YieldAnalyst/AccomplishRateByVariety/",
     "moduleName": "AccomplishRateByVariety"
   },
   "QualifyRateCharts": {

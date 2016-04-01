@@ -1,20 +1,7 @@
 ﻿/// <reference path = "../../../../reference.ts" />
 
 module AicTech.Web.Html {
-    export class YieldChart extends Module.ModuleBase {
-        private circlePickerSeries = [{
-            circleName: '原始数据',
-            circleValue: CircleViews.Original
-        }, {
-            circleName: '班组',
-            circleValue: CircleViews.Shift
-        }, {
-            circleName: '日',
-            circleValue: CircleViews.Day
-        }];
-
-        private allYldData: YieldDataModel[] = [];
-        private allParData;
+    export class YieldChart extends OEEChartBase<YieldDataModel> {
         private allParValueList;
 
         private allYldDataForShow = {
@@ -28,8 +15,18 @@ module AicTech.Web.Html {
         private allDate = [];
         
         constructor() {
-            super();
-            this.viewModel = kendo.observable({
+            super([ChartOptionsContent.calcCircle, ChartOptionsContent.dataFilter]);
+            this.circlePickerSeries = [{
+                circleName: '原始数据',
+                circleValue: CircleViews.Original
+            }, {
+                circleName: '班组',
+                circleValue: CircleViews.Shift
+            }, {
+                circleName: '日',
+                circleValue: CircleViews.Day
+            }];
+            $.extend(this.viewModel, kendo.observable({
                 series: [],
                 isOverlayShow: true,
                 timeTipsStart: 'start',
@@ -39,46 +36,12 @@ module AicTech.Web.Html {
                 },
                 backoffData: function (e) {
                     (<YieldChart>Module.ModuleLoad.getModuleInstance('YieldChart')).redrawChart(RedrawStatu.Backoff);
-                },
-                selectedCircle: CircleViews.Original,
-                countCircleChanged: function (e) {
-                    (<YieldChart>Module.ModuleLoad.getModuleInstance('YieldChart')).redrawChart();
-                },
-                selectedDataFilter: [],
-                dataFilterSeries: [],
-                dataFilterChanged: function (e) {
-                    var instance = <YieldChart>Module.ModuleLoad.getModuleInstance('YieldChart'),
-                        showRecList = [],
-                        currentParValue = $('#' + $(e.target).val()).val();
-                    if (typeof currentParValue === 'undefined' || currentParValue === '') {
-                        return;
-                    }
-                    showRecList = instance.filterData();
-                    instance.pretreatData(showRecList);
-                    instance.redrawChart();
-                },
-                filterData: function (e) {
-                    var selectedFilter: any[] = this.get('selectedDataFilter'),
-                        instance = <YieldChart>Module.ModuleLoad.getModuleInstance("YieldChart"),
-                        showRecList = [];
-                    if (selectedFilter.length > 0) {
-                        showRecList = instance.filterData();
-                        instance.pretreatData(showRecList);
-                        instance.redrawChart();
-                    }
                 }
-            });
+            }));
+            this.viewModel.set('selectedCircle', CircleViews.Original);
         }
 
         private initWidgets() {
-            //add template
-            var countCircleTemplate = kendo.template($('#count-circle-list').html()),
-                dataFilterTemplate = kendo.template($('#data-filter-list').html()),
-                countRe = countCircleTemplate(this.circlePickerSeries),
-                dataFilterRe = dataFilterTemplate([]);
-
-            $('.aic-chart-options').empty();
-
             $('#yield-chart').kendoChart({
                 title: {
                     visible: false
@@ -114,11 +77,6 @@ module AicTech.Web.Html {
                     template:"#:category# : #:value#"
                 }
             });
-
-            $(countRe).appendTo($('.aic-chart-options'));
-            $(dataFilterRe).appendTo($('.aic-chart-options'));
-
-            $('#data-group>li>input').kendoDropDownList();
         }
 
         private getAllData(start: Date, end: Date, equId: string, callback: Function) {
@@ -152,7 +110,7 @@ module AicTech.Web.Html {
                         recString = currentData.recNo;
 
                         if (instance.allRec.indexOf(recString) === -1) {
-                            instance.allYldData.push(currentData);
+                            instance.allOrignalData.push(currentData);
                             instance.allRec.push(recString);
                         }
 
@@ -186,65 +144,12 @@ module AicTech.Web.Html {
                     console.log(e);
                 });
         }
-
-        /**
-        * 根据参数条件对参数数组进行交叉对比，最后获取符合当前参数筛选的数据数组
-        */
-        private filterData(): YieldDataModel[]{
-            var instance = <YieldChart>Module.ModuleLoad.getModuleInstance('YieldChart'),
-                parData = instance.allParData,
-                selectedPar: string[] = instance.viewModel.get('selectedDataFilter') || [],
-                parNums = selectedPar.length,
-                recList: string[] = [],
-                result: YieldDataModel[] = [],
-                isBreak = false,
-                currentList = [],
-                i,
-                parValue = $('#' + selectedPar[0]).val();
-
-            if (selectedPar.length === 0) {
-                return instance.allYldData;
-            }
-
-            parData[selectedPar[0]] = parData[selectedPar[0]] || [];
-            parData[selectedPar[0]].filter(function (it: { recNo: string, parValue: string }) {
-                return it.parValue === parValue;
-            }).forEach((it) => {
-                recList.push(it.recNo);
-            });
-
-            for (i = 1; i < parNums && recList.length > 0; i++) {
-                currentList = [];
-                parValue = $('#' + selectedPar[i]).val();
-                parData[selectedPar[i]].filter(function (it: { recNo: string, parValue: string }) {
-                    return it.parValue === parValue;
-                }).forEach((it) => {
-                    currentList.push(it.recNo);
-                });
-                if (currentList.length === 0) {
-                    recList = [];
-                    break;
-                } else {
-                    recList = recList.filter(function (it) {
-                        return currentList.indexOf(it) > -1;
-                    });
-                    if (recList.length === 0) {
-                        break;
-                    }
-                }
-            }
-
-            result = instance.allYldData.filter(function (it: IRecord) {
-                return recList.indexOf(it.recNo) > - 1;
-            });
-            return result;
-        }
-
+        
         /**
          * 数据预处理
          * 计算各个周期的数据
          */
-        private pretreatData(allData: YieldDataModel[]) {
+        protected pretreatData(allData: YieldDataModel[]) {
             var instance = <YieldChart>Module.ModuleLoad.getModuleInstance('YieldChart'),
                 currentParValue,
                 i,
@@ -334,7 +239,7 @@ module AicTech.Web.Html {
             });
         }
 
-        private redrawChart(redrawStatu = RedrawStatu.Complete) {
+        protected redrawChart(redrawStatu = RedrawStatu.Complete) {
             var keyArray = [],
                 dataArray = [],
                 maxNum,
@@ -382,7 +287,7 @@ module AicTech.Web.Html {
             this._redraw(this.redrawStartPoint, maxNum, keyArray, dataArray);
         }
 
-        private _redraw(startPoint: number, maxNum: number, keyArray: any[], dataArray: any[]) {
+        protected _redraw(startPoint: number, maxNum: number, keyArray: any[], dataArray: any[]) {
             var showData = [],
                 minDate = new Date(),
                 maxDate = new Date('1971-01-01'),
@@ -424,16 +329,7 @@ module AicTech.Web.Html {
             }
         }
 
-        private noData() {
-            this.viewModel.set('isOverlayShow', true);
-            this.viewModel.set('series', []);
-            this.viewModel.set('timeTipsStart', 'start');
-            this.viewModel.set('timeTipsEnd', 'end');
-        }
 
-        private hadData() {
-            this.viewModel.set('isOverlayShow', false);
-        }
 
         refreshData() {
             super.refreshData();
@@ -445,7 +341,7 @@ module AicTech.Web.Html {
                 return;
             }
 
-            this.allYldData = [];
+            this.allOrignalData = [];
             this.allParData = {
                 length: 0
             };
@@ -462,8 +358,7 @@ module AicTech.Web.Html {
                         var dataFilterTemplate,
                             dataFilterRe,
                             showRecList;
-
-                        $('#data-seg').remove();
+                        
                         $('#data-filter').remove();
                         instance.viewModel.set('selectedDataFilter', []);
 
@@ -473,7 +368,7 @@ module AicTech.Web.Html {
 
                         kendo.bind(instance.view, instance.viewModel);
 
-                        if (instance.allYldData.length > 0) {
+                        if (instance.allOrignalData.length > 0) {
                             showRecList = instance.filterData();
                             instance.pretreatData(showRecList);
                             instance.redrawChart();

@@ -64,6 +64,20 @@ var AicTech;
                 CalcMethod[CalcMethod["Time"] = 1] = "Time";
             })(Html.CalcMethod || (Html.CalcMethod = {}));
             var CalcMethod = Html.CalcMethod;
+            /**
+             * 定义对图表进行数据处理的选项
+             */
+            (function (ChartOptionsContent) {
+                ChartOptionsContent[ChartOptionsContent["chartType"] = 0] = "chartType";
+                ChartOptionsContent[ChartOptionsContent["dataSeg"] = 1] = "dataSeg";
+                ChartOptionsContent[ChartOptionsContent["dataSegSingle"] = 2] = "dataSegSingle";
+                ChartOptionsContent[ChartOptionsContent["calcCircle"] = 3] = "calcCircle";
+                ChartOptionsContent[ChartOptionsContent["dataGroup"] = 4] = "dataGroup";
+                ChartOptionsContent[ChartOptionsContent["calcMethod"] = 5] = "calcMethod";
+                ChartOptionsContent[ChartOptionsContent["dataFilter"] = 6] = "dataFilter";
+                ChartOptionsContent[ChartOptionsContent["legend"] = 7] = "legend";
+            })(Html.ChartOptionsContent || (Html.ChartOptionsContent = {}));
+            var ChartOptionsContent = Html.ChartOptionsContent;
         })(Html = Web.Html || (Web.Html = {}));
     })(Web = AicTech.Web || (AicTech.Web = {}));
 })(AicTech || (AicTech = {}));
