@@ -71,4 +71,58 @@
             this.recTime = it.recTime;
         }
     }
+
+    export class AccomplishRateDateModel {
+        actual: number;
+        quantity: number;
+        shiftId: string;
+        shiftNo: string;
+        shiftStartTime: Date;
+        poId: string;
+        recTime: Date;
+        defId: string;
+
+        constructor(it: {
+            actual?: string,
+            quantity?: string,
+            shiftId?: string,
+            shiftNo?: string,
+            shiftStartTime?: Date,
+            poId?: string,
+            recTime?: Date,
+            defId?: string
+        }) {
+            if (typeof it.actual !== 'undefined' && it.actual !== '') {
+                this.actual = parseFloat(it.actual);
+            }
+
+            if (typeof it.quantity !== 'undefined' && it.quantity !== '') {
+                this.quantity = parseFloat(it.quantity);
+            }
+
+            if (typeof it.shiftId !== 'undefined' && it.shiftId !== '') {
+                this.shiftId = it.shiftId
+            }
+
+            if (typeof it.shiftNo !== 'undefined' && it.shiftNo !== '') {
+                this.shiftNo = it.shiftNo;
+            }
+
+            if (typeof it.shiftStartTime !== 'undefined' && it.shiftStartTime !== null) {
+                this.shiftStartTime = it.shiftStartTime;
+            }
+
+            if (typeof it.poId !== 'undefined' && it.poId !== '') {
+                this.poId = it.poId;
+            }
+
+            if (typeof it.recTime != 'undefined' && it.recTime != null) {
+                this.recTime = it.recTime;
+            }
+
+            if (typeof it.defId !== 'undefined' && it.defId !== '') {
+                this.defId = it.defId;
+            }
+        }
+    }
 }
