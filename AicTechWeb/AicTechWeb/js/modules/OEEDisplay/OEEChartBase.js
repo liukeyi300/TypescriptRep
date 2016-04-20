@@ -14,10 +14,16 @@ var AicTech;
                 __extends(OEEChartBase, _super);
                 function OEEChartBase(options) {
                     _super.call(this);
+                    this.dataSegSingle = [];
+                    this.dataSeg = [];
                     this.options = options;
                     this.allOrignalData = [];
                     this.chartType = [];
                     this.circlePickerSeries = [];
+                    this.dataSeg = [];
+                    this.dataSegSingle = [];
+                    this.allOrignalData = [];
+                    this.allParData = null;
                     $.extend(this.viewModel, kendo.observable({
                         series: [],
                         isOverlayShow: true,
@@ -52,6 +58,14 @@ var AicTech;
                         chartTypeChanged: function (e) {
                             Module.ModuleLoad.getModuleInstance(Html.StartUp.currentInstanceName).switchChartType();
                         },
+                        selectedDataSegSingle: null,
+                        dataSegSingleChanged: function (e) {
+                            Module.ModuleLoad.getModuleInstance(Html.StartUp.currentInstanceName).redrawChart(-1);
+                        },
+                        selectedDataSeg: null,
+                        dataSegChanged: function (e) {
+                            Module.ModuleLoad.getModuleInstance(Html.StartUp.currentInstanceName).redrawChart(-1);
+                        }
                     }));
                 }
                 OEEChartBase.prototype.filterData = function () {
@@ -65,15 +79,20 @@ var AicTech;
                     result = Web.Utils.ArrayUtils.filterByParameter(this.allOrignalData, selectedPar, this.allParData);
                     return result;
                 };
-                OEEChartBase.prototype.pretreatData = function (data) { };
-                OEEChartBase.prototype.redrawChart = function () {
+                OEEChartBase.prototype.redrawChart = function (redrawStatus) {
                     this._redraw();
                 };
-                OEEChartBase.prototype.switchChartType = function () { };
-                /**
-                 * 重绘函数
-                 */
-                OEEChartBase.prototype._redraw = function (startPoint, maxNum, keyArray, dataArray) { };
+                //#region Virtual methods
+                OEEChartBase.prototype.pretreatData = function (data) {
+                    throw "pretreatData(data:T[]) is not properly implement!";
+                };
+                OEEChartBase.prototype.switchChartType = function () {
+                    throw "switchChartType() is not properly implement!";
+                };
+                OEEChartBase.prototype._redraw = function (startPoint, maxNum, keyArray, dataArray) {
+                    throw "_redraw() is not properly implement!";
+                };
+                //#endregion
                 OEEChartBase.prototype.noData = function () {
                     this.viewModel.set('isOverlayShow', true);
                     this.viewModel.set('series', []);
@@ -85,7 +104,6 @@ var AicTech;
                 };
                 OEEChartBase.prototype.addOptions = function () {
                     var container = this.view.find('.aic-chart-options');
-                    container.empty();
                     if (this.options.indexOf(Html.ChartOptionsContent.legend) > -1) {
                         var legendTemplate = kendo.template($('#legend-color-list').html()), legendRe, causeStyleArray = [];
                         Html.StartUp.Instance.allCauseStyle.forEach(function (it) {
@@ -112,11 +130,11 @@ var AicTech;
                         container.append($(chartRe));
                     }
                     if (this.options.indexOf(Html.ChartOptionsContent.dataSegSingle) > -1) {
-                        var dataSegSingleTemplate = kendo.template($('#data-seg-single-list').html()), dataSegSingleRe = dataSegSingleTemplate([]);
+                        var dataSegSingleTemplate = kendo.template($('#data-seg-single-list').html()), dataSegSingleRe = dataSegSingleTemplate(this.dataSegSingle);
                         container.append($(dataSegSingleRe));
                     }
                     if (this.options.indexOf(Html.ChartOptionsContent.dataSeg) > -1) {
-                        var dataSegTemplate = kendo.template($('#data-seg-list').html()), dataSegRe = dataSegSingleTemplate([]);
+                        var dataSegTemplate = kendo.template($('#data-seg-list').html()), dataSegRe = dataSegTemplate(this.dataSeg);
                         container.append($(dataSegRe));
                     }
                     if (this.options.indexOf(Html.ChartOptionsContent.calcCircle) > -1) {
@@ -134,6 +152,9 @@ var AicTech;
                         container.append($(dataFilterRe));
                     }
                 };
+                //public refreshData() {
+                //    super.refreshData();
+                //}
                 OEEChartBase.prototype.init = function (view) {
                     _super.prototype.init.call(this, view);
                     this.addOptions();

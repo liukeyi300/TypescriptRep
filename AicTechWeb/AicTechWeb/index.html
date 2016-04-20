@@ -229,7 +229,7 @@
             数据字段
             # for (var i = 0; i < data.length; i ++) { #
             <li>
-                <input type="radio" data-bind="checked:selectedDataSeg, events:{change:dataSegChanged}" name="selectedDataSeg" value="#=data[i]#" />
+                <input type="radio" data-bind="checked:selectedDataSegSingle, events:{change:dataSegSingleChanged}" name="selectedDataSeg" value="#=data[i]#" />
                 <p>#=data[i] #</p>
             </li>
             # } #

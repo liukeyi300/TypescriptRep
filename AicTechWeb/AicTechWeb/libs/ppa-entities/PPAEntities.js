@@ -243,7 +243,8 @@
      'MASTER_NO': { 'type':'Edm.Decimal' },
      'MAX_CAPACITY': { 'type':'Edm.Decimal' },
      'PM_EQP_PROPERTY': { 'type':'Array','elementType':'PPAModel.PM_EQP_PROPERTY','inverseProperty':'PM_EQUIPMENT' },
-     'PM_TARGET_MATRIX': { 'type':'Array','elementType':'PPAModel.PM_TARGET_MATRIX','inverseProperty':'PM_EQUIPMENT' }
+     'PM_TARGET_MATRIX': { 'type':'Array','elementType':'PPAModel.PM_TARGET_MATRIX','inverseProperty':'PM_EQUIPMENT' },
+     'EXT_PP_POS': { 'type':'Array','elementType':'PPAModel.EXT_PP_POS','inverseProperty':'PM_EQUIPMENT' }
   });
 
   $data.Entity.extend('PPAModel.PPA_CAL_SHIFT_PATTERN', {
@@ -418,16 +419,6 @@
      'PPA_CALENDAR': { 'type':'PPAModel.PPA_CALENDAR','required':true,'inverseProperty':'PPA_CAL_HOLIDAY' }
   });
 
-  $data.Entity.extend('PPAModel.V_QA_RECORD_PERIOD', {
-     'EQP_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'REWORK': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'TOTAL': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'SCRAP': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'QUALIFY': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'START_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
-     'END_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true }
-  });
-
   $data.Entity.extend('PPAModel.PPA_MAT_RECORD', {
      'REC_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
      'EQP_NO': { 'type':'Edm.Decimal','nullable':false,'required':true },
@@ -445,18 +436,6 @@
      'D_UPDATE': { 'type':'Edm.DateTime' },
      'OPERATOR': { 'type':'Edm.String','maxLength':128 },
      'PPA_MATR_PARAMETER': { 'type':'Array','elementType':'PPAModel.PPA_MATR_PARAMETER','inverseProperty':'PPA_MAT_RECORD' }
-  });
-
-  $data.Entity.extend('PPAModel.V_PPA_ENG_SHIFT', {
-     'EQP_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'D_RECORD': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
-     'ENGC_TYPE': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':5 },
-     'PER_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'ENG_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
-     'QUANTITY': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'START_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
-     'END_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
-     'SH_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true }
   });
 
   $data.Entity.extend('PPAModel.MM_BOM', {
@@ -536,7 +515,8 @@
      'MM_BOM': { 'type':'Array','elementType':'PPAModel.MM_BOM','inverseProperty':'MM_DEFINITION' },
      'MM_CLASS': { 'type':'PPAModel.MM_CLASS','required':true,'inverseProperty':'MM_DEFINITION' },
      'MM_DEF_PROPERTY': { 'type':'Array','elementType':'PPAModel.MM_DEF_PROPERTY','inverseProperty':'MM_DEFINITION' },
-     'PM_TARGET_MATRIX': { 'type':'Array','elementType':'PPAModel.PM_TARGET_MATRIX','inverseProperty':'MM_DEFINITION' }
+     'PM_TARGET_MATRIX': { 'type':'Array','elementType':'PPAModel.PM_TARGET_MATRIX','inverseProperty':'MM_DEFINITION' },
+     'EXT_PP_PRODUCTION_ORDER': { 'type':'Array','elementType':'PPAModel.EXT_PP_PRODUCTION_ORDER','inverseProperty':'MM_DEFINITION' }
   });
 
   $data.Entity.extend('PPAModel.PM_TARGET_MATRIX', {
@@ -554,6 +534,38 @@
      'REMARK': { 'type':'Edm.String','maxLength':512 },
      'MM_DEFINITION': { 'type':'PPAModel.MM_DEFINITION','required':true,'inverseProperty':'PM_TARGET_MATRIX' },
      'PM_EQUIPMENT': { 'type':'PPAModel.PM_EQUIPMENT','required':true,'inverseProperty':'PM_TARGET_MATRIX' }
+  });
+
+  $data.Entity.extend('PPAModel.EXT_PP_POS', {
+     'PPS_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'SH_NO': { 'type':'Edm.Decimal','nullable':false,'required':true },
+     'POS': { 'type':'Edm.Int16' },
+     'EXT_MAT_ID': { 'type':'Edm.String','maxLength':64 },
+     'UOM_ID': { 'type':'Edm.String','maxLength':64 },
+     'QUANTITY': { 'type':'Edm.Decimal','nullable':false,'required':true },
+     'START_TIME': { 'type':'Edm.DateTime' },
+     'END_TIME': { 'type':'Edm.DateTime' },
+     'EQP_NO': { 'type':'Edm.Decimal','nullable':false,'required':true },
+     'PO_NO': { 'type':'Edm.Decimal','nullable':false,'required':true },
+     'PPA_SHIFT': { 'type':'PPAModel.PPA_SHIFT','required':true,'inverseProperty':'EXT_PP_POS' },
+     'PM_EQUIPMENT': { 'type':'PPAModel.PM_EQUIPMENT','required':true,'inverseProperty':'EXT_PP_POS' },
+     'EXT_PP_PRODUCTION_ORDER': { 'type':'PPAModel.EXT_PP_PRODUCTION_ORDER','required':true,'inverseProperty':'EXT_PP_POS' }
+  });
+
+  $data.Entity.extend('PPAModel.EXT_PP_PRODUCTION_ORDER', {
+     'PO_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'PO_ID': { 'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'DEF_NO': { 'type':'Edm.Decimal','nullable':false,'required':true },
+     'UOM_ID': { 'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'QUANTITY': { 'type':'Edm.Decimal','nullable':false,'required':true },
+     'DUE_DATE': { 'type':'Edm.DateTime' },
+     'PO_STATUS': { 'type':'Edm.String','nullable':false,'required':true,'maxLength':1 },
+     'UPDATE_USER': { 'type':'Edm.String','maxLength':30 },
+     'UPDATE_DATE': { 'type':'Edm.DateTime' },
+     'START_TIME': { 'type':'Edm.DateTime' },
+     'END_TIME': { 'type':'Edm.DateTime' },
+     'EXT_PP_POS': { 'type':'Array','elementType':'PPAModel.EXT_PP_POS','inverseProperty':'EXT_PP_PRODUCTION_ORDER' },
+     'MM_DEFINITION': { 'type':'PPAModel.MM_DEFINITION','required':true,'inverseProperty':'EXT_PP_PRODUCTION_ORDER' }
   });
 
   $data.Entity.extend('PPAModel.V_MM_BOM_DETAIL', {
@@ -577,109 +589,11 @@
      'SCRAP': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true }
   });
 
-  $data.Entity.extend('PPAModel.EXT_PP_POS', {
-     'PPS_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'SH_NO': { 'type':'Edm.Decimal' },
-     'POS': { 'type':'Edm.Int16' },
-     'PO_ID': { 'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
-     'EXT_MAT_ID': { 'type':'Edm.String','maxLength':64 },
-     'DEF_ID': { 'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
-     'UOM_ID': { 'type':'Edm.String','maxLength':64 },
-     'QUANTITY': { 'type':'Edm.Decimal' },
-     'START_TIME': { 'type':'Edm.DateTime' },
-     'END_TIME': { 'type':'Edm.DateTime' },
-     'PPA_SHIFT': { 'type':'PPAModel.PPA_SHIFT','inverseProperty':'EXT_PP_POS' }
-  });
-
-  $data.Entity.extend('PPAModel.V_PPA_MAT_RECORD_PLAN', {
-     'REC_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+  $data.Entity.extend('PPAModel.V_PPA_DOWNTIME_OV', {
      'EQP_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'D_RECORD': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
-     'PER_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'MATC_TYPE': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':5 },
-     'MAT_TYPE': { 'type':'Edm.String','maxLength':5 },
-     'PO_ID': { 'type':'Edm.String','maxLength':64 },
-     'ACTUAL': { 'type':'Edm.Decimal' },
-     'D_UPDATE': { 'type':'Edm.DateTime' },
-     'SH_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'SH_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
-     'SH_START_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
-     'SH_END_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
-     'TEAM_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
-     'PPS_NO': { 'type':'Edm.Decimal' },
-     'DEF_ID': { 'type':'Edm.String','maxLength':64 },
-     'UOM_ID': { 'type':'Edm.String','maxLength':64 },
-     'QUANTITY': { 'type':'Edm.Decimal' },
-     'START_TIME': { 'type':'Edm.DateTime' },
-     'END_TIME': { 'type':'Edm.DateTime' }
-  });
-
-  $data.Entity.extend('PPAModel.V_PPA_PER_RECORD_PLAN', {
-     'REC_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'EQP_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'D_RECORD': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
-     'PER_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'BATCH_ID': { 'type':'Edm.String','maxLength':64 },
-     'IDEAL': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'ACTUAL': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'D_UPDATE': { 'type':'Edm.DateTime' },
-     'SH_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'SH_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
-     'SH_START_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
-     'SH_END_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
-     'TEAM_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
-     'PPS_NO': { 'type':'Edm.Decimal' },
-     'PO_ID': { 'type':'Edm.String','maxLength':64 },
-     'DEF_ID': { 'type':'Edm.String','maxLength':64 },
-     'UOM_ID': { 'type':'Edm.String','maxLength':64 },
-     'QUANTITY': { 'type':'Edm.Decimal' },
-     'START_TIME': { 'type':'Edm.DateTime' },
-     'END_TIME': { 'type':'Edm.DateTime' }
-  });
-
-  $data.Entity.extend('PPAModel.V_PPA_PRD_PLAN', {
-     'SH_NO': { 'type':'Edm.Decimal' },
-     'SH_ID': { 'type':'Edm.String','maxLength':64 },
-     'SH_START_TIME': { 'type':'Edm.DateTime' },
-     'SH_END_TIME': { 'type':'Edm.DateTime' },
-     'TEAM_ID': { 'type':'Edm.String','maxLength':64 },
-     'PPS_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'PO_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
-     'DEF_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
-     'UOM_ID': { 'type':'Edm.String','maxLength':64 },
-     'QUANTITY': { 'type':'Edm.Decimal' },
-     'START_TIME': { 'type':'Edm.DateTime' },
-     'END_TIME': { 'type':'Edm.DateTime' }
-  });
-
-  $data.Entity.extend('PPAModel.V_PPA_OEE_SUMMARY_DETAIL', {
-     'SUM_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'SH_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'SH_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
-     'CALD_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'SH_START_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
-     'SH_END_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
-     'TEAM_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
-     'PER_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'PER_START_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
-     'PER_END_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
-     'PL_PRD_TIME': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'ACT_PRD_TIME': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'SCH_DT_TIME': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'UNSCH_DT_TIME': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'UNSCH_DT_CNT': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'IDEAL': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'ACTUAL': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'TOTAL_ITEMS': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'QA_ITEMS': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'REWORK_ITEMS': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'SCRAP_ITEMS': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'PPA_AVA': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'PPA_PER': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'PPA_QUA': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'PPA_COM': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
-     'D_UPDATE': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
-     'EQP_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true }
+     'EQP_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'NCOUNT': { 'type':'Edm.Decimal' },
+     'DTSUMMINS': { 'type':'Edm.Decimal' }
   });
 
   $data.Entity.extend('PPAModel.V_PPA_DT_RECORD', {
@@ -726,6 +640,18 @@
      'PAR_VALUE': { 'type':'Edm.String','maxLength':700 }
   });
 
+  $data.Entity.extend('PPAModel.V_PPA_ENG_SHIFT', {
+     'EQP_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'D_RECORD': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'ENGC_TYPE': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':5 },
+     'PER_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'ENG_ID': { 'type':'Edm.String','maxLength':64 },
+     'QUANTITY': { 'type':'Edm.Decimal' },
+     'START_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'END_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'SH_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true }
+  });
+
   $data.Entity.extend('PPAModel.V_PPA_MAT_RECORD', {
      'REC_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
      'EQP_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
@@ -753,6 +679,73 @@
      'PAR_VALUE': { 'type':'Edm.String','maxLength':700 }
   });
 
+  $data.Entity.extend('PPAModel.V_PPA_MAT_RECORD_PLAN', {
+     'REC_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'EQP_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'D_RECORD': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'PER_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'MATC_TYPE': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':5 },
+     'MAT_TYPE': { 'type':'Edm.String','maxLength':5 },
+     'DEF_ID': { 'type':'Edm.String','maxLength':64 },
+     'PO_ID': { 'type':'Edm.String','maxLength':64 },
+     'ACTUAL': { 'type':'Edm.Decimal' },
+     'D_UPDATE': { 'type':'Edm.DateTime' },
+     'SH_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'SH_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'SH_START_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'SH_END_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'TEAM_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'PO_NO': { 'type':'Edm.Decimal' },
+     'DEF_NO': { 'type':'Edm.Decimal' },
+     'UOM_ID': { 'type':'Edm.String','maxLength':64 },
+     'QUANTITY': { 'type':'Edm.Decimal' },
+     'PO_STATUS': { 'type':'Edm.String','maxLength':1 },
+     'START_TIME': { 'type':'Edm.DateTime' },
+     'END_TIME': { 'type':'Edm.DateTime' },
+     'PO_DUE_DATE': { 'type':'Edm.DateTime' }
+  });
+
+  $data.Entity.extend('PPAModel.V_PPA_OEE_SUMMARY_DETAIL', {
+     'SUM_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'SH_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'SH_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'CALD_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'SH_START_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'SH_END_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'TEAM_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'PER_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'PER_START_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'PER_END_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'PL_PRD_TIME': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'ACT_PRD_TIME': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'SCH_DT_TIME': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'UNSCH_DT_TIME': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'UNSCH_DT_CNT': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'IDEAL': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'ACTUAL': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'TOTAL_ITEMS': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'QA_ITEMS': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'REWORK_ITEMS': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'SCRAP_ITEMS': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'PPA_AVA': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'PPA_PER': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'PPA_QUA': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'PPA_COM': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'D_UPDATE': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'EQP_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true }
+  });
+
+  $data.Entity.extend('PPAModel.V_PPA_PER_DETAIL_RECORD', {
+     'PDTL_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'PER_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'PER_START_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'PER_END_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'PRD_TYPE': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':5 },
+     'REC_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'EQP_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'D_RECORD': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true }
+  });
+
   $data.Entity.extend('PPAModel.V_PPA_PER_RECORD', {
      'REC_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
      'EQP_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
@@ -774,6 +767,55 @@
      'PAR_ID': { 'type':'Edm.String','maxLength':64 },
      'PAR_VALUE_TYPE': { 'type':'Edm.String','maxLength':1 },
      'PAR_VALUE': { 'type':'Edm.String','maxLength':700 }
+  });
+
+  $data.Entity.extend('PPAModel.V_PPA_PER_RECORD_PLAN', {
+     'REC_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'EQP_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'D_RECORD': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'PER_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'BATCH_ID': { 'type':'Edm.String','maxLength':64 },
+     'IDEAL': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'ACTUAL': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'D_UPDATE': { 'type':'Edm.DateTime' },
+     'SH_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'SH_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'SH_START_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'SH_END_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'TEAM_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'PPS_NO': { 'type':'Edm.Decimal' },
+     'PO_NO': { 'type':'Edm.Decimal' },
+     'UOM_ID': { 'type':'Edm.String','maxLength':64 },
+     'QUANTITY': { 'type':'Edm.Decimal' },
+     'START_TIME': { 'type':'Edm.DateTime' },
+     'END_TIME': { 'type':'Edm.DateTime' }
+  });
+
+  $data.Entity.extend('PPAModel.V_PPA_PRD_PLAN', {
+     'PPS_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'POS': { 'type':'Edm.Int16' },
+     'BATCH_ID': { 'type':'Edm.String','maxLength':64 },
+     'PLAN_QUANTITY': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'PLAN_START_TIME': { 'type':'Edm.DateTime' },
+     'PLAN_END_TIME': { 'type':'Edm.DateTime' },
+     'PO_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'PO_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'DEF_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'DEF_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'PO_QUANTITY': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'UOM_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'PO_STATUS': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':1 },
+     'PO_START_TIME': { 'type':'Edm.DateTime' },
+     'PO_END_TIME': { 'type':'Edm.DateTime' },
+     'PO_DUE_DATE': { 'type':'Edm.DateTime' },
+     'EQP_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'EQP_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'EQP_NAME': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':128 },
+     'SH_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'SH_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'SH_START_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'SH_END_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'TEAM_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 }
   });
 
   $data.Entity.extend('PPAModel.V_PPA_QA_RECORD', {
@@ -798,6 +840,35 @@
      'SH_START_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
      'SH_END_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
      'SH_TEAM_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 }
+  });
+
+  $data.Entity.extend('PPAModel.V_PROD_STATS_PO', {
+     'PO_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'PO_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'DEF_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'DEF_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'UOM_ID': { 'key':true,'type':'Edm.String','nullable':false,'required':true,'maxLength':64 },
+     'PLAN': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'START_TIME': { 'type':'Edm.DateTime' },
+     'END_TIME': { 'type':'Edm.DateTime' },
+     'BATCH_ID': { 'type':'Edm.String','maxLength':64 },
+     'QUANTITY': { 'type':'Edm.Decimal' },
+     'REC_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'EQP_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'TOTAL': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'QUALIFY': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'REWORK': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'SCRAP': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true }
+  });
+
+  $data.Entity.extend('PPAModel.V_QA_RECORD_PERIOD', {
+     'EQP_NO': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'REWORK': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'TOTAL': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'SCRAP': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'QUALIFY': { 'key':true,'type':'Edm.Decimal','nullable':false,'required':true },
+     'START_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true },
+     'END_TIME': { 'key':true,'type':'Edm.DateTime','nullable':false,'required':true }
   });
 
   $data.EntityContext.extend('AicTech.PPA.DataModel.PPAEntities', {
@@ -840,9 +911,7 @@
      'PPA_PERR_PARAMETER': { type: $data.EntitySet, elementType: PPAModel.PPA_PERR_PARAMETER},
      'PPA_QAR_PARAMETER': { type: $data.EntitySet, elementType: PPAModel.PPA_QAR_PARAMETER},
      'PPA_CAL_HOLIDAY': { type: $data.EntitySet, elementType: PPAModel.PPA_CAL_HOLIDAY},
-     'V_QA_RECORD_PERIOD': { type: $data.EntitySet, elementType: PPAModel.V_QA_RECORD_PERIOD},
      'PPA_MAT_RECORD': { type: $data.EntitySet, elementType: PPAModel.PPA_MAT_RECORD},
-     'V_PPA_ENG_SHIFT': { type: $data.EntitySet, elementType: PPAModel.V_PPA_ENG_SHIFT},
      'MM_BOM': { type: $data.EntitySet, elementType: PPAModel.MM_BOM},
      'MM_BOM_ITEM': { type: $data.EntitySet, elementType: PPAModel.MM_BOM_ITEM},
      'MM_CLASS': { type: $data.EntitySet, elementType: PPAModel.MM_CLASS},
@@ -850,17 +919,23 @@
      'MM_DEF_PROPERTY': { type: $data.EntitySet, elementType: PPAModel.MM_DEF_PROPERTY},
      'MM_DEFINITION': { type: $data.EntitySet, elementType: PPAModel.MM_DEFINITION},
      'PM_TARGET_MATRIX': { type: $data.EntitySet, elementType: PPAModel.PM_TARGET_MATRIX},
-     'V_MM_BOM_DETAIL': { type: $data.EntitySet, elementType: PPAModel.V_MM_BOM_DETAIL},
      'EXT_PP_POS': { type: $data.EntitySet, elementType: PPAModel.EXT_PP_POS},
-     'V_PPA_MAT_RECORD_PLAN': { type: $data.EntitySet, elementType: PPAModel.V_PPA_MAT_RECORD_PLAN},
-     'V_PPA_PER_RECORD_PLAN': { type: $data.EntitySet, elementType: PPAModel.V_PPA_PER_RECORD_PLAN},
-     'V_PPA_PRD_PLAN': { type: $data.EntitySet, elementType: PPAModel.V_PPA_PRD_PLAN},
-     'V_PPA_OEE_SUMMARY_DETAIL': { type: $data.EntitySet, elementType: PPAModel.V_PPA_OEE_SUMMARY_DETAIL},
+     'EXT_PP_PRODUCTION_ORDER': { type: $data.EntitySet, elementType: PPAModel.EXT_PP_PRODUCTION_ORDER},
+     'V_MM_BOM_DETAIL': { type: $data.EntitySet, elementType: PPAModel.V_MM_BOM_DETAIL},
+     'V_PPA_DOWNTIME_OV': { type: $data.EntitySet, elementType: PPAModel.V_PPA_DOWNTIME_OV},
      'V_PPA_DT_RECORD': { type: $data.EntitySet, elementType: PPAModel.V_PPA_DT_RECORD},
      'V_PPA_ENG_RECORD': { type: $data.EntitySet, elementType: PPAModel.V_PPA_ENG_RECORD},
+     'V_PPA_ENG_SHIFT': { type: $data.EntitySet, elementType: PPAModel.V_PPA_ENG_SHIFT},
      'V_PPA_MAT_RECORD': { type: $data.EntitySet, elementType: PPAModel.V_PPA_MAT_RECORD},
+     'V_PPA_MAT_RECORD_PLAN': { type: $data.EntitySet, elementType: PPAModel.V_PPA_MAT_RECORD_PLAN},
+     'V_PPA_OEE_SUMMARY_DETAIL': { type: $data.EntitySet, elementType: PPAModel.V_PPA_OEE_SUMMARY_DETAIL},
+     'V_PPA_PER_DETAIL_RECORD': { type: $data.EntitySet, elementType: PPAModel.V_PPA_PER_DETAIL_RECORD},
      'V_PPA_PER_RECORD': { type: $data.EntitySet, elementType: PPAModel.V_PPA_PER_RECORD},
+     'V_PPA_PER_RECORD_PLAN': { type: $data.EntitySet, elementType: PPAModel.V_PPA_PER_RECORD_PLAN},
+     'V_PPA_PRD_PLAN': { type: $data.EntitySet, elementType: PPAModel.V_PPA_PRD_PLAN},
      'V_PPA_QA_RECORD': { type: $data.EntitySet, elementType: PPAModel.V_PPA_QA_RECORD},
+     'V_PROD_STATS_PO': { type: $data.EntitySet, elementType: PPAModel.V_PROD_STATS_PO},
+     'V_QA_RECORD_PERIOD': { type: $data.EntitySet, elementType: PPAModel.V_QA_RECORD_PERIOD},
      'GetSequenceNextValue': { type: $data.ServiceOperation, returnType: 'Edm.Decimal', method: 'GET', params: [{ name: 'sequenceName', type: 'Edm.String' }] },
      'GetSequenceNextValues': { type: $data.ServiceOperation, returnType: $data.Queryable, elementType: 'Edm.Decimal', method: 'GET', params: [{ name: 'sequenceName', type: 'Edm.String' }, { name: 'count', type: 'Edm.Int32' }] }
   });

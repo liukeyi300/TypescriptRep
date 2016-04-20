@@ -343,7 +343,6 @@ var AicTech;
                  */
                 StartUp.prototype.loadAllDowntimeStyle = function () {
                     var _this = this;
-                    console.log("");
                     var context = this.dataContextService.getServiceContext();
                     this.allCauseStyle = [];
                     context.MD_DOM_VALUE
@@ -389,7 +388,9 @@ var AicTech;
                     var context = this.dataContextService.getServiceContext();
                     this.allEngId = [];
                     this.allEngName = [];
-                    context.MD_DOM_VALUE
+                    context.MD_DOM_VALUE.filter(function (it) {
+                        return it.DOM_ID == 'DOM_ENERGY_ID';
+                    })
                         .toArray(function (re) {
                         re.forEach(function (it) {
                             _this.allEngId.push(it.VALUE);

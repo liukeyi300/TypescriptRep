@@ -34,6 +34,7 @@ var AicTech;
                 };
                 return DowntimeBase;
             })();
+            Html.DowntimeBase = DowntimeBase;
             var Downtime = (function (_super) {
                 __extends(Downtime, _super);
                 function Downtime(it) {
@@ -66,6 +67,151 @@ var AicTech;
                 return YieldDataModel;
             })();
             Html.YieldDataModel = YieldDataModel;
+            var RatioClass = (function () {
+                function RatioClass(recNo, recTime, actual, quantity) {
+                    this.recNo = recNo;
+                    this.recTime = recTime;
+                    this.actual = actual;
+                    this.quantity = quantity;
+                }
+                return RatioClass;
+            })();
+            Html.RatioClass = RatioClass;
+            var TimeAccmplshRtDataModel = (function (_super) {
+                __extends(TimeAccmplshRtDataModel, _super);
+                function TimeAccmplshRtDataModel(it) {
+                    var actual, quantity;
+                    if (typeof it.actual == 'undefined') {
+                        actual = 0;
+                    }
+                    else {
+                        actual = parseFloat(it.actual);
+                    }
+                    if (typeof it.quantity === 'undefined') {
+                        quantity = 0;
+                    }
+                    else {
+                        quantity = parseFloat(it.quantity);
+                    }
+                    _super.call(this, it.recNo, it.recTime, actual, quantity);
+                    this.shiftNo = it.shiftNo;
+                }
+                Object.defineProperty(TimeAccmplshRtDataModel.prototype, "shiftId", {
+                    get: function () {
+                        return this._shiftId;
+                    },
+                    set: function (shiftId) {
+                        this._shiftId = shiftId;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(TimeAccmplshRtDataModel.prototype, "shiftStartTime", {
+                    get: function () {
+                        return this._shiftStartTime;
+                    },
+                    set: function (st) {
+                        this._shiftStartTime = st;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                return TimeAccmplshRtDataModel;
+            })(RatioClass);
+            Html.TimeAccmplshRtDataModel = TimeAccmplshRtDataModel;
+            var OfferAccmplshRtDataModel = (function (_super) {
+                __extends(OfferAccmplshRtDataModel, _super);
+                function OfferAccmplshRtDataModel(it) {
+                    _super.call(this, it.recNo, it.recTime, parseFloat(it.actual), parseFloat(it.quantity));
+                    this.poId = it.poId;
+                }
+                return OfferAccmplshRtDataModel;
+            })(RatioClass);
+            Html.OfferAccmplshRtDataModel = OfferAccmplshRtDataModel;
+            var VarietyAccmplshRtDataModel = (function (_super) {
+                __extends(VarietyAccmplshRtDataModel, _super);
+                function VarietyAccmplshRtDataModel(it) {
+                    _super.call(this, it.recNo, it.recTime, parseFloat(it.actual), parseFloat(it.quantity));
+                    this.defId = it.defId;
+                }
+                return VarietyAccmplshRtDataModel;
+            })(RatioClass);
+            Html.VarietyAccmplshRtDataModel = VarietyAccmplshRtDataModel;
+            var QualifyAnalystBaseDataModel = (function () {
+                function QualifyAnalystBaseDataModel(recNo, recTime, shiftId, shiftNo, total) {
+                    this.recNo = recNo;
+                    this.recTime = recTime;
+                    this.shiftId = shiftId;
+                    this.shiftNo = shiftNo;
+                    this.total = total;
+                }
+                return QualifyAnalystBaseDataModel;
+            })();
+            Html.QualifyAnalystBaseDataModel = QualifyAnalystBaseDataModel;
+            var QualifyRtDataModel = (function (_super) {
+                __extends(QualifyRtDataModel, _super);
+                function QualifyRtDataModel(it) {
+                    _super.call(this, it.recNo, it.recTime, it.shiftId, it.shiftNo, parseFloat(it.total));
+                    this.qualify = parseFloat(it.qualify);
+                }
+                return QualifyRtDataModel;
+            })(QualifyAnalystBaseDataModel);
+            Html.QualifyRtDataModel = QualifyRtDataModel;
+            var ScrapRtDataModel = (function (_super) {
+                __extends(ScrapRtDataModel, _super);
+                function ScrapRtDataModel(it) {
+                    _super.call(this, it.recNo, it.recTime, it.shiftId, it.shiftNo, parseFloat(it.total));
+                    this.scrap = parseFloat(it.scrap);
+                }
+                return ScrapRtDataModel;
+            })(QualifyAnalystBaseDataModel);
+            Html.ScrapRtDataModel = ScrapRtDataModel;
+            var ReworkRtDataModel = (function (_super) {
+                __extends(ReworkRtDataModel, _super);
+                function ReworkRtDataModel(it) {
+                    _super.call(this, it.recNo, it.recTime, it.shiftId, it.shiftNo, parseFloat(it.total));
+                    this.rework = parseFloat(it.rework);
+                }
+                return ReworkRtDataModel;
+            })(QualifyAnalystBaseDataModel);
+            Html.ReworkRtDataModel = ReworkRtDataModel;
+            var QualifyAvgAnalystDataModel = (function () {
+                function QualifyAvgAnalystDataModel(it) {
+                    this.recNo = it.recNo;
+                    this.recTime = it.recTime;
+                    this.qualify = parseFloat(it.qualify);
+                    this.scrap = parseFloat(it.scrap);
+                    this.rework = parseFloat(it.rework);
+                }
+                return QualifyAvgAnalystDataModel;
+            })();
+            Html.QualifyAvgAnalystDataModel = QualifyAvgAnalystDataModel;
+            var ConsumptionBase = (function () {
+                function ConsumptionBase(typeId, quantity) {
+                    this.typeId = typeId;
+                    this.quantity = quantity;
+                }
+                return ConsumptionBase;
+            })();
+            Html.ConsumptionBase = ConsumptionBase;
+            var ConsumptionTimeDataModel = (function (_super) {
+                __extends(ConsumptionTimeDataModel, _super);
+                function ConsumptionTimeDataModel(it) {
+                    if (typeof it.engId !== 'undefined') {
+                        _super.call(this, it.engId, parseFloat(it.quantity));
+                    }
+                    else {
+                        _super.call(this, it.defId, parseFloat(it.quantity));
+                    }
+                    this.recNo = it.recNo;
+                    this.recTime = it.recTime;
+                    this.shiftNo = it.shiftNo;
+                    this.shiftId = it.shiftId;
+                    this.shiftStartTime = it.shiftStartTime;
+                }
+                return ConsumptionTimeDataModel;
+            })(ConsumptionBase);
+            Html.ConsumptionTimeDataModel = ConsumptionTimeDataModel;
         })(Html = Web.Html || (Web.Html = {}));
     })(Web = AicTech.Web || (AicTech.Web = {}));
 })(AicTech || (AicTech = {}));

@@ -376,7 +376,6 @@ module AicTech.Web.Html {
          * DowntimeTimelineCharts
          */
         private loadAllDowntimeStyle() {
-            console.log("");
             var context = this.dataContextService.getServiceContext();
             this.allCauseStyle = [];
             context.MD_DOM_VALUE
@@ -422,7 +421,9 @@ module AicTech.Web.Html {
             var context = this.dataContextService.getServiceContext();
             this.allEngId = [];
             this.allEngName = [];
-            context.MD_DOM_VALUE
+            context.MD_DOM_VALUE.filter(function (it) {
+                return it.DOM_ID == 'DOM_ENERGY_ID';
+            })
                 .toArray((re) => {
                     re.forEach((it) => {
                         this.allEngId.push(it.VALUE);

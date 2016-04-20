@@ -15,12 +15,10 @@ module AicTech.Web.Html {
                 timeTipsStart: 'start',
                 timeTipsEnd: 'end',
                 advanceData: function (e) {
-                    var instance = <AccomplishRateByTime>Module.ModuleLoad.getModuleInstance('AccomplishRateByTime');
-                    instance.redrawChart(RedrawStatu.Advance);
+                    (<AccomplishRateByTime>Module.ModuleLoad.getModuleInstance('AccomplishRateByTime')).redrawChart(RedrawStatu.Advance);
                 },
                 backoffData: function (e) {
-                    var instance = <AccomplishRateByTime>Module.ModuleLoad.getModuleInstance('AccomplishRateByTime');
-                    instance.redrawChart(RedrawStatu.Backoff);
+                    (<AccomplishRateByTime>Module.ModuleLoad.getModuleInstance('AccomplishRateByTime')).redrawChart(RedrawStatu.Backoff);
                 }
             }))
         }
@@ -76,7 +74,7 @@ module AicTech.Web.Html {
         
         private getAllActualData(start: Date, end: Date, equId: string, callback: Function) {
             var instance: AccomplishRateByTime = <AccomplishRateByTime>Module.ModuleLoad.getModuleInstance("AccomplishRateByTime"),
-                currentData: AccomplishRateDateModel;
+                currentData: TimeAccmplshRtDataModel;
             instance.serviceContext.PPA_PER_RECORD
                 .order('D_RECORD')
                 .filter(function (it) {
@@ -84,6 +82,7 @@ module AicTech.Web.Html {
                 }, { start: start, end: end, equId: equId })
                 .map((it) => {
                     return {
+                        recNo: it.REC_NO,
                         recTime: it.D_RECORD,
                         shiftNo: it.SH_NO,
                         actual: it.ACTUAL
@@ -95,7 +94,7 @@ module AicTech.Web.Html {
                         return;
                     }
                     re.forEach((it) => {
-                        currentData = new AccomplishRateDateModel(it);
+                        currentData = new TimeAccmplshRtDataModel(it);
                         if (typeof instance.allARData[currentData.shiftNo] === 'undefined') {
                             instance.allARData[currentData.shiftNo] = {
                                 showName: "No Data",
@@ -120,10 +119,10 @@ module AicTech.Web.Html {
                     console.log(e);
                 });
         }
-
+        
         private getAllQuantityData(callback: Function, ppsNo?: any[]) {
             var instance: AccomplishRateByTime = <AccomplishRateByTime>Module.ModuleLoad.getModuleInstance('AccomplishRateByTime'),
-                currentData: AccomplishRateDataModel,
+                currentData: TimeAccmplshRtDataModel,
                 allShift: any[] = instance.allShift;
             ppsNo = ppsNo || [];
             instance.allShift = instance.allShift || [];
@@ -144,9 +143,11 @@ module AicTech.Web.Html {
                     return {
                         shiftId: it.SH_ID,
                         shiftStartTime: it.SH_START_TIME,
-                        quantity: it.QUANTITY,
+                        quantity: it.PLAN_QUANTITY,
                         ppsNo: it.PPS_NO,
-                        shiftNo: it.SH_NO
+                        shiftNo: it.SH_NO,
+                        recNo: it.PPS_NO,
+                        recTime: it.SH_START_TIME
                     };
                 })
                 .toArray((re) => {
@@ -155,7 +156,9 @@ module AicTech.Web.Html {
                         return;
                     }
                     re.forEach((it) => {
-                        currentData = new AccomplishRateDateModel(it);
+                        currentData = new TimeAccmplshRtDataModel(it);
+                        currentData.shiftId = it.shiftId;
+                        currentData.shiftStartTime = it.shiftStartTime
                         ppsNo.push(it.ppsNo);
                         if (instance.allQuantityShift.indexOf(currentData.shiftNo) === - 1) {
                             instance.allQuantityShift.push(currentData.shiftNo);

@@ -1,0 +1,44 @@
+﻿.average-range-chart-container {
+    padding:61px 0 0;
+}
+
+#avg-chart {
+    height:50%;
+    padding:0 0 5px 10px;
+}
+
+#range-chart {
+    height:50%;
+    padding:5px 0 0 20px;
+}
+
+#sample-select-list {
+    height:65px;
+}
+
+#spc-show-list li {
+    height:25px;
+    line-height:25px;
+}
+
+#spc-show-list span {
+    font-size: 14px;
+    float: right;
+    text-align: center;
+}
+
+#spc-show-list div.legend-box + p {
+    font-size:12px;
+}
+
+#spc-show-list .single-sigma {
+    background-color : #ECB346;
+}
+
+#spc-show-list .double-sigma {
+    background-color : #76C82D;
+}
+
+#spc-show-list .triple-sigma {
+    background-color : #46B1C2;
+}

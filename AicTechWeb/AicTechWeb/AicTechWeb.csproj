@@ -104,10 +104,28 @@
     <Content Include="js\modules\OEEDisplay\DowntimeAnalyst\EquipmentDTPercent\EquipmentDTPercent.html" />
     <Content Include="js\modules\OEEDisplay\DowntimeAnalyst\MTBFChart\MTBFChart.css" />
     <Content Include="js\modules\OEEDisplay\DowntimeAnalyst\MTBFChart\MTBFChart.html" />
+    <Content Include="js\modules\OEEDisplay\EnergyCnsmptnAnalyst\EnergyConsumptionChart\EnergyConsumptionChart.css" />
+    <Content Include="js\modules\OEEDisplay\EnergyCnsmptnAnalyst\EnergyConsumptionChart\EnergyConsumptionChart.html" />
+    <Content Include="js\modules\OEEDisplay\MaterialCnsmptnAnalyst\MaterialConsumptionChart\MaterialConsumptionChart.css" />
+    <Content Include="js\modules\OEEDisplay\MaterialCnsmptnAnalyst\MaterialConsumptionChart\MaterialConsumptionChart.html" />
+    <Content Include="js\modules\OEEDisplay\MaterialCnsmptnAnalyst\MaterialYieldRate\MaterialYieldRate.css" />
+    <Content Include="js\modules\OEEDisplay\MaterialCnsmptnAnalyst\MaterialYieldRate\MaterialYieldRate.html" />
     <Content Include="js\modules\OEEDisplay\OEEChart\OEEChart.css" />
     <Content Include="js\modules\OEEDisplay\OEEChart\OEEChart.html" />
+    <Content Include="js\modules\OEEDisplay\QualifyAnalyst\AverageRangeChart\AverageRangeChart.css" />
+    <Content Include="js\modules\OEEDisplay\QualifyAnalyst\AverageRangeChart\AverageRangeChart.html" />
+    <Content Include="js\modules\OEEDisplay\QualifyAnalyst\QualifyRateChart\QualifyRateChart.css" />
+    <Content Include="js\modules\OEEDisplay\QualifyAnalyst\QualifyRateChart\QualifyRateChart.html" />
+    <Content Include="js\modules\OEEDisplay\QualifyAnalyst\ReworkRateChart\ReworkRateChart.css" />
+    <Content Include="js\modules\OEEDisplay\QualifyAnalyst\ReworkRateChart\ReworkRateChart.html" />
+    <Content Include="js\modules\OEEDisplay\QualifyAnalyst\ScrapRateChart\ScrapRateChart.css" />
+    <Content Include="js\modules\OEEDisplay\QualifyAnalyst\ScrapRateChart\ScrapRateChart.html" />
+    <Content Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByOffer\AccomplishRateByOffer.css" />
+    <Content Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByOffer\AccomplishRateByOffer.html" />
     <Content Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByTime\AccomplishRateByTime.css" />
     <Content Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByTime\AccomplishRateByTime.html" />
+    <Content Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByVariety\AccomplishRateByVariety.css" />
+    <Content Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByVariety\AccomplishRateByVariety.html" />
     <Content Include="js\modules\OEEDisplay\YieldAnalyst\YieldChart\YieldChart.css" />
     <Content Include="js\modules\OEEDisplay\YieldAnalyst\YieldChart\YieldChart.html" />
     <Content Include="libs\application-service\ApplicationServices.js" />
@@ -162,8 +180,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="js\core\interface\" />
-    <Folder Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByOffer\" />
-    <Folder Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByVariety\" />
     <Folder Include="libs\vis\img\" />
   </ItemGroup>
   <ItemGroup>
@@ -183,9 +199,18 @@
     <TypeScriptCompile Include="js\modules\OEEDisplay\DowntimeAnalyst\DowntimeTimelineChart\DowntimeTimelineChart.ts" />
     <TypeScriptCompile Include="js\modules\OEEDisplay\DowntimeAnalyst\EquipmentDTPercent\EquipmentDTPercent.ts" />
     <TypeScriptCompile Include="js\modules\OEEDisplay\DowntimeAnalyst\MTBFChart\MTBFChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\EnergyCnsmptnAnalyst\EnergyConsumptionChart\EnergyConsumptionChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\MaterialCnsmptnAnalyst\MaterialConsumptionChart\MaterialConsumptionChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\MaterialCnsmptnAnalyst\MaterialYieldRate\MaterialYieldRate.ts" />
     <TypeScriptCompile Include="js\modules\OEEDisplay\OEEChartBase.ts" />
     <TypeScriptCompile Include="js\modules\OEEDisplay\OEEChart\OEEChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\QualifyAnalyst\AverageRangeChart\AverageRangeChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\QualifyAnalyst\QualifyRateChart\QualifyRateChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\QualifyAnalyst\ReworkRateChart\ReworkRateChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\QualifyAnalyst\ScrapRateChart\ScrapRateChart.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByOffer\AccomplishRateByOffer.ts" />
     <TypeScriptCompile Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByTime\AccomplishRateByTime.ts" />
+    <TypeScriptCompile Include="js\modules\OEEDisplay\YieldAnalyst\AccomplishRateByVariety\AccomplishRateByVariety.ts" />
     <TypeScriptCompile Include="js\modules\OEEDisplay\YieldAnalyst\YieldChart\YieldChart.ts" />
     <TypeScriptCompile Include="js\reference.ts" />
     <TypeScriptCompile Include="js\utils\ArrayUtils.ts" />

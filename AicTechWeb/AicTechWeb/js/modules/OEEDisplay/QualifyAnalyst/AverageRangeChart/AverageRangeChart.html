@@ -1,0 +1,69 @@
+﻿<div class="average-range-chart-container full-width full-height border-box aic-chart-container">
+    <center>
+        <h2>
+            均值-极差
+            <button class="chart-nav-btn right advance" data-bind="click: advanceData"></button>
+            <button class="chart-nav-btn right backoff" data-bind="click:backoffData"></button>
+            <span class="right time-tips" data-bind="html:timeTipsEnd"></span>
+            <span class="right time-tips">至</span>
+            <span class="right time-tips" data-bind="html:timeTipsStart"></span>
+        </h2>
+    </center>
+    <hr />
+
+    <div class="full-height full-width " style="overflow:auto;">
+        <div class="full-height left chart-overlay-container">
+            <div id="avg-chart" class="full-width" data-bind="source: series"></div>
+            <div id="range-chart" class="full-width" data-bind="source: series"></div>
+            <div class="aic-overlay" data-bind="visible:isOverlayShow">
+                <div class="aic-overlay-content">
+                    <span>无数据</span>
+                </div>
+            </div>
+        </div>
+        <div class="aic-chart-options right">
+            <ul id="spc-show-list" class="unique-select">
+                统计过程控制
+                <li>
+                    <p>均值:</p>
+                    <span data-bind="html:meanValue"></span>
+                </li>
+                <li>
+                    <p>标准差:</p>
+                    <span data-bind="html:sigmaValue"></span>
+                </li>
+                <li>
+                    <p>UCL:</p>
+                    <span data-bind="html:uclValue"></span>
+                </li>
+                <li>
+                    <p>LCL:</p>
+                    <span data-bind="html:lclValue"></span>
+                </li>
+                <li>
+                    <div class="legend-box single-sigma"></div>
+                    <p>1 Sigma:</p>
+                    <span data-bind="html:singleSigma"></span>
+                </li>
+                <li>
+                    <div class="legend-box double-sigma"></div>
+                    <p>2 Sigma:</p>
+                    <span data-bind="html:doubleSigma"></span>
+                </li>
+                <li>
+                    <div class="legend-box triple-sigma"></div>
+                    <p>3 Sigma:</p>
+                    <span data-bind="html:tripleSigma"></span>
+                </li>
+            </ul>
+            <ul id="sample-select-list" class="unique-select">
+                采样选项
+                <button class="chart-nav-btn right filter-data" title="确定" data-bind="click:sampleNumChanged"></button>
+                <li>
+                    <p class="left">容量：</p>
+                    <input type="text" data-bind="value:sampleNum" class="right" value="" />
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -3,7 +3,9 @@
         private options: ChartOptionsContent[];
 
         protected chartType: { chartTypeName: string, chartTypeValue: ChartType}[];
-        protected circlePickerSeries: { circleName: string, circleValue: CircleViews}[];
+        protected circlePickerSeries: { circleName: string, circleValue: CircleViews }[];
+        protected dataSegSingle = [];
+        protected dataSeg = [];
 
         protected allOrignalData: T[];
         protected allParData;
@@ -14,6 +16,10 @@
             this.allOrignalData = [];
             this.chartType = [];
             this.circlePickerSeries = [];
+            this.dataSeg = [];
+            this.dataSegSingle = [];
+            this.allOrignalData = [];
+            this.allParData = null;
             $.extend(this.viewModel, kendo.observable({
                 series: [],
                 isOverlayShow: true,
@@ -52,6 +58,14 @@
                 chartTypeChanged: function (e) {
                     (<OEEChartBase<T>>Module.ModuleLoad.getModuleInstance(StartUp.currentInstanceName)).switchChartType();
                 },
+                selectedDataSegSingle: null,
+                dataSegSingleChanged: function (e) {
+                    (<OEEChartBase<T>>Module.ModuleLoad.getModuleInstance(StartUp.currentInstanceName)).redrawChart(-1);
+                },
+                selectedDataSeg: null,
+                dataSegChanged: function (e) {
+                    (<OEEChartBase<T>>Module.ModuleLoad.getModuleInstance(StartUp.currentInstanceName)).redrawChart(-1);
+                }
             }));
         }
 
@@ -72,18 +86,23 @@
             return result;
         }
 
-        protected pretreatData(data: T[]) { }
-
-        protected redrawChart() {
+        protected redrawChart(redrawStatus?: RedrawStatu) {
             this._redraw();
         }
 
-        protected switchChartType() { }
+        //#region Virtual methods
+        protected pretreatData(data: T[]) {
+            throw "pretreatData(data:T[]) is not properly implement!";
+        }
 
-        /**
-         * 重绘函数
-         */
-        protected _redraw(startPoint?: number, maxNum?: number, keyArray?: any[], dataArray?: any[]) { }
+        protected switchChartType() {
+            throw "switchChartType() is not properly implement!";
+        }
+        
+        protected _redraw(startPoint?: number, maxNum?: number, keyArray?: any[], dataArray?: any[]) {
+            throw "_redraw() is not properly implement!";
+        }
+        //#endregion
 
         protected noData() {
             this.viewModel.set('isOverlayShow', true);
@@ -98,7 +117,6 @@
 
         private addOptions() {
             var container = this.view.find('.aic-chart-options');
-            container.empty();
 
             if (this.options.indexOf(ChartOptionsContent.legend) > -1) {
                 var legendTemplate = kendo.template($('#legend-color-list').html()),
@@ -134,13 +152,13 @@
 
             if (this.options.indexOf(ChartOptionsContent.dataSegSingle) > -1) {
                 var dataSegSingleTemplate = kendo.template($('#data-seg-single-list').html()),
-                    dataSegSingleRe = dataSegSingleTemplate([]);
+                    dataSegSingleRe = dataSegSingleTemplate(this.dataSegSingle);
                 container.append($(dataSegSingleRe));
             }
 
             if (this.options.indexOf(ChartOptionsContent.dataSeg) > -1) {
                 var dataSegTemplate = kendo.template($('#data-seg-list').html()),
-                    dataSegRe = dataSegSingleTemplate([]);
+                    dataSegRe = dataSegTemplate(this.dataSeg);
                 container.append($(dataSegRe));
             }
 
@@ -166,6 +184,12 @@
                 container.append($(dataFilterRe));
             }
         }
+
+        //public refreshData() {
+        //    super.refreshData();
+
+            
+        //}
 
         public init(view: JQuery) {
             super.init(view);

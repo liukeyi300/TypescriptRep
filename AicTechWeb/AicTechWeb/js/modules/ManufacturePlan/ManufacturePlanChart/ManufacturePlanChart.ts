@@ -58,8 +58,8 @@ module AicTech.Web.Html {
                                     rowData = instance.allPoPlan[key];
                                     instance.serviceContext.EXT_PP_POS.attach(rowData);
                                     rowData.SH_NO = allCurrentData[i].shNo;
-                                    rowData.PO_ID = allCurrentData[i].poId;
-                                    rowData.DEF_ID = allCurrentData[i].defId;
+                                    //rowData.PO_NO = allCurrentData[i].poNo;
+                                    //rowData.d = allCurrentData[i].defId;
                                     rowData.QUANTITY = allCurrentData[i].quantity;
                                     rowData.UOM_ID = allCurrentData[i].uomId;
                                     rowData.START_TIME = allCurrentData[i].startTime;
@@ -396,8 +396,8 @@ module AicTech.Web.Html {
                     var allData: any[] = instance.viewModel.get('poDetailSource') || [];
                     re.forEach((it) => {
                         allData.push({
-                            poId: it.PO_ID,
-                            defId: it.DEF_ID,
+                            //poId: it.PO_ID,
+                            //defId: it.DEF_ID,
                             shId: it.SH_NO !== null ? it.PPA_SHIFT.SH_ID : null,
                             teamId: it.SH_NO !== null ? it.PPA_SHIFT.TEAM_ID : null,
                             quantity: it.QUANTITY,
@@ -434,8 +434,8 @@ module AicTech.Web.Html {
                         instance.allPoPlan[it.PPS_NO] = it;
                         allData.push({
                             ppsNo: it.PPS_NO,
-                            poId: it.PO_ID,
-                            defId: it.DEF_ID,
+                            //poId: it.PO_ID,
+                            //defId: it.DEF_ID,
                             shNo:"",
                             shId: "",
                             teamId: "",

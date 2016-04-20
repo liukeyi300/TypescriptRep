@@ -1,0 +1,25 @@
+﻿<div class="scrap-percent-chart-container full-height full-width border-box aic-chart-container">
+    <center>
+        <h2>
+            报废率曲线图
+            <button class="chart-nav-btn right advance" data-bind="click: advanceData"></button>
+            <button class="chart-nav-btn right backoff" data-bind="click:backoffData"></button>
+            <span class="right time-tips" data-bind="html:timeTipsEnd"></span>
+            <span class="right time-tips">至</span>
+            <span class="right time-tips" data-bind="html:timeTipsStart"></span>
+        </h2>
+    </center>
+    <hr />
+    <div class="full-height full-width " style="overflow:auto;">
+        <div class="full-height left chart-overlay-container">
+            <div id="scrap-percent-chart" class="full-height full-width" data-bind="source:series"></div>
+            <div class="aic-overlay" data-bind="visible:isOverlayShow">
+                <div class="aic-overlay-content">
+                    <span>无数据</span>
+                </div>
+            </div>
+        </div>
+        <div class="aic-chart-options right">
+        </div>
+    </div>
+</div>

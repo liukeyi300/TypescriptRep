@@ -153,47 +153,47 @@
     "baseUrl": "js/modules/OEEDisplay/YieldAnalyst/AccomplishRateByVariety/",
     "moduleName": "AccomplishRateByVariety"
   },
-  "QualifyRateCharts": {
+  "QualifyRateChart": {
     "text": "良率折线图",
     "id": 22,
     "parent": 11,
-    "baseUrl": "js/modules/QualifyRateCharts/",
-    "moduleName": "QualifyRateCharts"
+    "baseUrl": "js/modules/OEEDisplay/QualifyAnalyst/QualifyRateChart/",
+    "moduleName": "QualifyRateChart"
   },
-  "ScrapRateCharts": {
+  "ScrapRateChart": {
     "text": "报废率折线图",
     "id": 23,
     "parent": 11,
-    "baseUrl": "js/modules/ScrapRateCharts/",
-    "moduleName": "ScrapRateCharts"
+    "baseUrl": "js/modules/OEEDisplay/QualifyAnalyst/ScrapRateChart/",
+    "moduleName": "ScrapRateChart"
   },
-  "ReworkRateCharts": {
+  "ReworkRateChart": {
     "text": "返修率折线图",
     "id": 24,
     "parent": 11,
-    "baseUrl": "js/modules/ReworkRateCharts/",
-    "moduleName": "ReworkRateCharts"
+    "baseUrl": "js/modules/OEEDisplay/QualifyAnalyst/ReworkRateChart/",
+    "moduleName": "ReworkRateChart"
   },
-  "AverageRangeCharts": {
+  "AverageRangeChart": {
     "text": "均值-极差",
     "id": 25,
     "parent": 11,
-    "baseUrl": "js/modules/AverageRangeCharts/",
-    "moduleName": "AverageRangeCharts"
+    "baseUrl": "js/modules/OEEDisplay/QualifyAnalyst/AverageRangeChart/",
+    "moduleName": "AverageRangeChart"
   },
-  "MaterialConsumptionCharts": {
+  "MaterialConsumptionChart": {
     "text": "单位物料消耗",
     "id": 26,
     "parent": 12,
-    "baseUrl": "js/modules/MaterialConsumptionCharts/",
-    "moduleName": "MaterialConsumptionCharts"
+    "baseUrl": "js/modules/OEEdisplay/MaterialCnsmptnAnalyst/MaterialConsumptionChart/",
+    "moduleName": "MaterialConsumptionChart"
   },
-  "EnergyConsumptionCharts": {
+  "EnergyConsumptionChart": {
     "text": "单位能源消耗",
     "id": 27,
     "parent": 13,
-    "baseUrl": "js/modules/EnergyConsumptionCharts/",
-    "moduleName": "EnergyConsumptionCharts"
+    "baseUrl": "js/modules/OEEDisplay/EnergyCnsmptnAnalyst/EnergyConsumptionChart/",
+    "moduleName": "EnergyConsumptionChart"
   },
   "UserConfiguration": {
     "text": "用户管理",

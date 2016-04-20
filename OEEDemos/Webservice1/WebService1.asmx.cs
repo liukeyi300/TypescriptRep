@@ -11,10 +11,10 @@ namespace Webservice1
     /// <summary>
     /// Summary description for WebService1
     /// </summary>
-    [WebService(Namespace = "http://tempuri.org/")]
+    [WebService(Namespace = "http://localhost:4444/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
-    // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
+    // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line.  
     [System.Web.Script.Services.ScriptService]
     public class WebService1 : System.Web.Services.WebService
     {
@@ -39,6 +39,7 @@ namespace Webservice1
                 new User { id=11, parent=3, text="item3.2" },
                 new User { id=12, parent=4, text="item4.1" }
             };    
+            
             return ToJSON(list);        
         }
 
