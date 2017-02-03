@@ -78,6 +78,26 @@ var AicTech;
                 ChartOptionsContent[ChartOptionsContent["legend"] = 7] = "legend";
             })(Html.ChartOptionsContent || (Html.ChartOptionsContent = {}));
             var ChartOptionsContent = Html.ChartOptionsContent;
+            var Girl = (function () {
+                function Girl() {
+                }
+                return Girl;
+            })();
+            Html.Girl = Girl;
+            var JingzeDai = (function () {
+                function JingzeDai() {
+                    this.GivenName = "Jingze";
+                    this.FamilyName = "Dai";
+                    this.IsADuanziHand = true;
+                }
+                JingzeDai.prototype.CarryGirls = function (girls) { };
+                JingzeDai.prototype.PublishEssay = function () { };
+                JingzeDai.prototype.RunMore = function () { };
+                JingzeDai.prototype.DrinkMore = function () { };
+                JingzeDai.prototype.PublishSelfShot = function () { };
+                JingzeDai.prototype.PublishDuanzi = function (duanzi) { };
+                return JingzeDai;
+            })();
         })(Html = Web.Html || (Web.Html = {}));
     })(Web = AicTech.Web || (AicTech.Web = {}));
 })(AicTech || (AicTech = {}));

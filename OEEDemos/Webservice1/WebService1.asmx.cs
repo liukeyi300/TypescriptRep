@@ -38,8 +38,8 @@ namespace Webservice1
                 new User { id=10, parent=3, text="item3.1" },
                 new User { id=11, parent=3, text="item3.2" },
                 new User { id=12, parent=4, text="item4.1" }
-            };    
-            
+            };
+            //return list;
             return ToJSON(list);        
         }
 

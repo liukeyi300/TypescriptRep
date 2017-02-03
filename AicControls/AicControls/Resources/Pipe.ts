@@ -25,7 +25,8 @@ module Aic.Html.Controls {
                 '<rect x="0" y="0" width="40" height="20" class="default-color pipe-op"/>' +
                 '<line class="stroke" x1="0" y1="0" x2="40" y2="0" />' +
                 '<line class="stroke" x1="0" y1="20" x2="40" y2="20">' +
-            '</svg>';
+        '</svg>';
+        
         private viewModel = kendo.observable({
             leftText: " ",
             rightText: " ",

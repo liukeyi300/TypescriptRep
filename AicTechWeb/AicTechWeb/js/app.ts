@@ -424,14 +424,14 @@ module AicTech.Web.Html {
             context.MD_DOM_VALUE.filter(function (it) {
                 return it.DOM_ID == 'DOM_ENERGY_ID';
             })
-                .toArray((re) => {
-                    re.forEach((it) => {
-                        this.allEngId.push(it.VALUE);
-                        this.allEngName.push(it.DESCRIPTION);
-                    });
-                }).fail((e) => {
-                    console.log(e);
+            .toArray((re) => {
+                re.forEach((it) => {
+                    this.allEngId.push(it.VALUE);
+                    this.allEngName.push(it.DESCRIPTION);
                 });
+            }).fail((e) => {
+                console.log(e);
+            });
         }
         //#endregion
 

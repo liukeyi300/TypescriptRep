@@ -132,5 +132,5 @@
                 delete data.items;
             }
         }
-    }
+    } 
 }

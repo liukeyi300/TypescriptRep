@@ -101,4 +101,45 @@
         parValue: string;
         parHighValue?: string;
     }
+
+    export interface IScholar {
+            
+    }
+
+    export interface IAthlete {
+
+    }
+
+    export interface IArtist {
+
+    }
+
+    export class Girl {
+        public age: number;
+        public height: number;
+        public weight: number;
+        public 
+    }
+
+    class JingzeDai implements IScholar, IAthlete, IArtist {
+        public GivenName = "Jingze";
+
+        public FamilyName = "Dai";
+
+        public IsADuanziHand = true;
+
+        constructor() { }
+
+        public CarryGirls(girls: Girl[]): void { }
+
+        public PublishEssay(): void { }
+
+        public RunMore(): void { }
+
+        public DrinkMore(): void { }
+
+        public PublishSelfShot(): void { }
+
+        public PublishDuanzi(duanzi: string): void {}
+    }
 }
